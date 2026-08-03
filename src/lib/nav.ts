@@ -1,0 +1,15 @@
+export const NAV_LINKS = [
+  { href: "#home", labelNe: "गृह", labelEn: "Home" },
+  { href: "#stories", labelNe: "समाचार", labelEn: "News" },
+  { href: "#careers", labelNe: "रोजगार", labelEn: "Jobs" },
+  { href: "#interview", labelNe: "अन्तर्वार्ता", labelEn: "Interview" },
+  { href: "#business", labelNe: "बिजनेस", labelEn: "Business" },
+  { href: "#nrn", labelNe: "एनआरएन", labelEn: "NRN" },
+  { href: "#pravas", labelNe: "प्रवास", labelEn: "Diaspora" },
+  { href: "#opinion", labelNe: "विचार / ब्लग", labelEn: "Opinion" },
+  { href: "#feature", labelNe: "फिचर", labelEn: "Feature" },
+  { href: "#arts", labelNe: "कला", labelEn: "Arts" },
+  { href: "#literature", labelNe: "साहित्य", labelEn: "Literature" },
+  { href: "#society", labelNe: "देश/समाज", labelEn: "Society" },
+  { href: "#tv", labelNe: "टि. भी.", labelEn: "TV" },
+] as const;

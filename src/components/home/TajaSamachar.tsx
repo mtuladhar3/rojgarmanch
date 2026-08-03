@@ -1,0 +1,35 @@
+/** ताजा समाचार — Fresh News */
+import type { Post } from "@/types/content";
+import { ADS } from "@/lib/ads";
+import { Reveal } from "@/components/motion/Reveal";
+import { AdUnit } from "@/components/ui/AdUnit";
+import { SectionTitle } from "@/components/ui/SectionTitle";
+
+type TajaSamacharProps = {
+  items: Post[];
+};
+
+export function TajaSamachar({ items }: TajaSamacharProps) {
+  return (
+    <Reveal className="recent">
+      <div>
+        <SectionTitle more={false}>ताजा समाचार</SectionTitle>
+        <ul className="recent__list">
+          {items.map((item) => (
+            <li className="recent__item" key={item.id}>
+              <h3 className="recent__title line-2">
+                <a href={item.href}>{item.title}</a>
+              </h3>
+              {item.dateLabel ? (
+                <time className="recent__date" dateTime={item.dateIso}>
+                  {item.dateLabel}
+                </time>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <AdUnit ad={ADS.belaco} variant="aside" />
+    </Reveal>
+  );
+}

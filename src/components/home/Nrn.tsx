@@ -1,0 +1,59 @@
+/** एनआरएन — NRN (2-col stack list) */
+import { unsplash as u } from "@/lib/media";
+
+const left = [
+  ["1559136555-9303baea8ebd", "आन्तरिक परियोजना पिच गर्दा हुने गल्तीहरू", "साउन १२, २०८३"],
+  ["1519389950473-47ba0277781c", "उच्च प्रदर्शन टोलीले कोचिङबाट सिक्ने कुरा", "साउन ८, २०८३"],
+  ["1486312338219-ce68d2c6f44d", "क्राफ्टमा चासो राख्नेले फलो गर्नुपर्ने स्रोतहरू", "साउन ४, २०८३"],
+] as const;
+
+const right = [
+  ["1556761175-b413da4baf72", "एजेन्सीबाट इन-हाउस जाँदा फाइदा–बेफाइदा", "भदौ ३०, २०८३"],
+  ["1600880292203-757bb62b4baf", "स्टार्टअप भूमिका वर्ष दिनमै किन अड्किन्छ", "जेठ १८, २०८३"],
+  ["1542744173-8e2bd294f1e5", "नयाँ टोलीमा जोडिने अघि सोध्नुपर्ने दस प्रश्न", "असार २३, २०८३"],
+] as const;
+
+function StackColumn({
+  items,
+}: {
+  items: readonly (readonly [string, string, string])[];
+}) {
+  return (
+    <ul className="stack-list">
+      {items.map(([image, title, date]) => (
+        <li className="stack-item" key={title}>
+          <a
+            className="stack-item__thumb"
+            href="#article"
+            tabIndex={-1}
+            aria-hidden="true"
+          >
+            <img
+              className="img-cover"
+              src={u(image, 200, 160)}
+              alt={title}
+              width={84}
+              height={68}
+              loading="lazy"
+            />
+          </a>
+          <div>
+            <h3 className="stack-item__title line-2">
+              <a href="#article">{title}</a>
+            </h3>
+            <time className="recent__date">{date}</time>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export function Nrn() {
+  return (
+    <div className="nrn-stacks" id="nrn" aria-label="एनआरएन">
+      <StackColumn items={left} />
+      <StackColumn items={right} />
+    </div>
+  );
+}
