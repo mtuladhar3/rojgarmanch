@@ -1,2 +1,18 @@
 @import "tailwindcss";
 @import "../styles/magazine.css";
+
+/* Match site theme toggle: data-bs-theme="dark" */
+@custom-variant dark (&:where([data-bs-theme="dark"], [data-bs-theme="dark"] *));
+
+@theme inline {
+  --color-rm-primary: var(--rm-primary);
+  --color-rm-accent: var(--rm-accent);
+  --color-rm-bg: var(--rm-bg-main);
+  --color-rm-surface: var(--rm-bg-surface);
+  --color-rm-card: var(--rm-bg-card);
+  --color-rm-text: var(--rm-text-main);
+  --color-rm-muted: var(--rm-text-muted);
+  --color-rm-border: var(--rm-border);
+  --radius-rm: var(--radius);
+  --font-sans: var(--font-mukta), "Mukta", sans-serif;
+}

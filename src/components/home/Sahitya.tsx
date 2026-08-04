@@ -6,6 +6,7 @@ export function Sahitya() {
     <CategoryColumn
       id="literature"
       title="साहित्य"
+      href="/category/sahitya"
       leadImage="1434030216411-0b793f4b4173"
       leadTitle="आधुनिक कार्यस्थलबारे बीस आकर्षक चार्ट"
       leadDate="मंसिर २७, २०८३"

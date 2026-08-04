@@ -30,6 +30,43 @@ export type HighlightStory = Post & {
   authorAvatar?: string;
 };
 
+export type IgStorySlide = {
+  imageUrl: string;
+  title?: string;
+  href?: string;
+  durationMs?: number;
+};
+
+export type IgStory = {
+  id: string;
+  label: string;
+  avatarUrl: string;
+  slides: IgStorySlide[];
+};
+
+export type YtVideo = {
+  id: string;
+  youtubeId: string;
+  title: string;
+  duration?: string;
+  viewsLabel?: string;
+};
+
+export type YtShort = {
+  id: string;
+  youtubeId: string;
+  title: string;
+  viewsLabel?: string;
+};
+
+export type YoutubeBlock = {
+  videos: YtVideo[];
+  /** First video is treated as the highlight if featuredId omitted. */
+  featuredId?: string;
+  shorts: YtShort[];
+  channelUrl?: string;
+};
+
 export type HomePageData = {
   teasers: Post[];
   recent: Post[];
@@ -38,6 +75,8 @@ export type HomePageData = {
   featurePair: Post[];
   ranked: Post[];
   stories: Post[];
+  igStories: IgStory[];
+  youtube: YoutubeBlock;
   flashNews: Post[];
   trending: Post[];
 };

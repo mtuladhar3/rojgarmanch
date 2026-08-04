@@ -1,0 +1,407 @@
+"use client";
+
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import type { YoutubeBlock, YtShort, YtVideo } from "@/types/content";
+import { Reveal } from "@/components/motion/Reveal";
+import { SectionTitle } from "@/components/ui/SectionTitle";
+
+type YoutubeProps = {
+  data: YoutubeBlock;
+};
+
+function thumb(id: string, quality: "hq" | "mq" | "sd" = "hq") {
+  return `https://i.ytimg.com/vi/${id}/${quality}default.jpg`;
+}
+
+function WatchEmbed({
+  video,
+  playing,
+  onPlay,
+}: {
+  video: YtVideo;
+  playing: boolean;
+  onPlay: () => void;
+}) {
+  if (playing) {
+    return (
+      <div className="yt-block__embed">
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}?autoplay=1&rel=0`}
+          title={video.title}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          loading="lazy"
+        />
+      </div>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      className="yt-block__poster"
+      onClick={onPlay}
+      aria-label={`${video.title} प्ले गर्नुहोस्`}
+    >
+      <img
+        src={thumb(video.youtubeId, "hq")}
+        alt=""
+        width={1280}
+        height={720}
+        loading="lazy"
+      />
+      <span className="yt-block__play" aria-hidden="true">
+        <i className="fa-solid fa-play" />
+      </span>
+      {video.duration ? (
+        <span className="yt-block__duration">{video.duration}</span>
+      ) : null}
+    </button>
+  );
+}
+
+function SideVideo({
+  video,
+  active,
+  onSelect,
+}: {
+  video: YtVideo;
+  active: boolean;
+  onSelect: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      className={`yt-block__side${active ? " is-active" : ""}`}
+      onClick={onSelect}
+      aria-current={active ? "true" : undefined}
+    >
+      <span className="yt-block__side-media">
+        <img
+          src={thumb(video.youtubeId, "mq")}
+          alt=""
+          width={320}
+          height={180}
+          loading="lazy"
+        />
+        <span className="yt-block__play yt-block__play--sm" aria-hidden="true">
+          <i className="fa-solid fa-play" />
+        </span>
+        {video.duration ? (
+          <span className="yt-block__duration">{video.duration}</span>
+        ) : null}
+      </span>
+      <span className="yt-block__side-body">
+        <span className="yt-block__side-title line-3">{video.title}</span>
+        {video.viewsLabel ? (
+          <span className="yt-block__meta">{video.viewsLabel}</span>
+        ) : null}
+      </span>
+    </button>
+  );
+}
+
+function ShortCard({ item, onOpen }: { item: YtShort; onOpen: () => void }) {
+  return (
+    <button
+      type="button"
+      className="yt-block__short"
+      onClick={onOpen}
+      aria-label={`${item.title} — रिल प्ले गर्नुहोस्`}
+    >
+      <img
+        src={thumb(item.youtubeId, "hq")}
+        alt=""
+        width={540}
+        height={960}
+        loading="lazy"
+      />
+      <span className="yt-block__short-play" aria-hidden="true">
+        <i className="fa-solid fa-play" />
+      </span>
+      <span className="yt-block__short-body">
+        <span className="yt-block__short-title line-3">{item.title}</span>
+        {item.viewsLabel ? (
+          <span className="yt-block__meta">{item.viewsLabel}</span>
+        ) : null}
+      </span>
+    </button>
+  );
+}
+
+function ShortsPopup({
+  items,
+  startIndex,
+  onClose,
+}: {
+  items: YtShort[];
+  startIndex: number;
+  onClose: () => void;
+}) {
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const slideRefs = useRef<(HTMLElement | null)[]>([]);
+  const [active, setActive] = useState(startIndex);
+
+  const scrollToIndex = useCallback((index: number) => {
+    const el = slideRefs.current[index];
+    if (!el) return;
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, []);
+
+  useEffect(() => {
+    const el = slideRefs.current[startIndex];
+    if (el) {
+      el.scrollIntoView({ behavior: "auto", block: "start" });
+    }
+    setActive(startIndex);
+  }, [startIndex]);
+
+  useEffect(() => {
+    const root = scrollerRef.current;
+    if (!root) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (!visible) return;
+        const index = Number(
+          (visible.target as HTMLElement).dataset.index ?? "-1",
+        );
+        if (index >= 0) setActive(index);
+      },
+      { root, threshold: 0.65 },
+    );
+
+    slideRefs.current.forEach((slide) => {
+      if (slide) observer.observe(slide);
+    });
+
+    return () => observer.disconnect();
+  }, [items]);
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+      if (event.key === "ArrowDown" || event.key === "ArrowRight") {
+        event.preventDefault();
+        scrollToIndex(Math.min(items.length - 1, active + 1));
+      }
+      if (event.key === "ArrowUp" || event.key === "ArrowLeft") {
+        event.preventDefault();
+        scrollToIndex(Math.max(0, active - 1));
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [active, items.length, onClose, scrollToIndex]);
+
+  const onBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (event.target === event.currentTarget) onClose();
+  };
+
+  return (
+    <div
+      className="shorts-popup"
+      role="dialog"
+      aria-modal="true"
+      aria-label="YouTube Shorts"
+      onClick={onBackdropClick}
+    >
+      <div
+        className="shorts-popup__stage"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <header className="shorts-popup__top">
+          <div className="shorts-popup__heading">
+            <p className="shorts-popup__label">
+              Shorts · {active + 1}/{items.length}
+            </p>
+            <h3 className="shorts-popup__title">
+              {items[active]?.title}
+            </h3>
+            {items[active]?.viewsLabel ? (
+              <p className="shorts-popup__views">{items[active].viewsLabel}</p>
+            ) : null}
+          </div>
+          <button
+            type="button"
+            className="shorts-popup__close"
+            onClick={onClose}
+            aria-label="बन्द गर्नुहोस्"
+          >
+            <i className="fa-solid fa-xmark" aria-hidden="true" />
+          </button>
+        </header>
+
+        <div className="shorts-popup__scroller" ref={scrollerRef}>
+          {items.map((item, index) => {
+            const isActive = index === active;
+            return (
+              <article
+                key={item.id}
+                className="shorts-popup__slide"
+                data-index={index}
+                ref={(node) => {
+                  slideRefs.current[index] = node;
+                }}
+              >
+                {isActive ? (
+                  <iframe
+                    key={item.youtubeId}
+                    className="shorts-popup__player"
+                    src={`https://www.youtube-nocookie.com/embed/${item.youtubeId}?autoplay=1&mute=1&controls=1&rel=0&modestbranding=1&playsinline=1`}
+                    title={item.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                ) : (
+                  <img
+                    className="shorts-popup__player"
+                    src={thumb(item.youtubeId, "hq")}
+                    alt=""
+                    width={540}
+                    height={960}
+                  />
+                )}
+              </article>
+            );
+          })}
+        </div>
+
+        <div className="shorts-popup__nav">
+          <button
+            type="button"
+            className="shorts-popup__nav-btn"
+            disabled={active <= 0}
+            onClick={() => scrollToIndex(active - 1)}
+            aria-label="अघिल्लो रिल"
+          >
+            <i className="fa-solid fa-chevron-up" aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            className="shorts-popup__nav-btn"
+            disabled={active >= items.length - 1}
+            onClick={() => scrollToIndex(active + 1)}
+            aria-label="अर्को रिल"
+          >
+            <i className="fa-solid fa-chevron-down" aria-hidden="true" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function Youtube({ data }: YoutubeProps) {
+  const videos = data.videos.slice(0, 4);
+  const featuredFromData =
+    videos.find((v) => v.id === data.featuredId) ?? videos[0];
+  const [activeId, setActiveId] = useState(featuredFromData?.id ?? "");
+  const [playing, setPlaying] = useState(false);
+  const [shortIndex, setShortIndex] = useState<number | null>(null);
+
+  if (!videos.length) return null;
+
+  const featured = videos.find((v) => v.id === activeId) ?? videos[0];
+  const rest = videos.filter((v) => v.id !== featured.id);
+  const shorts = data.shorts.slice(0, 4);
+
+  const selectVideo = (id: string) => {
+    setActiveId(id);
+    setPlaying(false);
+  };
+
+  return (
+    <section
+      className="yt-block container"
+      id="youtube"
+      aria-labelledby="youtube-title"
+    >
+      <SectionTitle href={data.channelUrl ?? "https://www.youtube.com"}>
+        <span id="youtube-title">युट्युब</span>
+      </SectionTitle>
+
+      <div className="yt-block__layout">
+        <Reveal className="yt-block__main reveal">
+          <article className="yt-block__feature">
+            <WatchEmbed
+              video={featured}
+              playing={playing}
+              onPlay={() => setPlaying(true)}
+            />
+            <div className="yt-block__feature-body">
+              <p className="yt-block__kicker">
+                <i className="fa-brands fa-youtube" aria-hidden="true" />
+                हाइलाइट भिडियो
+              </p>
+              <h3 className="yt-block__feature-title">
+                <a
+                  href={`https://www.youtube.com/watch?v=${featured.youtubeId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {featured.title}
+                </a>
+              </h3>
+              {featured.viewsLabel ? (
+                <p className="yt-block__meta">{featured.viewsLabel}</p>
+              ) : null}
+            </div>
+          </article>
+
+          {rest.length ? (
+            <div className="yt-block__side-list" role="list">
+              {rest.map((video) => (
+                <div key={video.id} role="listitem">
+                  <SideVideo
+                    video={video}
+                    active={video.id === activeId}
+                    onSelect={() => selectVideo(video.id)}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : null}
+        </Reveal>
+
+        <Reveal className="yt-block__shorts reveal reveal-delay-1">
+          <div className="yt-block__shorts-head">
+            <h3 className="yt-block__shorts-title">Shorts</h3>
+            <span className="yt-block__shorts-hint">रिल्स</span>
+          </div>
+          <div className="yt-block__shorts-rail" role="list">
+            {shorts.map((item, index) => (
+              <div key={item.id} role="listitem">
+                <ShortCard item={item} onOpen={() => setShortIndex(index)} />
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+
+      {shortIndex !== null && shorts.length ? (
+        <ShortsPopup
+          items={shorts}
+          startIndex={shortIndex}
+          onClose={() => setShortIndex(null)}
+        />
+      ) : null}
+    </section>
+  );
+}

@@ -2,6 +2,7 @@ import type { HomePageData } from "@/types/content";
 import { ADS } from "@/lib/ads";
 import { AdUnit } from "@/components/ui/AdUnit";
 import { Griha } from "./Griha";
+import { IgStories } from "./IgStories";
 import { HighlightNews } from "./HighlightNews";
 import { TajaSamachar } from "./TajaSamachar";
 import { Antarwarta } from "./Antarwarta";
@@ -16,6 +17,7 @@ import { Kala } from "./Kala";
 import { Sahitya } from "./Sahitya";
 import { Samaj } from "./Samaj";
 import { TV } from "./TV";
+import { Youtube } from "./Youtube";
 
 type HomePageProps = {
   data: HomePageData;
@@ -34,6 +36,9 @@ export function HomePage({ data }: HomePageProps) {
     <main id="main">
       {/* गृह */}
       <Griha items={data.teasers} />
+
+      {/* इन्स्टा-स्टाइल स्टोरी */}
+      <IgStories items={data.igStories} />
 
       {/* मुख्य समाचार */}
       <HighlightNews story={data.highlight} />
@@ -87,6 +92,9 @@ export function HomePage({ data }: HomePageProps) {
       </section>
 
       <BannerAd ad={ADS.hardik} />
+
+      {/* युट्युब — २:१ भिडियो + Shorts */}
+      <Youtube data={data.youtube} />
 
       {/* टि. भी. */}
       <TV />

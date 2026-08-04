@@ -6,7 +6,7 @@ import { SectionTitle } from "@/components/ui/SectionTitle";
 const rails = [
   {
     heading: "रोजगार",
-    href: "#careers",
+    href: "/category/rojgar",
     image: u("1521737711867-e3b97375f902", 640, 420),
     title: "मध्य-करियरमा प्रमोशन खोल्ने पाँच व्यावहारिक कदम",
     items: [
@@ -17,7 +17,7 @@ const rails = [
   },
   {
     heading: "सीप",
-    href: "#nrn",
+    href: "/category/feature",
     image: u("1517245386807-bb43f82c33c4", 640, 420),
     title: "उत्पादन टोलीले रोज्ने सिकाइ स्ट्याक — कहाँबाट सुरु गर्ने",
     items: [

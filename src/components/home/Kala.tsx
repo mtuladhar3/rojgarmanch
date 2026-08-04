@@ -6,6 +6,7 @@ export function Kala() {
     <CategoryColumn
       id="arts"
       title="कला"
+      href="/category/kala"
       leadImage="1517649763962-0c623066027e"
       leadTitle="दस प्रसिद्ध टोली असफलता कसरी रोक्न सकिन्थ्यो"
       leadDate="माघ ७, २०८२"

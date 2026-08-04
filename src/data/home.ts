@@ -146,6 +146,169 @@ const homePageData: HomePageData = {
       excerpt: "भर्ना, अवधि, रिमोट मिश्रण र तलब परिवर्तन — बिना हल्ला।",
     }),
   ],
+  igStories: [
+    {
+      id: "samachar",
+      label: "समाचार",
+      avatarUrl: u("1521737711867-e3b97375f902", 160, 160),
+      slides: [
+        {
+          imageUrl: u("1521737711867-e3b97375f902", 1080, 1920),
+          title: "नयाँ रोजगार नीति — युवामा प्राथमिकता",
+          href: "/article/naya-rojgar-niti",
+        },
+        {
+          imageUrl: u("1454165804606-c3d57bc86b40", 1080, 1920),
+          title: "बैंक तथा वित्तमा नयाँ पद खुला",
+        },
+      ],
+    },
+    {
+      id: "rojgar",
+      label: "रोजगार",
+      avatarUrl: u("1522071820081-009f0129c71c", 160, 160),
+      slides: [
+        {
+          imageUrl: u("1522071820081-009f0129c71c", 1080, 1920),
+          title: "मध्य-करियर प्रमोशनको नयाँ खेल",
+        },
+        {
+          imageUrl: u("1556761175-5973dc0f32e7", 1080, 1920),
+          title: "तलब वार्तामा सफलता दिने बानी",
+        },
+      ],
+    },
+    {
+      id: "pravas",
+      label: "प्रवास",
+      avatarUrl: u("1486312338219-ce68d2c6f44d", 160, 160),
+      slides: [
+        {
+          imageUrl: u("1486312338219-ce68d2c6f44d", 1080, 1920),
+          title: "खाडी मुलुकमा नयाँ कामदार कोटा",
+        },
+      ],
+    },
+    {
+      id: "business",
+      label: "बिजनेस",
+      avatarUrl: u("1573496359142-b8d87734a5a2", 160, 160),
+      slides: [
+        {
+          imageUrl: u("1573496359142-b8d87734a5a2", 1080, 1920),
+          title: "उद्यम र बजारका मुख्य कथा",
+        },
+        {
+          imageUrl: u("1460925895917-afdab827c52f", 1080, 1920),
+          title: "२०८३ को तलब सर्वेक्षण",
+        },
+      ],
+    },
+    {
+      id: "vichar",
+      label: "विचार",
+      avatarUrl: u("1552664730-d307ca884978", 160, 160),
+      slides: [
+        {
+          imageUrl: u("1552664730-d307ca884978", 1080, 1920),
+          title: "रातको सिफ्ट र करियर — विश्वास सही हो?",
+        },
+      ],
+    },
+    {
+      id: "tv",
+      label: "टि.भी.",
+      avatarUrl: u("1574717024653-61fd2cf4d44d", 160, 160),
+      slides: [
+        {
+          imageUrl: u("1574717024653-61fd2cf4d44d", 1080, 1920),
+          title: "करियर कुराकानी: प्रबन्धकले के खोज्छन्",
+        },
+      ],
+    },
+    {
+      id: "kala",
+      label: "कला",
+      avatarUrl: u("1517245386807-bb43f82c33c4", 160, 160),
+      slides: [
+        {
+          imageUrl: u("1517245386807-bb43f82c33c4", 1080, 1920),
+          title: "सिर्जनात्मक कार्य र संस्कृति",
+        },
+      ],
+    },
+    {
+      id: "samaj",
+      label: "समाज",
+      avatarUrl: u("1551836022-d5d88e9218df", 160, 160),
+      slides: [
+        {
+          imageUrl: u("1551836022-d5d88e9218df", 1080, 1920),
+          title: "देश र समाजका ताजा मुद्दा",
+        },
+      ],
+    },
+  ],
+  youtube: {
+    channelUrl: "https://www.youtube.com/@rojgarmanch",
+    featuredId: "yt-1",
+    videos: [
+      {
+        id: "yt-1",
+        youtubeId: "M7lc1UVf-VE",
+        title: "करियर कुराकानी: प्रबन्धकहरूले भर्नामा के खोज्छन्",
+        duration: "१८:४२",
+        viewsLabel: "१२ हजार हेराइ",
+      },
+      {
+        id: "yt-2",
+        youtubeId: "jNQXAC9IVRw",
+        title: "तलब वार्ताको वास्तविकता — एपिसोड १२",
+        duration: "१२:०५",
+        viewsLabel: "८.४ हजार",
+      },
+      {
+        id: "yt-3",
+        youtubeId: "aqz-KE-bpKQ",
+        title: "रिमोट टोलीको दिनचर्या: उत्पादक रहने तरिका",
+        duration: "९:३१",
+        viewsLabel: "६.१ हजार",
+      },
+      {
+        id: "yt-4",
+        youtubeId: "ScMzIvxBSi4",
+        title: "पहिलो जागिरका पाठ — नयाँ कर्मचारी गाइड",
+        duration: "१४:२०",
+        viewsLabel: "४.९ हजार",
+      },
+    ],
+    shorts: [
+      {
+        id: "ys-1",
+        youtubeId: "jNQXAC9IVRw",
+        title: "जागिर अन्तर्वार्तामा नभन्ने तीन कुरा",
+        viewsLabel: "२१ हजार",
+      },
+      {
+        id: "ys-2",
+        youtubeId: "M7lc1UVf-VE",
+        title: "रिज्युमेमा देखिनुपर्ने सीप",
+        viewsLabel: "१५ हजार",
+      },
+      {
+        id: "ys-3",
+        youtubeId: "aqz-KE-bpKQ",
+        title: "वैदेशिक रोजगार: कागजात चेकलिस्ट",
+        viewsLabel: "१८ हजार",
+      },
+      {
+        id: "ys-4",
+        youtubeId: "ScMzIvxBSi4",
+        title: "६० सेकेन्डमा LinkedIn प्रोफाइल टिप",
+        viewsLabel: "९.२ हजार",
+      },
+    ],
+  },
   flashNews: [
     post({ title: "काठमाडौँमा रोजगार मेला — दर्ता खुला", dateLabel: "असार १८, २०८२" }),
     post({ title: "बैंकहरूले नयाँ पदहरूका लागि आवेदन मागे", dateLabel: "असार १७, २०८२" }),

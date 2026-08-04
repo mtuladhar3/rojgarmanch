@@ -14,7 +14,7 @@ export function Pravas() {
   return (
     <Reveal className="reveal">
       <div id="pravas">
-        <SectionTitle href="#pravas">प्रवास</SectionTitle>
+        <SectionTitle href="/category/pravas">प्रवास</SectionTitle>
         <div className="workplace-top">
           <article className="overlay-card">
             <div className="overlay-card__media">

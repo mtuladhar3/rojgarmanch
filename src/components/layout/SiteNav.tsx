@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import type { Post } from "@/types/content";
 import { NAV_LINKS } from "@/lib/nav";
 import { useTheme } from "@/components/providers/ThemeProvider";
@@ -14,6 +15,7 @@ type SiteNavProps = {
 type NotifyTab = "taja" | "trending";
 
 export function SiteNav({ flashNews, trending }: SiteNavProps) {
+  const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
   const { menuOpen, notifyOpen, toggleMenu, toggleNotify, toggleSearch } =
     useUi();
@@ -84,16 +86,22 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
           </a>
 
           <nav className="nav" aria-label="मुख्य मेनु">
-            {NAV_LINKS.map((link, index) => (
-              <a
-                className="nav__link"
-                href={link.href}
-                aria-current={index === 0 ? "page" : undefined}
-                key={link.href}
-              >
-                {link.labelNe}
-              </a>
-            ))}
+            {NAV_LINKS.map((link) => {
+              const isActive =
+                link.href === "/"
+                  ? pathname === "/"
+                  : pathname === link.href || pathname.startsWith(`${link.href}/`);
+              return (
+                <a
+                  className={`nav__link${isActive ? " is-active" : ""}`}
+                  href={link.href}
+                  aria-current={isActive ? "page" : undefined}
+                  key={link.href}
+                >
+                  {link.labelNe}
+                </a>
+              );
+            })}
           </nav>
 
           <div className="nav-actions">

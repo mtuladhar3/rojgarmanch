@@ -6,6 +6,7 @@ import { SectionTitle } from "@/components/ui/SectionTitle";
 type ColumnBlockProps = {
   id: string;
   title: string;
+  href: string;
   leadImage: string;
   leadTitle: string;
   leadDate: string;
@@ -16,6 +17,7 @@ type ColumnBlockProps = {
 export function CategoryColumn({
   id,
   title,
+  href,
   leadImage,
   leadTitle,
   leadDate,
@@ -27,7 +29,7 @@ export function CategoryColumn({
       className={`col-block${delay ? ` reveal-delay-${delay}` : ""}`}
       id={id}
     >
-      <SectionTitle href={`#${id}`}>{title}</SectionTitle>
+      <SectionTitle href={href}>{title}</SectionTitle>
       <article className="col-block__lead">
         <a
           className="col-block__lead-media"

@@ -14,7 +14,7 @@ export function Samachar({ items }: SamacharProps) {
       id="stories"
       aria-labelledby="stories-title"
     >
-      <SectionTitle href="#stories">
+      <SectionTitle href="/category/samachar">
         <span id="stories-title">समाचार</span>
       </SectionTitle>
       <div className="stories__grid">

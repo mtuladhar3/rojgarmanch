@@ -6,6 +6,7 @@ export function Samaj() {
     <CategoryColumn
       id="society"
       title="देश/समाज"
+      href="/category/samaj"
       leadImage="1485846234645-a62644f84728"
       leadTitle="किताबबाट नसिकिने करियरका दस सुझाव"
       leadDate="फाल्गुन ३, २०८२"
