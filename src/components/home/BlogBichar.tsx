@@ -1,20 +1,22 @@
-/** गृह — Home */
+/** ब्लग / विचार */
 import type { Post } from "@/types/content";
 import { Reveal } from "@/components/motion/Reveal";
+import { SectionTitle } from "@/components/ui/SectionTitle";
 
-type GrihaProps = {
+type BlogBicharProps = {
   items: Post[];
 };
 
-export function Griha({ items }: GrihaProps) {
+export function BlogBichar({ items }: BlogBicharProps) {
   return (
-    <section className="teasers" id="home" aria-label="गृह">
+    <section className="teasers" id="vichar" aria-label="ब्लग / विचार">
       <div className="container">
+        <SectionTitle href="/category/vichar">ब्लग / विचार</SectionTitle>
         <div className="teasers__grid">
           {items.map((item, index) => (
             <Reveal
               key={item.id}
-              className={`teaser${index ? ` reveal-delay-${index}` : ""}`}
+              className={`teaser${index ? ` reveal-delay-${Math.min(index, 3)}` : ""}`}
             >
               <a
                 className="teaser__thumb"

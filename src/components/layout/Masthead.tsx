@@ -41,6 +41,7 @@ export function Masthead({ domain }: MastheadProps) {
           </div>
         </div>
         <div className="masthead__ads" aria-label="विज्ञापन">
+        <img src="/images/IME_ONLINE.gif" alt="विज्ञापन" />
           <img
             src="/images/Classic-Tech-450x200-px-_-rojgar-media.gif"
             alt="विज्ञापन"

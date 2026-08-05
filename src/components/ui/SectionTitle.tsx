@@ -19,7 +19,13 @@ export function SectionTitle({
     <h2 className="section-title">
       <span className="section-title__text">{children}</span>
       {more ? (
-        <a className="section-title__more" href={href}>
+        <a
+          className="section-title__more"
+          href={href}
+          {...(href.startsWith("http")
+            ? { target: "_blank", rel: "noopener noreferrer" }
+            : {})}
+        >
           <span>{moreLabel}</span>
           <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" />
         </a>

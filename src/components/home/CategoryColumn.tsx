@@ -1,4 +1,4 @@
-/** कला / साहित्य / देश-समाज — shared column block */
+/** खेल / पर्यटन / रमाइलो संसार — shared column block */
 import { unsplash as u } from "@/lib/media";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionTitle } from "@/components/ui/SectionTitle";
@@ -9,7 +9,6 @@ type ColumnBlockProps = {
   href: string;
   leadImage: string;
   leadTitle: string;
-  leadDate: string;
   items: string[];
   delay?: number;
 };
@@ -20,7 +19,6 @@ export function CategoryColumn({
   href,
   leadImage,
   leadTitle,
-  leadDate,
   items,
   delay = 0,
 }: ColumnBlockProps) {
@@ -50,7 +48,6 @@ export function CategoryColumn({
           <h3 className="col-block__lead-title line-2">
             <a href="#article">{leadTitle}</a>
           </h3>
-          <time className="recent__date">{leadDate}</time>
         </div>
       </article>
       <ul>
@@ -59,7 +56,6 @@ export function CategoryColumn({
             <h4 className="col-block__item-title line-2">
               <a href="#article">{item}</a>
             </h4>
-            <time className="recent__date">चैत १०, २०८२</time>
           </li>
         ))}
       </ul>

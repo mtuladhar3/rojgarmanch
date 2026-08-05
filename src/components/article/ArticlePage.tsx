@@ -1,4 +1,8 @@
 import type { Article, ArticleBlock } from "@/data/articles";
+import {
+  ArticleFontControls,
+  ArticleFontProvider,
+} from "./ArticleFontSize";
 
 type ArticlePageProps = {
   article: Article;
@@ -62,6 +66,7 @@ export function ArticlePage({ article }: ArticlePageProps) {
 
   return (
     <main id="main" className="article-page">
+      <ArticleFontProvider>
       <div className="container">
         <header className="article-hero">
           <div className="article-hero__copy">
@@ -108,6 +113,7 @@ export function ArticlePage({ article }: ArticlePageProps) {
               ) : null}
               <span aria-hidden="true">·</span>
               <span>{article.readMinutes} मिनेट पढाइ</span>
+              <ArticleFontControls compact />
             </div>
           </div>
 
@@ -144,6 +150,10 @@ export function ArticlePage({ article }: ArticlePageProps) {
                   </li>
                 ))}
               </ul>
+            </div>
+
+            <div className="article-rail__block article-rail__block--font">
+              <ArticleFontControls />
             </div>
 
             <div className="article-rail__block">
@@ -192,6 +202,7 @@ export function ArticlePage({ article }: ArticlePageProps) {
           </article>
         </div>
       </div>
+      </ArticleFontProvider>
     </main>
   );
 }

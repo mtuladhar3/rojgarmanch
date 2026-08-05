@@ -1,15 +1,14 @@
-/** देश/समाज — Society */
+/** रमाइलो संसार */
 import { CategoryColumn } from "./CategoryColumn";
 
-export function Samaj() {
+export function RamailoSansar() {
   return (
     <CategoryColumn
-      id="society"
-      title="देश/समाज"
-      href="/category/samaj"
+      id="ramailo-sansar"
+      title="रमाइलो संसार"
+      href="/category/ramailo-sansar"
       leadImage="1485846234645-a62644f84728"
       leadTitle="किताबबाट नसिकिने करियरका दस सुझाव"
-      leadDate="फाल्गुन ३, २०८२"
       items={[
         "सामाजिक प्रमाणको प्रभावलाई कम नआँक्नुहोस्",
         "स्टार्टअपका आठ प्रारम्भिक समस्या र समाधान",

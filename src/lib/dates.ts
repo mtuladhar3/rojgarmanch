@@ -2,7 +2,7 @@ const NE_DIGITS = ["०", "१", "२", "३", "४", "५", "६", "७", "८"
 const NE_WEEKDAYS = ["आइतबार", "सोमबार", "मंगलबार", "बुधबार", "बिहिबार", "शुक्रबार", "शनिबार"];
 const NE_WEEKDAYS_SHORT = ["आइत", "सोम", "मंगल", "बुध", "बिहि", "शुक्र", "शनि"];
 const NE_AD_MONTHS = ["जनवरी", "फेब्रुअरी", "मार्च", "अप्रिल", "मे", "जुन", "जुलाई", "अगस्ट", "सेप्टेम्बर", "अक्टोबर", "नोभेम्बर", "डिसेम्बर"];
-const NE_BS_MONTHS = ["बैशाख", "जेठ", "असार", "श्रावण", "भदौ", "असोज", "कार्तिक", "मंसिर", "पुस", "माघ", "फाल्गुन", "चैत"];
+const NE_BS_MONTHS = ["बैशाख", "जेठ", "असार", "साउन", "भदौ", "असोज", "कार्तिक", "मंसिर", "पुस", "माघ", "फाल्गुन", "चैत"];
 
 const bsMonthData: Record<number, number[]> = {
   2080: [31, 32, 31, 32, 31, 30, 30, 30, 29, 29, 30, 31],
@@ -52,3 +52,13 @@ export const formatBs = (date = new Date()) => {
   const bs = adToBs(date);
   return `${toNepaliDigits(bs.year)} ${NE_BS_MONTHS[bs.month - 1]} ${toNepaliDigits(bs.day)}, ${NE_WEEKDAYS[date.getDay()]}`;
 };
+
+/** Compact badge: "२० साउन २०८३, बुधबार" */
+export const formatBsBadge = (date = new Date()) => {
+  const bs = adToBs(date);
+  return `${toNepaliDigits(bs.day)} ${NE_BS_MONTHS[bs.month - 1]} ${toNepaliDigits(bs.year)}, ${NE_WEEKDAYS[date.getDay()]}`;
+};
+
+/** Compact badge: "५ अगस्ट २०२६, बुधबार" */
+export const formatAdBadge = (date = new Date()) =>
+  `${toNepaliDigits(date.getDate())} ${NE_AD_MONTHS[date.getMonth()]} ${toNepaliDigits(date.getFullYear())}, ${NE_WEEKDAYS[date.getDay()]}`;

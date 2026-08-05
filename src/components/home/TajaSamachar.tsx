@@ -20,11 +20,6 @@ export function TajaSamachar({ items }: TajaSamacharProps) {
               <h3 className="recent__title line-2">
                 <a href={item.href}>{item.title}</a>
               </h3>
-              {item.dateLabel ? (
-                <time className="recent__date" dateTime={item.dateIso}>
-                  {item.dateLabel}
-                </time>
-              ) : null}
             </li>
           ))}
         </ul>

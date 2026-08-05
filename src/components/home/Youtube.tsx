@@ -55,12 +55,17 @@ function WatchEmbed({
         height={720}
         loading="lazy"
       />
+      <span className="yt-block__shade" aria-hidden="true" />
       <span className="yt-block__play" aria-hidden="true">
         <i className="fa-solid fa-play" />
       </span>
       {video.duration ? (
         <span className="yt-block__duration">{video.duration}</span>
       ) : null}
+      <span className="yt-block__poster-copy">
+        <strong className="line-2">{video.title}</strong>
+        {video.viewsLabel ? <em>{video.viewsLabel}</em> : null}
+      </span>
     </button>
   );
 }
@@ -121,9 +126,6 @@ function ShortCard({ item, onOpen }: { item: YtShort; onOpen: () => void }) {
         height={960}
         loading="lazy"
       />
-      <span className="yt-block__short-play" aria-hidden="true">
-        <i className="fa-solid fa-play" />
-      </span>
       <span className="yt-block__short-body">
         <span className="yt-block__short-title line-3">{item.title}</span>
         {item.viewsLabel ? (
@@ -328,71 +330,73 @@ export function Youtube({ data }: YoutubeProps) {
   };
 
   return (
-    <section
-      className="yt-block container"
-      id="youtube"
-      aria-labelledby="youtube-title"
-    >
-      <SectionTitle href={data.channelUrl ?? "https://www.youtube.com"}>
-        <span id="youtube-title">युट्युब</span>
-      </SectionTitle>
-
+    <section className="yt-block container" id="youtube" aria-label="युट्युब र रिल्स">
       <div className="yt-block__layout">
-        <Reveal className="yt-block__main reveal">
-          <article className="yt-block__feature">
-            <WatchEmbed
-              video={featured}
-              playing={playing}
-              onPlay={() => setPlaying(true)}
-            />
-            <div className="yt-block__feature-body">
-              <p className="yt-block__kicker">
-                <i className="fa-brands fa-youtube" aria-hidden="true" />
-                हाइलाइट भिडियो
-              </p>
-              <h3 className="yt-block__feature-title">
-                <a
-                  href={`https://www.youtube.com/watch?v=${featured.youtubeId}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {featured.title}
-                </a>
-              </h3>
-              {featured.viewsLabel ? (
-                <p className="yt-block__meta">{featured.viewsLabel}</p>
+        <div className="yt-block__col">
+          <SectionTitle href={data.channelUrl ?? "https://www.youtube.com"}>
+            <span id="youtube-title">युट्युब</span>
+          </SectionTitle>
+          <Reveal className="yt-block__main reveal">
+            <article className="yt-block__feature">
+              <WatchEmbed
+                video={featured}
+                playing={playing}
+                onPlay={() => setPlaying(true)}
+              />
+              {playing ? (
+                <div className="yt-block__feature-body">
+                  <h3 className="yt-block__feature-title">
+                    <a
+                      href={`https://www.youtube.com/watch?v=${featured.youtubeId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {featured.title}
+                    </a>
+                  </h3>
+                  {featured.viewsLabel ? (
+                    <p className="yt-block__meta">{featured.viewsLabel}</p>
+                  ) : null}
+                </div>
               ) : null}
-            </div>
-          </article>
+            </article>
 
-          {rest.length ? (
-            <div className="yt-block__side-list" role="list">
-              {rest.map((video) => (
-                <div key={video.id} role="listitem">
-                  <SideVideo
-                    video={video}
-                    active={video.id === activeId}
-                    onSelect={() => selectVideo(video.id)}
-                  />
+            {rest.length ? (
+              <div className="yt-block__side-list" role="list">
+                {rest.map((video) => (
+                  <div key={video.id} role="listitem">
+                    <SideVideo
+                      video={video}
+                      active={video.id === activeId}
+                      onSelect={() => selectVideo(video.id)}
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </Reveal>
+        </div>
+
+        <div className="yt-block__col">
+          <SectionTitle
+            href={
+              data.channelUrl
+                ? `${data.channelUrl}/shorts`
+                : "https://www.youtube.com/shorts"
+            }
+          >
+            <span id="reels-title">रिल्स</span>
+          </SectionTitle>
+          <Reveal className="yt-block__shorts reveal reveal-delay-1">
+            <div className="yt-block__shorts-rail" role="list">
+              {shorts.map((item, index) => (
+                <div key={item.id} role="listitem">
+                  <ShortCard item={item} onOpen={() => setShortIndex(index)} />
                 </div>
               ))}
             </div>
-          ) : null}
-        </Reveal>
-
-        <Reveal className="yt-block__shorts reveal reveal-delay-1">
-          <div className="yt-block__shorts-head">
-            <h3 className="yt-block__shorts-title">Shorts</h3>
-            <span className="yt-block__shorts-hint">रिल्स</span>
-          </div>
-          <div className="yt-block__shorts-rail" role="list">
-            {shorts.map((item, index) => (
-              <div key={item.id} role="listitem">
-                <ShortCard item={item} onOpen={() => setShortIndex(index)} />
-              </div>
-            ))}
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
       </div>
 
       {shortIndex !== null && shorts.length ? (

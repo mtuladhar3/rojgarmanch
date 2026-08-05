@@ -1,84 +1,70 @@
-/** फिचर — Feature */
 import { unsplash as u } from "@/lib/media";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionTitle } from "@/components/ui/SectionTitle";
+import { Nrn } from "./Nrn";
 
-const rails = [
-  {
-    heading: "रोजगार",
-    href: "/category/rojgar",
-    image: u("1521737711867-e3b97375f902", 640, 420),
-    title: "मध्य-करियरमा प्रमोशन खोल्ने पाँच व्यावहारिक कदम",
-    items: [
-      ["1556761175-5973dc0f32e7", "तलब वार्ताअघि तयार गर्नुपर्ने दस प्रमाण"],
-      ["1600880292203-757bb62b4baf", "नयाँ भूमिका चाहिने संकेतहरू कसरी चिन्ने"],
-      ["1454165804606-c3d57bc86b40", "रिज्यूमेमा नलेख्नुपर्ने सात सामान्य गल्ती"],
-    ],
-  },
-  {
-    heading: "सीप",
-    href: "/category/feature",
-    image: u("1517245386807-bb43f82c33c4", 640, 420),
-    title: "उत्पादन टोलीले रोज्ने सिकाइ स्ट्याक — कहाँबाट सुरु गर्ने",
-    items: [
-      ["1519389950473-47ba0277781c", "कार्यस्थलमा कोचिङबाट सिकिने चार बानी"],
-      ["1486312338219-ce68d2c6f44d", "असिंक टोलीमा पनि सिकाइ कसरी जीवित राख्ने"],
-      ["1551836022-d5d88e9218df", "पोर्टफोलियो बनाउँदा छुट्ने साझा कमजोरीहरू"],
-    ],
-  },
+const stack = [
+  ["1556761175-b413da4baf72", "एजेन्सीबाट इन-हाउस जाँदा फाइदा–बेफाइदा"],
+  ["1600880292203-757bb62b4baf", "स्टार्टअप भूमिका वर्ष दिनमै किन अड्किन्छ"],
+  ["1542744173-8e2bd294f1e5", "नयाँ टोलीमा जोडिने अघि सोध्नुपर्ने दस प्रश्न"],
 ] as const;
 
+/** फिचर — Feature */
 export function Feature() {
   return (
-    <section className="duo-rail container" id="feature" aria-label="फिचर">
-      <div className="duo-rail__grid">
-        {rails.map((rail, index) => (
-          <Reveal
-            className={`duo-rail__col${index ? " reveal-delay-1" : ""}`}
-            key={rail.heading}
-          >
-            <SectionTitle href={rail.href}>{rail.heading}</SectionTitle>
-            <div className="duo-rail__body">
-              <article className="duo-rail__lead">
+    <Reveal className="reveal">
+      <div id="feature">
+        <SectionTitle href="/category/feature">फिचर</SectionTitle>
+        <div className="workplace-top">
+          <article className="overlay-card">
+            <div className="overlay-card__media">
+              <img
+                src={u("1507003211169-0a1dd7228f2d", 800, 1000)}
+                alt="कार्यस्थलमा काम गर्दै पेशेवर"
+                width={400}
+                height={500}
+                loading="lazy"
+              />
+            </div>
+            <div className="overlay-card__body">
+              <span className="badge badge--light">संस्कृति</span>
+              <h3 className="overlay-card__title line-2">
+                <a href="#article">प्रबन्धक परिवर्तन गर्दा हुने सात सामान्य गल्ती</a>
+              </h3>
+              <div className="meta meta--on-dark">
+                <span className="meta__author">ब्रायन कोल</span>
+              </div>
+            </div>
+          </article>
+          <ul className="stack-list">
+            {stack.map(([image, title]) => (
+              <li className="stack-item" key={title}>
                 <a
-                  className="duo-rail__lead-media"
+                  className="stack-item__thumb"
                   href="#article"
                   tabIndex={-1}
                   aria-hidden="true"
                 >
                   <img
                     className="img-cover"
-                    src={rail.image}
-                    alt={rail.title}
-                    width={640}
-                    height={420}
+                    src={u(image, 200, 160)}
+                    alt={title}
+                    width={84}
+                    height={68}
                     loading="lazy"
                   />
                 </a>
-                <h3 className="duo-rail__lead-title line-3">
-                  <a href="#article">{rail.title}</a>
-                </h3>
-              </article>
-              <ul className="duo-rail__list">
-                {rail.items.map(([image, title]) => (
-                  <li key={title}>
-                    <a className="duo-rail__item" href="#article">
-                      <img
-                        src={u(image, 160, 160)}
-                        alt={title}
-                        width={72}
-                        height={72}
-                        loading="lazy"
-                      />
-                      <span className="line-3">{title}</span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Reveal>
-        ))}
+                <div>
+                  <h3 className="stack-item__title line-2">
+                    <a href="#article">{title}</a>
+                  </h3>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <Nrn />
       </div>
-    </section>
+    </Reveal>
   );
 }

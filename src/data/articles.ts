@@ -218,6 +218,7 @@ function allPosts(): Post[] {
   );
   return [
     home.highlight,
+    ...home.highlightMore,
     home.feature,
     ...home.featurePair,
     ...home.teasers,

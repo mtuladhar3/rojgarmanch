@@ -2,12 +2,13 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { IgStory } from "@/types/content";
+import { SectionTitle } from "@/components/ui/SectionTitle";
 
 const DEFAULT_MS = 5000;
 const HOLD_MS = 180;
 const SEEN_KEY = "rm-ig-stories-seen";
 
-type IgStoriesProps = {
+type WebStoriesProps = {
   items: IgStory[];
 };
 
@@ -29,7 +30,7 @@ function writeSeen(ids: Set<string>) {
   }
 }
 
-export function IgStories({ items }: IgStoriesProps) {
+export function WebStories({ items }: WebStoriesProps) {
   const rail = items.slice(0, 5);
   const [seen, setSeen] = useState<Set<string>>(() => new Set());
   const [active, setActive] = useState<number | null>(null);
@@ -259,8 +260,9 @@ export function IgStories({ items }: IgStoriesProps) {
   if (!rail.length) return null;
 
   return (
-    <section className="ig-stories" aria-label="स्टोरी">
+    <section className="ig-stories" aria-label="वेबस्टोरिज">
       <div className="container">
+        <SectionTitle>वेबस्टोरिज</SectionTitle>
         <div className="ig-stories__rail" role="list">
           {rail.map((item, index) => {
             const isSeen = seen.has(item.id);

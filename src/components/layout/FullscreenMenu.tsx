@@ -1,11 +1,14 @@
 "use client";
 
-import { NAV_LINKS } from "@/lib/nav";
+import { getNavBarLinks, getNavMoreLinks } from "@/lib/nav";
 import { useUi } from "@/components/providers/UiProvider";
 
 export function FullscreenMenu() {
   const { menuOpen, closeMenu } = useUi();
   if (!menuOpen) return null;
+
+  const barLinks = getNavBarLinks();
+  const moreLinks = getNavMoreLinks();
 
   return (
     <div
@@ -39,7 +42,7 @@ export function FullscreenMenu() {
           </button>
         </div>
         <nav className="fs-menu__nav" aria-label="पूर्ण मेनु">
-          {NAV_LINKS.map((link, index) => (
+          {barLinks.map((link, index) => (
             <a
               className="fs-menu__link"
               href={link.href}
@@ -51,6 +54,23 @@ export function FullscreenMenu() {
               <small>{link.labelEn}</small>
             </a>
           ))}
+          {moreLinks.length ? (
+            <>
+              <p className="fs-menu__group">थप</p>
+              {moreLinks.map((link, index) => (
+                <a
+                  className="fs-menu__link"
+                  href={link.href}
+                  style={{ ["--i" as string]: barLinks.length + index }}
+                  onClick={closeMenu}
+                  key={link.href}
+                >
+                  <span>{link.labelNe}</span>
+                  <small>{link.labelEn}</small>
+                </a>
+              ))}
+            </>
+          ) : null}
         </nav>
       </div>
     </div>

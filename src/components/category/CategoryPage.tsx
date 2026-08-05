@@ -51,10 +51,6 @@ function PostCard({
 
       <div className="category-card__body">
         <p className="category-card__meta">
-          {item.dateLabel ? (
-            <time dateTime={item.dateIso}>{item.dateLabel}</time>
-          ) : null}
-          <span aria-hidden="true">·</span>
           <span>{readMinutes(item.excerpt)} मिनेट</span>
         </p>
         <h2 className="category-card__title">

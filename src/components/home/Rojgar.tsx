@@ -1,4 +1,4 @@
-/** रोजगार — Jobs (wraps प्रवास + बिजनेस block) */
+/** रोजगार — Jobs (wraps बिजनेस block) */
 import type { ReactNode } from "react";
 
 type RojgarProps = {
@@ -7,7 +7,7 @@ type RojgarProps = {
 
 export function Rojgar({ children }: RojgarProps) {
   return (
-    <section className="container split" id="careers" aria-label="रोजगार">
+    <section className="container split" aria-label="रोजगार">
       {children}
     </section>
   );

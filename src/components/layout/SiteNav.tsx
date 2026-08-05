@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import type { Post } from "@/types/content";
-import { NAV_LINKS } from "@/lib/nav";
+import { getNavBarLinks } from "@/lib/nav";
+import { formatAdBadge, formatBsBadge } from "@/lib/dates";
 import { useTheme } from "@/components/providers/ThemeProvider";
 import { useUi } from "@/components/providers/UiProvider";
 
@@ -22,13 +23,56 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
   const [scrolled, setScrolled] = useState(false);
   const [notifyTab, setNotifyTab] = useState<NotifyTab>("taja");
   const [panelTop, setPanelTop] = useState(72);
+  const [dates, setDates] = useState({ ad: "—", bs: "—" });
+  const [showBs, setShowBs] = useState(true);
+  const logoRef = useRef<HTMLAnchorElement>(null);
+  const dateRowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => {
+      const masthead = document.querySelector(".masthead");
+      if (masthead) {
+        setScrolled(masthead.getBoundingClientRect().bottom <= 0);
+        return;
+      }
+      setScrolled(window.scrollY > 8);
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
+
+  useEffect(() => {
+    setDates({ ad: formatAdBadge(), bs: formatBsBadge() });
+    const id = window.setInterval(() => {
+      setShowBs((current) => !current);
+    }, 3500);
+    return () => window.clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    const placeDate = () => {
+      const logo = logoRef.current;
+      const row = dateRowRef.current;
+      const track = row?.querySelector<HTMLElement>(".sticky-date__track");
+      if (!logo || !track || !scrolled) return;
+      const left =
+        logo.getBoundingClientRect().left - track.getBoundingClientRect().left;
+      track.style.setProperty("--date-left", `${Math.max(0, Math.round(left))}px`);
+    };
+
+    placeDate();
+    const raf = window.requestAnimationFrame(placeDate);
+    window.addEventListener("resize", placeDate);
+    return () => {
+      window.cancelAnimationFrame(raf);
+      window.removeEventListener("resize", placeDate);
+    };
+  }, [scrolled]);
 
   useEffect(() => {
     if (notifyOpen) setNotifyTab("taja");
@@ -54,7 +98,8 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
   }, [notifyOpen]);
 
   return (
-    <div className={`nav-bar${scrolled ? " is-scrolled" : ""}`} id="site-nav">
+    <div className={`site-sticky${scrolled ? " is-scrolled" : ""}`} id="site-nav">
+      <div className="nav-bar">
       <div className="container">
         <div className="nav-bar__shell">
           <div className="nav-bar__start">
@@ -76,17 +121,30 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
             </button>
           </div>
 
-          <a className="nav-logo" href="/" aria-label="रोजगार मञ्च">
+          <a className="nav-logo" href="/" aria-label="रोजगार मञ्च" ref={logoRef}>
             <img
               src="/images/logo.png"
               alt="रोजगार मञ्च"
               width={120}
               height={36}
+              onLoad={() => {
+                const logo = logoRef.current;
+                const track = dateRowRef.current?.querySelector<HTMLElement>(
+                  ".sticky-date__track",
+                );
+                if (!logo || !track) return;
+                const left =
+                  logo.getBoundingClientRect().left - track.getBoundingClientRect().left;
+                track.style.setProperty(
+                  "--date-left",
+                  `${Math.max(0, Math.round(left))}px`,
+                );
+              }}
             />
           </a>
 
           <nav className="nav" aria-label="मुख्य मेनु">
-            {NAV_LINKS.map((link) => {
+            {getNavBarLinks().map((link) => {
               const isActive =
                 link.href === "/"
                   ? pathname === "/"
@@ -165,11 +223,6 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
                                 <span className="notify-flash__title">
                                   {item.title}
                                 </span>
-                                {item.dateLabel ? (
-                                  <span className="notify-flash__meta">
-                                    · {item.dateLabel}
-                                  </span>
-                                ) : null}
                               </span>
                             </a>
                           </li>
@@ -225,6 +278,31 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
                 aria-hidden="true"
               />
             </button>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div className="sticky-date" ref={dateRowRef} aria-label="मिति">
+        <div className="container">
+          <div className="sticky-date__track">
+            <div className="sticky-date__badge">
+              <span className="sticky-date__sizer" aria-hidden="true">
+                {dates.bs.length >= dates.ad.length ? dates.bs : dates.ad}
+              </span>
+              <span
+                className={`sticky-date__slide${showBs ? " is-active" : ""}`}
+                aria-hidden={!showBs}
+              >
+                {dates.bs}
+              </span>
+              <span
+                className={`sticky-date__slide${!showBs ? " is-active" : ""}`}
+                aria-hidden={showBs}
+              >
+                {dates.ad}
+              </span>
+            </div>
           </div>
         </div>
       </div>

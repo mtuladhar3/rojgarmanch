@@ -33,10 +33,16 @@ export const NAV_LINKS = [
     labelEn: "Diaspora",
   },
   {
+    href: "/category/artha-rojgar",
+    slug: "artha-rojgar",
+    labelNe: "अर्थ र रोजगार",
+    labelEn: "Economy & Jobs",
+  },
+  {
     href: "/category/vichar",
     slug: "vichar",
-    labelNe: "विचार / ब्लग",
-    labelEn: "Opinion",
+    labelNe: "ब्लग / विचार",
+    labelEn: "Blog / Opinion",
   },
   {
     href: "/category/feature",
@@ -51,17 +57,69 @@ export const NAV_LINKS = [
     labelNe: "साहित्य",
     labelEn: "Literature",
   },
+  { href: "/category/khel", slug: "khel", labelNe: "खेल", labelEn: "Sports" },
   {
-    href: "/category/samaj",
-    slug: "samaj",
+    href: "/category/paryatan",
+    slug: "paryatan",
+    labelNe: "पर्यटन",
+    labelEn: "Tourism",
+  },
+  {
+    href: "/category/ramailo-sansar",
+    slug: "ramailo-sansar",
+    labelNe: "रमाइलो संसार",
+    labelEn: "Fun World",
+  },
+  {
+    href: "/category/desh-samaj",
+    slug: "desh-samaj",
     labelNe: "देश/समाज",
     labelEn: "Society",
+  },
+  {
+    href: "/category/bishwa",
+    slug: "bishwa",
+    labelNe: "विश्व",
+    labelEn: "World",
+  },
+  {
+    href: "/category/english-headline",
+    slug: "english-headline",
+    labelNe: "English Headline",
+    labelEn: "English Headline",
   },
   { href: "/category/tv", slug: "tv", labelNe: "टि. भी.", labelEn: "TV" },
 ] as const;
 
 export type NavLink = (typeof NAV_LINKS)[number];
 export type CategorySlug = Exclude<NavLink["slug"], "home">;
+
+const NAV_BAR_SLUGS = [
+  "home",
+  "samachar",
+  "rojgar",
+  "antarwarta",
+  "business",
+  "nrn",
+  "pravas",
+  "artha-rojgar",
+  "feature",
+  "kala",
+  "khel",
+  "tv",
+] as const;
+
+const barSlugSet = new Set<string>(NAV_BAR_SLUGS);
+
+export function getNavBarLinks() {
+  return NAV_BAR_SLUGS.map(
+    (slug) => NAV_LINKS.find((link) => link.slug === slug)!,
+  );
+}
+
+export function getNavMoreLinks() {
+  return NAV_LINKS.filter((link) => !barSlugSet.has(link.slug));
+}
 
 export function getNavCategories() {
   return NAV_LINKS.filter((link) => link.slug !== "home");
