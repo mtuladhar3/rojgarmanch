@@ -413,13 +413,13 @@ const siteInfo: SiteInfo = {
     },
   ],
   quickLinks: [
-    { href: "#home", label: "गृहपृष्ठ" },
-    { href: "#about", label: "हाम्रो बारेमा" },
-    { href: "#about", label: "हाम्रो समूह" },
-    { href: "mailto:rojgarmanch@gmail.com", label: "सम्पर्क" },
-    { href: "#careers", label: "पद रिक्त" },
+    { href: "/", label: "गृहपृष्ठ" },
+    { href: "/about", label: "हाम्रो बारेमा" },
+    { href: "/team", label: "हाम्रो समूह" },
+    { href: "/contact", label: "सम्पर्क" },
+    { href: "/publication", label: "प्रकाशन" },
     { href: "#", label: "विज्ञापन" },
-    { href: "#stories", label: "Archive" },
+    { href: "/category/samachar", label: "Archive" },
   ],
 };
 

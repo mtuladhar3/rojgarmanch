@@ -85,7 +85,7 @@ export function Footer({ site }: FooterProps) {
             aria-labelledby="footer-team-title"
           >
             <h3 className="footer__title" id="footer-team-title">
-              हाम्रो समूह
+              <a href="/team">हाम्रो समूह</a>
             </h3>
             <dl className="footer__people">
               {site.team.map((member) => (

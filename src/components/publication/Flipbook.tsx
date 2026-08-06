@@ -11,7 +11,6 @@ import {
 import Link from "next/link";
 import HTMLFlipBook from "react-pageflip";
 import type { PublicationIssue } from "@/data/publications";
-import { unsplash as u } from "@/lib/media";
 
 type FlipApi = {
   pageFlip: () => {
@@ -39,20 +38,133 @@ type FlipbookProps = {
   issue: PublicationIssue;
 };
 
+function canvasToJpegUrl(canvas: HTMLCanvasElement, quality = 0.78) {
+  return new Promise<string>((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => {
+        if (!blob) {
+          reject(new Error("Canvas export failed"));
+          return;
+        }
+        resolve(URL.createObjectURL(blob));
+      },
+      "image/jpeg",
+      quality,
+    );
+  });
+}
+
+async function renderPdfPages(
+  url: string,
+  onProgress?: (done: number, total: number) => void,
+) {
+  const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
+  // Match installed package version; public copy can get MIME/module issues in some browsers.
+  pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/legacy/build/pdf.worker.min.mjs`;
+
+  const pdf = await pdfjs.getDocument({
+    url,
+    withCredentials: false,
+  }).promise;
+
+  const total = pdf.numPages;
+  const images: string[] = [];
+  const targetWidth = 900;
+
+  for (let i = 1; i <= total; i += 1) {
+    const page = await pdf.getPage(i);
+    const base = page.getViewport({ scale: 1 });
+    const scale = Math.min(1.25, targetWidth / base.width);
+    const viewport = page.getViewport({ scale });
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d", { alpha: false });
+    if (!context) {
+      throw new Error("Canvas unavailable");
+    }
+
+    canvas.width = Math.floor(viewport.width);
+    canvas.height = Math.floor(viewport.height);
+    context.fillStyle = "#ffffff";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    await page.render({
+      canvasContext: context,
+      viewport,
+      canvas,
+    }).promise;
+
+    images.push(await canvasToJpegUrl(canvas));
+    canvas.width = 0;
+    canvas.height = 0;
+    onProgress?.(i, total);
+  }
+
+  return images;
+}
+
 /** Full-page PDF flipbook reader */
 export function Flipbook({ issue }: FlipbookProps) {
   const bookRef = useRef<FlipApi | null>(null);
+  const pageUrlsRef = useRef<string[]>([]);
   const [page, setPage] = useState(0);
   const [ready, setReady] = useState(false);
   const [mode, setMode] = useState<"portrait" | "landscape">("landscape");
   const [flipState, setFlipState] = useState("read");
-  const total = 8;
+  const [pages, setPages] = useState<string[]>([]);
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const [progress, setProgress] = useState({ done: 0, total: 0 });
+
+  const total = pages.length;
   const isCover = mode === "landscape" && page === 0 && flipState === "read";
-  const isBack = mode === "landscape" && page === total - 1 && flipState === "read";
+  const isBack =
+    mode === "landscape" && total > 0 && page === total - 1 && flipState === "read";
 
   useEffect(() => {
-    setReady(true);
-  }, []);
+    let cancelled = false;
+
+    async function load() {
+      setReady(false);
+      setLoadError(null);
+      setPages([]);
+      setProgress({ done: 0, total: 0 });
+
+      for (const url of pageUrlsRef.current) {
+        URL.revokeObjectURL(url);
+      }
+      pageUrlsRef.current = [];
+
+      try {
+        const images = await renderPdfPages(issue.pdfHref, (done, totalPages) => {
+          if (!cancelled) {
+            setProgress({ done, total: totalPages });
+          }
+        });
+        if (!cancelled) {
+          pageUrlsRef.current = images;
+          setPages(images);
+          setReady(true);
+        } else {
+          for (const url of images) URL.revokeObjectURL(url);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          const message =
+            error instanceof Error ? error.message : "Unknown PDF error";
+          console.error("[flipbook]", error);
+          setLoadError(`PDF खोल्न सकिएन: ${message}`);
+        }
+      }
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+      for (const url of pageUrlsRef.current) {
+        URL.revokeObjectURL(url);
+      }
+      pageUrlsRef.current = [];
+    };
+  }, [issue.pdfHref]);
 
   const next = useCallback(() => bookRef.current?.pageFlip().flipNext(), []);
   const prev = useCallback(() => bookRef.current?.pageFlip().flipPrev(), []);
@@ -70,7 +182,7 @@ export function Flipbook({ issue }: FlipbookProps) {
     <main id="main" className="pub-flip">
       <div className="container pub-flip__box">
         <header className="pub-flip__top">
-          <div>
+          <div className="pub-flip__copy">
             <p>कुना तान्नुहोस् वा पेज क्लिक गर्नुहोस् · ← →</p>
             <h1>
               {issue.title} · {issue.date}
@@ -94,17 +206,32 @@ export function Flipbook({ issue }: FlipbookProps) {
             .filter(Boolean)
             .join(" ")}
         >
-          {ready ? (
+          {loadError ? (
+            <div className="pub-flip__loading">
+              <p>{loadError}</p>
+              <a className="pub-flip__fallback" href={issue.pdfHref} target="_blank" rel="noreferrer">
+                PDF सिधै खोल्नुहोस्
+              </a>
+            </div>
+          ) : !ready || total < 1 ? (
+            <div className="pub-flip__loading">
+              PDF पाना तयार हुँदैछ…
+              {progress.total > 0
+                ? ` ${progress.done}/${progress.total}`
+                : " (२५ MB फाइल लोड हुँदै)"}
+            </div>
+          ) : (
             <HTMLFlipBook
+              key={`${issue.slug}-${total}`}
               ref={bookRef}
               className="pub-flip__book"
               style={{ margin: "0 auto" }}
-              width={400}
-              height={534}
+              width={360}
+              height={480}
               size="stretch"
-              minWidth={260}
+              minWidth={220}
               maxWidth={440}
-              minHeight={360}
+              minHeight={300}
               maxHeight={600}
               startPage={0}
               drawShadow
@@ -124,131 +251,48 @@ export function Flipbook({ issue }: FlipbookProps) {
               onChangeOrientation={(event) =>
                 setMode(event.data === "portrait" ? "portrait" : "landscape")
               }
-              onChangeState={(event) => setFlipState(String(event.data || "read"))}
+              onChangeState={(event) =>
+                setFlipState(String(event.data || "read"))
+              }
               onInit={(event) => {
                 setPage(Number(event.data?.page) || 0);
-                setMode(event.data?.mode === "portrait" ? "portrait" : "landscape");
+                setMode(
+                  event.data?.mode === "portrait" ? "portrait" : "landscape",
+                );
               }}
             >
-              <Sheet hard className="pub-sheet--cover">
-                <img src={issue.cover} alt="" />
-                <div className="pub-sheet__cover-copy">
-                  <p>
-                    {issue.kicker} · {issue.date}
-                  </p>
-                  <h3>{issue.title}</h3>
-                  <span>{issue.tagline}</span>
-                </div>
-              </Sheet>
-
-              <Sheet>
-                <div className="pub-sheet__paper">
-                  <header>
-                    <strong>विषय सूची</strong>
-                    <span>०२</span>
-                  </header>
-                  <ol>
-                    {issue.toc.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ol>
-                </div>
-              </Sheet>
-
-              <Sheet>
-                <div className="pub-sheet__paper">
-                  <header>
-                    <strong>विशेष</strong>
-                    <span>०३</span>
-                  </header>
-                  <img src={u("1556761175-5973dc0f32e7", 640, 360)} alt="" />
-                  <h4>{issue.toc[0]}</h4>
-                  <p>
-                    यस अंकमा नीति, सीप र कार्यस्थलका व्यावहारिक कदम समेटिएका छन्।
-                  </p>
-                </div>
-              </Sheet>
-
-              <Sheet>
-                <div className="pub-sheet__paper">
-                  <header>
-                    <strong>भर्ना</strong>
-                    <span>०४</span>
-                  </header>
-                  <h4>{issue.toc[1]}</h4>
-                  <p>
-                    आवेदनअघि प्रमाण, पोर्टफोलियो र स्पष्ट जिम्मेवारी तयार पार्नुहोस्।
-                  </p>
-                  <img src={u("1517245386807-bb43f82c33c4", 640, 320)} alt="" />
-                </div>
-              </Sheet>
-
-              <Sheet>
-                <div className="pub-sheet__paper">
-                  <header>
-                    <strong>प्रवास</strong>
-                    <span>०५</span>
-                  </header>
-                  <img src={u("1507679799987-c73779587ccf", 640, 340)} alt="" />
-                  <h4>{issue.toc[2]}</h4>
-                  <p>
-                    करार, बीमा र सम्पर्क सूची — सुरक्षित यात्राका आधारभूत कदम।
-                  </p>
-                </div>
-              </Sheet>
-
-              <Sheet>
-                <div className="pub-sheet__paper">
-                  <header>
-                    <strong>उद्यम</strong>
-                    <span>०६</span>
-                  </header>
-                  <h4>{issue.toc[3]}</h4>
-                  <p>
-                    अनुभवलाई स्थानीय बजारसँग जोड्दा साना उद्यमले पनि स्थिर आम्दानी
-                    दिन सक्छन्।
-                  </p>
-                  <img src={u("1522071820081-009f0129c71c", 640, 320)} alt="" />
-                </div>
-              </Sheet>
-
-              <Sheet>
-                <div className="pub-sheet__paper">
-                  <header>
-                    <strong>सीप</strong>
-                    <span>०७</span>
-                  </header>
-                  <img src={u("1573496359142-b8d87734a5a2", 640, 340)} alt="" />
-                  <h4>{issue.toc[4]}</h4>
-                  <p>
-                    नतिजा लेख्नुहोस्, बजार दर हेर्नुहोस्, र एउटा स्पष्ट कदमसहित अघि
-                    बढ्नुहोस्।
-                  </p>
-                </div>
-              </Sheet>
-
-              <Sheet hard className="pub-sheet--back">
-                <div className="pub-sheet__back">
-                  <p>अर्को अंक</p>
-                  <h3>छिट्टै भेटौँला</h3>
-                  <span>rojgarmanch.com</span>
-                </div>
-              </Sheet>
+              {pages.map((src, index) => (
+                <Sheet
+                  key={`${issue.slug}-${index}`}
+                  hard={index === 0 || index === total - 1}
+                  className={
+                    index === 0
+                      ? "pub-sheet--cover pub-sheet--pdf"
+                      : index === total - 1
+                        ? "pub-sheet--back pub-sheet--pdf"
+                        : "pub-sheet--pdf"
+                  }
+                >
+                  <img src={src} alt={`${issue.title} — पाना ${index + 1}`} />
+                </Sheet>
+              ))}
             </HTMLFlipBook>
-          ) : (
-            <div className="pub-flip__loading">फ्लिपबुक तयार हुँदैछ…</div>
           )}
         </div>
 
         <footer className="pub-flip__bar">
-          <button type="button" onClick={prev} disabled={page <= 0}>
+          <button type="button" onClick={prev} disabled={!ready || page <= 0}>
             <i className="fa-solid fa-chevron-left" aria-hidden="true" />
             अघिल्लो
           </button>
           <span>
-            {page + 1} / {total}
+            {ready && total > 0 ? `${page + 1} / ${total}` : "—"}
           </span>
-          <button type="button" onClick={next} disabled={page >= total - 1}>
+          <button
+            type="button"
+            onClick={next}
+            disabled={!ready || page >= total - 1}
+          >
             अर्को
             <i className="fa-solid fa-chevron-right" aria-hidden="true" />
           </button>

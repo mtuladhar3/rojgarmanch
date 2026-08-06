@@ -79,6 +79,24 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
   }, [notifyOpen]);
 
   useEffect(() => {
+    const root = document.documentElement;
+    const syncStickyH = () => {
+      const nav = document.getElementById("site-nav");
+      if (!nav) return;
+      root.style.setProperty(
+        "--site-sticky-h",
+        `${Math.ceil(nav.getBoundingClientRect().height)}px`,
+      );
+    };
+
+    syncStickyH();
+    window.addEventListener("resize", syncStickyH);
+    return () => {
+      window.removeEventListener("resize", syncStickyH);
+    };
+  }, [scrolled, pathname]);
+
+  useEffect(() => {
     if (!notifyOpen) return;
 
     const placePanel = () => {

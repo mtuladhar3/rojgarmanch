@@ -10,6 +10,13 @@ const nextConfig: NextConfig = {
       { source: "/category/desh-ramailo-sansar", destination: "/category/ramailo-sansar", permanent: true },
     ];
   },
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      canvas: false,
+    };
+    return config;
+  },
 };
 
 export default nextConfig;

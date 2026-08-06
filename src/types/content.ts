@@ -10,8 +10,16 @@ export type Post = {
   imageAlt?: string;
   category?: string;
   author?: string;
+  authorAvatar?: string;
   dateLabel?: string;
   dateIso?: string;
+};
+
+export type TeamMember = {
+  role: string;
+  name: string;
+  avatarUrl?: string;
+  bio?: string;
 };
 
 export type SiteInfo = {
@@ -22,7 +30,7 @@ export type SiteInfo = {
   phone: string;
   email: string;
   social: { label: string; href: string; icon: string }[];
-  team: { role: string; name: string }[];
+  team: TeamMember[];
   quickLinks: { href: string; label: string }[];
 };
 

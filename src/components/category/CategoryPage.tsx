@@ -3,126 +3,200 @@ import type { Post } from "@/types/content";
 import { Reveal } from "@/components/motion/Reveal";
 import { AdUnit } from "@/components/ui/AdUnit";
 import { ADS } from "@/lib/ads";
+import { toNepaliDigits } from "@/lib/dates";
+
+export const CATEGORY_PAGE_SIZE = 7;
 
 type CategoryPageProps = {
   category: CategoryInfo;
   posts: Post[];
+  page: number;
+  totalPages: number;
 };
 
-function readMinutes(excerpt?: string) {
-  const words = (excerpt ?? "").trim().split(/\s+/).filter(Boolean).length;
-  return Math.max(3, Math.min(12, Math.round(words / 12) || 5));
+function AuthorByline({ item }: { item: Post }) {
+  if (!item.author && !item.authorAvatar) return null;
+
+  return (
+    <span className="category-author">
+      {item.authorAvatar ? (
+        <img
+          className="category-author__avatar"
+          src={item.authorAvatar}
+          alt=""
+          width={36}
+          height={36}
+        />
+      ) : (
+        <span className="category-author__avatar category-author__avatar--empty" />
+      )}
+      {item.author ? (
+        <span className="category-author__name">{item.author}</span>
+      ) : null}
+    </span>
+  );
 }
 
 function PostCard({
   item,
-  categoryLabel,
   delay,
 }: {
   item: Post;
-  categoryLabel: string;
   delay?: number;
 }) {
   return (
     <Reveal
       className={`category-card${delay ? ` reveal-delay-${delay}` : ""}`}
     >
-      <a
-        className="category-card__media"
-        href={item.href}
-        tabIndex={-1}
-        aria-hidden="true"
-      >
-        {item.imageUrl ? (
-          <img
-            className="img-cover"
-            src={item.imageUrl}
-            alt={item.imageAlt || item.title}
-            width={720}
-            height={480}
-            loading="lazy"
-          />
-        ) : null}
-        <span className="category-card__tag">
-          <i aria-hidden="true" />
-          {item.category || categoryLabel}
+      <a className="category-card__link" href={item.href}>
+        <span className="category-card__media">
+          {item.imageUrl ? (
+            <img
+              className="img-cover"
+              src={item.imageUrl}
+              alt={item.imageAlt || item.title}
+              width={800}
+              height={450}
+              loading="lazy"
+            />
+          ) : null}
+        </span>
+        <span className="category-card__body">
+          <span className="category-card__title">{item.title}</span>
         </span>
       </a>
-
-      <div className="category-card__body">
-        <p className="category-card__meta">
-          <span>{readMinutes(item.excerpt)} मिनेट</span>
-        </p>
-        <h2 className="category-card__title">
-          <a href={item.href}>{item.title}</a>
-        </h2>
-        {item.excerpt ? (
-          <p className="category-card__excerpt line-2">{item.excerpt}</p>
-        ) : null}
-      </div>
     </Reveal>
   );
 }
 
-export function CategoryPage({ category, posts }: CategoryPageProps) {
+function pageHref(slug: string, page: number) {
+  if (page <= 1) return `/category/${slug}`;
+  return `/category/${slug}?page=${page}`;
+}
+
+function Pagination({
+  slug,
+  page,
+  totalPages,
+}: {
+  slug: string;
+  page: number;
+  totalPages: number;
+}) {
+  if (totalPages <= 1) return null;
+
+  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+  return (
+    <nav className="category-pagination" aria-label="पृष्ठहरू">
+      {page > 1 ? (
+        <a
+          className="category-pagination__arrow"
+          href={pageHref(slug, page - 1)}
+          rel="prev"
+          aria-label="अघिल्लो पृष्ठ"
+        >
+          <i className="fa-solid fa-chevron-left" aria-hidden="true" />
+        </a>
+      ) : (
+        <span
+          className="category-pagination__arrow is-disabled"
+          aria-disabled="true"
+        >
+          <i className="fa-solid fa-chevron-left" aria-hidden="true" />
+        </span>
+      )}
+
+      <ol className="category-pagination__pages">
+        {pages.map((n) => (
+          <li key={n}>
+            {n === page ? (
+              <span
+                className="category-pagination__num is-current"
+                aria-current="page"
+              >
+                {toNepaliDigits(n)}
+              </span>
+            ) : (
+              <a className="category-pagination__num" href={pageHref(slug, n)}>
+                {toNepaliDigits(n)}
+              </a>
+            )}
+          </li>
+        ))}
+      </ol>
+
+      {page < totalPages ? (
+        <a
+          className="category-pagination__arrow"
+          href={pageHref(slug, page + 1)}
+          rel="next"
+          aria-label="अर्को पृष्ठ"
+        >
+          <i className="fa-solid fa-chevron-right" aria-hidden="true" />
+        </a>
+      ) : (
+        <span
+          className="category-pagination__arrow is-disabled"
+          aria-disabled="true"
+        >
+          <i className="fa-solid fa-chevron-right" aria-hidden="true" />
+        </span>
+      )}
+    </nav>
+  );
+}
+
+export function CategoryPage({
+  category,
+  posts,
+  page,
+  totalPages,
+}: CategoryPageProps) {
   const featured = posts[0];
-  const side = posts[1];
-  const rest = posts.slice(2);
+  const rest = posts.slice(1);
 
   return (
     <main id="main" className="category-page">
       <div className="container">
         <header className="category-head">
-          <div className="category-head__top">
-            <h1 id="category-title">{category.labelNe}</h1>
-            <span className="category-head__count">{posts.length} सामग्री</span>
-          </div>
-          <p className="category-head__desc">
-            <span className="category-head__en">{category.labelEn}</span>
-            {category.description}
-          </p>
+          <h1 id="category-title">{category.labelNe}</h1>
         </header>
 
         {featured ? (
-          <div className="category-lead">
-            <Reveal className="category-feature">
-              <a className="category-feature__link" href={featured.href}>
-                {featured.imageUrl ? (
-                  <img
-                    className="category-feature__img"
-                    src={featured.imageUrl}
-                    alt={featured.imageAlt || featured.title}
-                    width={1100}
-                    height={700}
-                    fetchPriority="high"
-                  />
-                ) : null}
-                <span className="category-feature__shade" aria-hidden="true" />
-                <span className="category-feature__content">
-                  <span className="category-feature__badge">
-                    {featured.category || category.labelNe}
-                  </span>
-                  <h2 className="category-feature__title">{featured.title}</h2>
-                </span>
-              </a>
-            </Reveal>
+          <Reveal className="category-feature">
+            <div className="category-feature__copy">
+              <h2 className="category-feature__title">
+                <a href={featured.href}>{featured.title}</a>
+              </h2>
+              <span className="category-feature__rule" aria-hidden="true" />
+              {featured.excerpt ? (
+                <p className="category-feature__excerpt">{featured.excerpt}</p>
+              ) : null}
+              <AuthorByline item={featured} />
+            </div>
 
-            <div className="category-lead__aside">
-              {side ? (
-                <PostCard
-                  item={side}
-                  categoryLabel={category.labelNe}
-                  delay={1}
+            <a
+              className="category-feature__media"
+              href={featured.href}
+              tabIndex={-1}
+              aria-hidden="true"
+            >
+              {featured.imageUrl ? (
+                <img
+                  className="img-cover"
+                  src={featured.imageUrl}
+                  alt={featured.imageAlt || featured.title}
+                  width={1200}
+                  height={675}
+                  fetchPriority="high"
                 />
               ) : null}
-              <AdUnit
-                ad={ADS.belaco}
-                variant="aside"
-                className="category-lead__ad"
-              />
-            </div>
-          </div>
+            </a>
+          </Reveal>
         ) : null}
+
+        <AdUnit ad={ADS.belaco} className="category-inline-ad" />
 
         {rest.length > 0 ? (
           <section className="category-stream" aria-label="थप सामग्री">
@@ -131,13 +205,18 @@ export function CategoryPage({ category, posts }: CategoryPageProps) {
                 <PostCard
                   key={item.id}
                   item={item}
-                  categoryLabel={category.labelNe}
                   delay={Math.min((index % 3) + 1, 3)}
                 />
               ))}
             </div>
           </section>
         ) : null}
+
+        <Pagination
+          slug={category.slug}
+          page={page}
+          totalPages={totalPages}
+        />
       </div>
     </main>
   );

@@ -13,12 +13,28 @@ export type PublicationIssue = {
 
 export const PUBLICATIONS: PublicationIssue[] = [
   {
+    slug: "asar-2083",
+    kicker: "अंक ११",
+    date: "असार २०८३",
+    title: "अर्थ र रोजगार",
+    cover: u("1522071820081-009f0129c71c", 720, 960),
+    pdfHref: "/publications/Artha-Ra-Rojgar_Ashar-2083.pdf",
+    tagline: "अर्थ · रोजगार · अवसर",
+    toc: [
+      "अर्थतन्त्रका मुख्य सूचक",
+      "रोजगार बजार विश्लेषण",
+      "नीति र कार्यान्वयन",
+      "उद्यम कथाहरू",
+      "सीप र अवसर",
+    ],
+  },
+  {
     slug: "saun-2083",
     kicker: "अंक १२",
     date: "साउन २०८३",
     title: "रोजगार मञ्च मासिक",
     cover: u("1521737711867-e3b97375f902", 720, 960),
-    pdfHref: "/publications/rojgar-manch.pdf",
+    pdfHref: "/publications/Artha-Ra-Rojgar_Ashar-2083.pdf",
     tagline: "करियर · उद्यम · प्रवास",
     toc: [
       "युवा रोजगार मार्गचित्र",
@@ -29,28 +45,12 @@ export const PUBLICATIONS: PublicationIssue[] = [
     ],
   },
   {
-    slug: "asar-2083",
-    kicker: "अंक ११",
-    date: "असार २०८३",
-    title: "प्रवास सुरक्षा विशेषांक",
-    cover: u("1522071820081-009f0129c71c", 720, 960),
-    pdfHref: "/publications/rojgar-manch.pdf",
-    tagline: "सुरक्षा · करार · बीमा",
-    toc: [
-      "करारमा हेर्नुपर्ने दफा",
-      "बीमा दाबी प्रक्रिया",
-      "अभिमुखीकरण केन्द्र",
-      "पारिवारिक सम्पर्क योजना",
-      "फिर्तापछिको सीप प्रयोग",
-    ],
-  },
-  {
     slug: "jestha-2083",
     kicker: "अंक १०",
     date: "जेठ २०८३",
     title: "युवा उद्यम कथाहरू",
     cover: u("1556761175-5973dc0f32e7", 720, 960),
-    pdfHref: "/publications/rojgar-manch.pdf",
+    pdfHref: "/publications/Artha-Ra-Rojgar_Ashar-2083.pdf",
     tagline: "स्टार्टअप · सीप · बजार",
     toc: [
       "पहिलो ग्राहक कसरी भेट्ने",
@@ -66,7 +66,7 @@ export const PUBLICATIONS: PublicationIssue[] = [
     date: "वैशाख २०८३",
     title: "लोक सेवा तयारी अंक",
     cover: u("1454165804606-c3d57bc86b40", 720, 960),
-    pdfHref: "/publications/rojgar-manch.pdf",
+    pdfHref: "/publications/Artha-Ra-Rojgar_Ashar-2083.pdf",
     tagline: "परीक्षा · नोट · अन्तर्वार्ता",
     toc: [
       "पाठ्यक्रम नक्सा",
@@ -82,7 +82,7 @@ export const PUBLICATIONS: PublicationIssue[] = [
     date: "चैत २०८२",
     title: "महिला करियर विशेष",
     cover: u("1573496359142-b8d87734a5a2", 720, 960),
-    pdfHref: "/publications/rojgar-manch.pdf",
+    pdfHref: "/publications/Artha-Ra-Rojgar_Ashar-2083.pdf",
     tagline: "नेतृत्व · सन्तुलन · अवसर",
     toc: [
       "कार्यस्थल सुरक्षा",
@@ -98,7 +98,7 @@ export const PUBLICATIONS: PublicationIssue[] = [
     date: "फागुन २०८२",
     title: "डिजिटल सीप अंक",
     cover: u("1517245386807-bb43f82c33c4", 720, 960),
-    pdfHref: "/publications/rojgar-manch.pdf",
+    pdfHref: "/publications/Artha-Ra-Rojgar_Ashar-2083.pdf",
     tagline: "टेक · सिकाइ · जागिर",
     toc: [
       "फ्रीलान्स सुरुआत",

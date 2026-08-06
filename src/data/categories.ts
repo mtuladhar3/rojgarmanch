@@ -72,6 +72,7 @@ const samacharPosts: Post[] = [
       "तालिम, उद्यमशीलता र वैदेशिक रोजगार सुरक्षा समेटिएको मार्गचित्र सार्वजनिक। स्थानीय तह र निजी क्षेत्रको भूमिकामा छलफल तीव्र।",
     imageUrl: u("1521737711867-e3b97375f902", 1200, 720),
     author: "फणीन्द्र नेपाल",
+    authorAvatar: u("1472099645785-5658abf4ff4e", 96, 96),
     dateLabel: "साउन १६, २०८३",
     dateIso: "2026-08-01",
   }),
@@ -84,6 +85,7 @@ const samacharPosts: Post[] = [
     excerpt: "व्यावसायिक बैंकहरूले सहायक र अधिकृत तहका लागि दरखास्त माग गरेका छन्।",
     imageUrl: u("1454165804606-c3d57bc86b40", 640, 420),
     author: "सुमन गिरी",
+    authorAvatar: u("1500648767791-00dcc994a43e", 96, 96),
     dateLabel: "साउन १४, २०८३",
     dateIso: "2026-07-30",
   }),
@@ -96,6 +98,7 @@ const samacharPosts: Post[] = [
     excerpt: "क्लाउड, डाटा र प्रोडक्ट सोच अझै उच्च मागमा। तालिम केन्द्रहरूले नयाँ कोर्स खोले।",
     imageUrl: u("1519389950473-47ba0277781c", 640, 420),
     author: "उत्तम भट्टराई",
+    authorAvatar: u("1507003211169-0a1dd7228f2d", 96, 96),
     dateLabel: "साउन १२, २०८३",
     dateIso: "2026-07-28",
   }),
@@ -108,6 +111,7 @@ const samacharPosts: Post[] = [
     excerpt: "समूहगत परीक्षा तालिका सार्वजनिक। पाठ्यक्रम परिवर्तनको सारांश।",
     imageUrl: u("1522071820081-009f0129c71c", 640, 420),
     author: "मीरा जोशी",
+    authorAvatar: u("1494790108377-be9c29b29330", 96, 96),
     dateLabel: "साउन १०, २०८३",
     dateIso: "2026-07-26",
   }),
@@ -120,6 +124,7 @@ const samacharPosts: Post[] = [
     excerpt: "वैदेशिक कम्पनीहरूले नेपालबाटै काम गर्न सक्ने पद थपेका छन्।",
     imageUrl: u("1517245386807-bb43f82c33c4", 640, 420),
     author: "रवि थापा",
+    authorAvatar: u("1438761681033-6461ffad8d80", 96, 96),
     dateLabel: "साउन ८, २०८३",
     dateIso: "2026-07-24",
   }),
@@ -132,6 +137,7 @@ const samacharPosts: Post[] = [
     excerpt: "एकै छतमुनि रोजगारदाता र तालिम प्रदायक भेला हुँदै।",
     imageUrl: u("1551836022-d5d88e9218df", 640, 420),
     author: "प्रिया नायर",
+    authorAvatar: u("1544005313-94ddf0286df2", 96, 96),
     dateLabel: "साउन ६, २०८३",
     dateIso: "2026-07-22",
   }),
@@ -144,6 +150,7 @@ const samacharPosts: Post[] = [
     excerpt: "आईटी र बैंकिङ अझै उच्च औसतमा, साना उद्यममा वृद्धि सुस्त।",
     imageUrl: u("1460925895917-afdab827c52f", 640, 420),
     author: "कबीर सेन",
+    authorAvatar: u("1506794778202-cad84cf45f1d", 96, 96),
     dateLabel: "साउन ४, २०८३",
     dateIso: "2026-07-20",
   }),
@@ -156,6 +163,7 @@ const samacharPosts: Post[] = [
     excerpt: "अभिमुखीकरण तालिका र आवश्यक कागजातको सूची सार्वजनिक।",
     imageUrl: u("1486312338219-ce68d2c6f44d", 640, 420),
     author: "हेमन्त राज गौतम",
+    authorAvatar: u("1534528741775-53994a69daeb", 96, 96),
     dateLabel: "साउन २, २०८३",
     dateIso: "2026-07-18",
   }),
@@ -168,6 +176,7 @@ const samacharPosts: Post[] = [
     excerpt: "युवा उद्यमलाई सहुलियत ऋण र मेन्टरसिप प्याकेज।",
     imageUrl: u("1556761175-5973dc0f32e7", 640, 420),
     author: "आन्या शर्मा",
+    authorAvatar: u("1539571696357-5a69c17a67c6", 96, 96),
     dateLabel: "असार ३०, २०८३",
     dateIso: "2026-07-15",
   }),
@@ -180,6 +189,7 @@ const samacharPosts: Post[] = [
     excerpt: "डिजिटल मार्केटिङ र वित्तीय साक्षरतामा जोड।",
     imageUrl: u("1573496359142-b8d87734a5a2", 640, 420),
     author: "लोरी वेस्ट",
+    authorAvatar: u("1534528741775-53994a69daeb", 96, 96),
     dateLabel: "असार २८, २०८३",
     dateIso: "2026-07-13",
   }),
@@ -192,6 +202,7 @@ const samacharPosts: Post[] = [
     excerpt: "पाठ्यक्रम केन्द्रित अभ्यास र समय व्यवस्थापनका उपाय।",
     imageUrl: u("1600880292203-757bb62b4baf", 640, 420),
     author: "देव कपूर",
+    authorAvatar: u("1517841905240-472988babdf9", 96, 96),
     dateLabel: "असार २५, २०८३",
     dateIso: "2026-07-10",
   }),
@@ -204,6 +215,7 @@ const samacharPosts: Post[] = [
     excerpt: "जिल्लागत सत्र र अनलाइन विकल्प दुवै उपलब्ध।",
     imageUrl: u("1507679799987-c73779587ccf", 640, 420),
     author: "मोहन सुवेदी",
+    authorAvatar: u("1487412720507-e7ab37603c6f", 96, 96),
     dateLabel: "असार २२, २०८३",
     dateIso: "2026-07-07",
   }),
@@ -211,31 +223,47 @@ const samacharPosts: Post[] = [
 
 /** Lightweight placeholders so other category URLs render the same layout. */
 function placeholderPosts(category: CategoryInfo): Post[] {
-  return [1, 2, 3, 4, 5, 6].map((n) =>
-    post({
+  const titleVariants = [
+    `${category.labelNe} सम्बन्धी विशेष सामग्री`,
+    `${category.labelNe} मा ताजा विश्लेषण`,
+    `${category.labelNe} का मुख्य कथाहरू`,
+    `${category.labelNe} — गहिरो रिपोर्ट`,
+    `${category.labelNe} मा नयाँ विकास`,
+    `${category.labelNe} सम्बन्धी विशेष श्रृंखला`,
+  ];
+  const images = [
+    "1521737711867-e3b97375f902",
+    "1517245386807-bb43f82c33c4",
+    "1551836022-d5d88e9218df",
+    "1454165804606-c3d57bc86b40",
+    "1519389950473-47ba0277781c",
+    "1573496359142-b8d87734a5a2",
+  ];
+  const avatars = [
+    "1472099645785-5658abf4ff4e",
+    "1500648767791-00dcc994a43e",
+    "1507003211169-0a1dd7228f2d",
+    "1494790108377-be9c29b29330",
+    "1438761681033-6461ffad8d80",
+    "1544005313-94ddf0286df2",
+  ];
+
+  return Array.from({ length: 18 }, (_, i) => {
+    const n = i + 1;
+    return post({
       id: n * 1000 + category.slug.length,
       slug: `${category.slug}-${n}`,
       categorySlug: category.slug,
       category: category.labelNe,
-      title: `${category.labelNe} सम्बन्धी विशेष सामग्री ${n}`,
+      title: titleVariants[(n - 1) % titleVariants.length],
       excerpt: category.description,
-      imageUrl: u(
-        [
-          "1521737711867-e3b97375f902",
-          "1517245386807-bb43f82c33c4",
-          "1551836022-d5d88e9218df",
-          "1454165804606-c3d57bc86b40",
-          "1519389950473-47ba0277781c",
-          "1573496359142-b8d87734a5a2",
-        ][n - 1],
-        640,
-        420,
-      ),
+      imageUrl: u(images[(n - 1) % images.length], 640, 420),
       author: "सम्पादकीय टोली",
+      authorAvatar: u(avatars[(n - 1) % avatars.length], 96, 96),
       dateLabel: `साउन ${n + 1}, २०८३`,
-      dateIso: `2026-07-${10 + n}`,
-    }),
-  );
+      dateIso: `2026-07-${String(10 + (n % 18)).padStart(2, "0")}`,
+    });
+  });
 }
 
 export function getCategoryPosts(slug: string): Post[] {

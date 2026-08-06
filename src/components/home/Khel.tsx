@@ -7,7 +7,7 @@ export function Khel() {
       id="khel"
       title="खेल"
       href="/category/khel"
-      leadImage="1517649763962-0c623066027e"
+      leadImage="1507679799987-c73779587ccf"
       leadTitle="दस प्रसिद्ध टोली असफलता कसरी रोक्न सकिन्थ्यो"
       items={[
         "नयाँ प्लेबुक चाहिने संकेतहरू",
