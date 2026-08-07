@@ -34,13 +34,10 @@ const WATCH = [
 const FALLBACK: RateRow[] = WATCH.map((row) => ({ ...row }));
 
 function formatRate(value: number) {
-  return value.toLocaleString("en-IN", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+  return value.toFixed(2);
 }
 
-function formatFxDate(date = new Date()) {
+function formatFxDate(date: Date) {
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   return `${String(date.getDate()).padStart(2, "0")}-${months[date.getMonth()]}-${date.getFullYear()}`;
 }
@@ -52,10 +49,11 @@ function flagSrc(code: string) {
 /** विनिमय दर — NPR sidebar */
 export function VinimayaDar() {
   const [rates, setRates] = useState<RateRow[]>(FALLBACK);
-  const [asOf, setAsOf] = useState(formatFxDate());
+  const [asOf, setAsOf] = useState("—");
 
   useEffect(() => {
     let cancelled = false;
+    setAsOf(formatFxDate(new Date()));
 
     async function load() {
       try {
