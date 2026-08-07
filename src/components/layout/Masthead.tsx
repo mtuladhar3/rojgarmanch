@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { formatAd, formatBs } from "@/lib/dates";
+import { ADS } from "@/lib/ads";
 
 type MastheadProps = {
   domain: string;
@@ -29,6 +30,7 @@ export function Masthead({ domain }: MastheadProps) {
               width={171}
               height={40}
               decoding="async"
+              fetchPriority="high"
             />
           </a>
           <div className="masthead__dates" aria-label="मिति">
@@ -43,12 +45,30 @@ export function Masthead({ domain }: MastheadProps) {
           </div>
         </div>
         <div className="masthead__ads" aria-label="विज्ञापन">
-        <img src="/images/IME_ONLINE.gif" alt="विज्ञापन" />
           <img
-            src="/images/Classic-Tech-450x200-px-_-rojgar-media.gif"
-            alt="विज्ञापन"
+            src={ADS.ime.src}
+            alt={ADS.ime.alt}
+            width={ADS.ime.width}
+            height={ADS.ime.height}
+            decoding="async"
+            loading="lazy"
           />
-          <img src="/images/IME_ONLINE.gif" alt="विज्ञापन" />
+          <img
+            src={ADS.classicTech.src}
+            alt={ADS.classicTech.alt}
+            width={ADS.classicTech.width}
+            height={ADS.classicTech.height}
+            decoding="async"
+            loading="lazy"
+          />
+          <img
+            src={ADS.ime.src}
+            alt={ADS.ime.alt}
+            width={ADS.ime.width}
+            height={ADS.ime.height}
+            decoding="async"
+            loading="lazy"
+          />
         </div>
       </div>
     </header>

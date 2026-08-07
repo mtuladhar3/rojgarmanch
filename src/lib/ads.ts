@@ -1,7 +1,7 @@
 /** Static ad creatives — swap src/href when CMS or ad server is wired. */
 export const ADS = {
   ncell: {
-    src: "/images/1100x110px_NCELL.gif",
+    src: "/images/1100x110px_NCELL.jpg",
     alt: "Ncell विज्ञापन",
     width: 1100,
     height: 110,
@@ -22,7 +22,7 @@ export const ADS = {
     href: "#",
   },
   hbl: {
-    src: "/images/HBL-1.gif",
+    src: "/images/HBL-1.jpg",
     alt: "HBL विज्ञापन",
     width: 810,
     height: 100,
@@ -33,6 +33,20 @@ export const ADS = {
     alt: "Belaco विज्ञापन",
     width: 1080,
     height: 1080,
+    href: "#",
+  },
+  ime: {
+    src: "/images/IME_ONLINE.jpg",
+    alt: "IME विज्ञापन",
+    width: 350,
+    height: 200,
+    href: "#",
+  },
+  classicTech: {
+    src: "/images/Classic-Tech-450x200.jpg",
+    alt: "Classic Tech विज्ञापन",
+    width: 450,
+    height: 200,
     href: "#",
   },
 } as const;

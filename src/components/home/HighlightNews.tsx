@@ -2,7 +2,6 @@
 import type { HighlightStory } from "@/types/content";
 import { ADS } from "@/lib/ads";
 import { AdUnit } from "@/components/ui/AdUnit";
-import { Reveal } from "@/components/motion/Reveal";
 
 type HighlightNewsProps = {
   story: HighlightStory;
@@ -15,13 +14,15 @@ function HighlightItem({
   story,
   headingId,
   showImage = true,
+  priority = false,
 }: {
   story: HighlightStory;
   headingId?: string;
   showImage?: boolean;
+  priority?: boolean;
 }) {
   return (
-    <Reveal className="highlight__content">
+    <div className="highlight__content">
       {story.category ? (
         <span className="highlight__badge">{story.category}</span>
       ) : null}
@@ -38,6 +39,8 @@ function HighlightItem({
             alt=""
             width={28}
             height={28}
+            decoding="async"
+            loading={priority ? "eager" : "lazy"}
           />
         ) : null}
         {story.author ? (
@@ -51,9 +54,11 @@ function HighlightItem({
             className="img-cover"
             src={story.imageUrl}
             alt={story.imageAlt || story.title}
-            width={1200}
-            height={675}
-            loading="lazy"
+            width={960}
+            height={540}
+            decoding="async"
+            loading={priority ? "eager" : "lazy"}
+            fetchPriority={priority ? "high" : "auto"}
           />
         </a>
       ) : null}
@@ -61,7 +66,7 @@ function HighlightItem({
       {story.excerpt ? (
         <p className="highlight__excerpt">{story.excerpt}</p>
       ) : null}
-    </Reveal>
+    </div>
   );
 }
 
@@ -70,8 +75,9 @@ export function HighlightNews({ story, more = [] }: HighlightNewsProps) {
     story: HighlightStory;
     showImage: boolean;
     headingId?: string;
+    priority?: boolean;
   }[] = [
-    { story, showImage: true, headingId: "highlight-title" },
+    { story, showImage: true, headingId: "highlight-title", priority: true },
     ...more.slice(0, 2).map((item) => ({
       story: item,
       showImage: false,
@@ -92,6 +98,7 @@ export function HighlightNews({ story, more = [] }: HighlightNewsProps) {
                 story={item.story}
                 headingId={item.headingId}
                 showImage={item.showImage}
+                priority={item.priority}
               />
             </div>
           </div>

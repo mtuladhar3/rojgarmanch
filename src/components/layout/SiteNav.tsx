@@ -83,15 +83,13 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
     const syncStickyH = () => {
       const nav = document.getElementById("site-nav");
       if (!nav) return;
-      root.style.setProperty(
-        "--site-sticky-h",
-        `${Math.ceil(nav.getBoundingClientRect().height)}px`,
-      );
+      root.style.setProperty("--site-sticky-h", `${nav.offsetHeight}px`);
     };
 
-    syncStickyH();
+    const raf = window.requestAnimationFrame(syncStickyH);
     window.addEventListener("resize", syncStickyH);
     return () => {
+      window.cancelAnimationFrame(raf);
       window.removeEventListener("resize", syncStickyH);
     };
   }, [scrolled, pathname]);
@@ -102,14 +100,14 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
     const placePanel = () => {
       const nav = document.getElementById("site-nav");
       if (!nav) return;
-      const bottom = nav.getBoundingClientRect().bottom;
-      setPanelTop(Math.round(bottom + 8));
+      setPanelTop(Math.round(nav.getBoundingClientRect().bottom + 8));
     };
 
-    placePanel();
+    const raf = window.requestAnimationFrame(placePanel);
     window.addEventListener("scroll", placePanel, { passive: true });
     window.addEventListener("resize", placePanel);
     return () => {
+      window.cancelAnimationFrame(raf);
       window.removeEventListener("scroll", placePanel);
       window.removeEventListener("resize", placePanel);
     };

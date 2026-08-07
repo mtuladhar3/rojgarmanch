@@ -1,13 +1,15 @@
 import type { HomePageData, Post, SiteInfo } from "@/types/content";
 
 const u = (id: string, w: number, h: number) =>
-  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&h=${h}&q=80`;
+  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&h=${h}&q=70`;
+
+let nextPostId = 1;
 
 const post = (
   partial: Omit<Post, "id" | "slug" | "href"> & { id?: number; slug?: string },
 ): Post => {
-  const id = partial.id ?? Math.random();
-  const slug = partial.slug ?? String(id);
+  const id = partial.id ?? nextPostId++;
+  const slug = partial.slug ?? `story-${id}`;
   return {
     id,
     slug,
@@ -72,7 +74,7 @@ const homePageData: HomePageData = {
       author: "फणीन्द्र नेपाल",
       dateLabel: "साउन १६, २०८३",
       dateIso: "2026-08-01",
-      imageUrl: u("1521737711867-e3b97375f902", 1200, 675),
+      imageUrl: u("1521737711867-e3b97375f902", 960, 540),
       imageAlt: "कार्यस्थल छलफल",
     }),
     authorAvatar: u("1472099645785-5658abf4ff4e", 56, 56),

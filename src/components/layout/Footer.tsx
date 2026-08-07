@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import type { SiteInfo } from "@/types/content";
 import { toNepaliDigits } from "@/lib/dates";
 
@@ -8,7 +9,11 @@ type FooterProps = {
 };
 
 export function Footer({ site }: FooterProps) {
-  const year = toNepaliDigits(new Date().getFullYear());
+  const [year, setYear] = useState("२०२६");
+
+  useEffect(() => {
+    setYear(toNepaliDigits(new Date().getFullYear()));
+  }, []);
 
   return (
     <footer

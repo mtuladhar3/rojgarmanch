@@ -4,18 +4,56 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { UiProvider } from "@/components/providers/UiProvider";
 import "./globals.css";
 
-const mukta = Mukta({ variable: "--font-mukta", subsets: ["devanagari", "latin"], weight: ["400", "500", "600", "700", "800"] });
+const mukta = Mukta({
+  variable: "--font-mukta",
+  subsets: ["devanagari", "latin"],
+  weight: ["400", "600", "700"],
+  display: "swap",
+  preload: true,
+});
+
+const FA_CSS =
+  "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css";
+const FA_INTEGRITY =
+  "sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==";
+const LCP_IMAGE =
+  "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=960&h=540&q=70";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://rojgarmanch.com"),
   title: "रोजगार मञ्च — करियर र रोजगार पत्रिका",
-  description: "रोजगार मञ्च — नेपालको करियर र रोजगार पत्रिका। रोजगार समाचार, अन्तर्वार्ता, सीप, वैदेशिक रोजगार र कार्यस्थल मार्गदर्शन।",
-  keywords: ["रोजगार", "करियर", "जागिर", "नेपाल", "सीप", "अन्तर्वार्ता", "वैदेशिक रोजगार", "लोक सेवा", "तलब"],
+  description:
+    "रोजगार मञ्च — नेपालको करियर र रोजगार पत्रिका। रोजगार समाचार, अन्तर्वार्ता, सीप, वैदेशिक रोजगार र कार्यस्थल मार्गदर्शन।",
+  keywords: [
+    "रोजगार",
+    "करियर",
+    "जागिर",
+    "नेपाल",
+    "सीप",
+    "अन्तर्वार्ता",
+    "वैदेशिक रोजगार",
+    "लोक सेवा",
+    "तलब",
+  ],
   authors: [{ name: "रोजगार मञ्च" }],
   robots: "index, follow, max-image-preview:large",
   alternates: { canonical: "https://rojgarmanch.com/" },
-  openGraph: { type: "website", locale: "ne_NP", siteName: "रोजगार मञ्च", title: "रोजगार मञ्च — करियर र रोजगार पत्रिका", description: "रोजगार समाचार, अन्तर्वार्ता, सीप र करियर मार्गदर्शन — एकै ठाउँमा।", url: "https://rojgarmanch.com/", images: ["/images/logo.png"] },
-  twitter: { card: "summary_large_image", title: "रोजगार मञ्च — करियर र रोजगार पत्रिका", description: "रोजगार समाचार, अन्तर्वार्ता, सीप र करियर मार्गदर्शन।", images: ["/images/logo.png"] },
+  openGraph: {
+    type: "website",
+    locale: "ne_NP",
+    siteName: "रोजगार मञ्च",
+    title: "रोजगार मञ्च — करियर र रोजगार पत्रिका",
+    description:
+      "रोजगार समाचार, अन्तर्वार्ता, सीप र करियर मार्गदर्शन — एकै ठाउँमा।",
+    url: "https://rojgarmanch.com/",
+    images: ["/images/logo.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "रोजगार मञ्च — करियर र रोजगार पत्रिका",
+    description: "रोजगार समाचार, अन्तर्वार्ता, सीप र करियर मार्गदर्शन।",
+    images: ["/images/logo.png"],
+  },
 };
 
 export default function RootLayout({
@@ -26,13 +64,30 @@ export default function RootLayout({
   return (
     <html lang="ne" className={mukta.variable} suppressHydrationWarning>
       <head>
+        <link rel="preload" as="image" href={LCP_IMAGE} fetchPriority="high" />
         <link
+          id="fa-css"
           rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          href={FA_CSS}
+          integrity={FA_INTEGRITY}
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
+          media="print"
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var l=document.getElementById('fa-css');if(!l)return;var a=function(){l.media='all'};if(l.addEventListener)l.addEventListener('load',a);l.onload=a;})();`,
+          }}
+        />
+        <noscript>
+          <link
+            rel="stylesheet"
+            href={FA_CSS}
+            integrity={FA_INTEGRITY}
+            crossOrigin="anonymous"
+            referrerPolicy="no-referrer"
+          />
+        </noscript>
       </head>
       <body className={mukta.className}>
         <ThemeProvider>
