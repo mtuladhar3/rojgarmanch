@@ -7,7 +7,6 @@ export function EnglishHeadline() {
       id="english-headline"
       title="English Headline"
       href="/category/english-headline"
-      metaTime="29:40"
       metaByline="Anya Sharma"
       leadTitle="What global hiring managers now ask Nepali candidates first"
       image="1521737604893-d14cc237f11d"

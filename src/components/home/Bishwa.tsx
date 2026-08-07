@@ -7,7 +7,6 @@ export function Bishwa() {
       id="bishwa"
       title="विश्व"
       href="/category/bishwa"
-      metaTime="३८:०५"
       metaByline="कबीर सेन"
       leadTitle="विश्व श्रम बजारमा नेपाली सीप कहाँ बढी मागिँदैछ"
       image="1486406146926-c627a92ad1ab"

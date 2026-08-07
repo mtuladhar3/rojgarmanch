@@ -9,6 +9,7 @@ import {
 import type { YoutubeBlock, YtShort, YtVideo } from "@/types/content";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionTitle } from "@/components/ui/SectionTitle";
+import { useUi } from "@/components/providers/UiProvider";
 
 type YoutubeProps = {
   data: YoutubeBlock;
@@ -311,6 +312,7 @@ function ShortsPopup({
 }
 
 export function Youtube({ data }: YoutubeProps) {
+  const { shortsOpen, closeShorts } = useUi();
   const videos = data.videos.slice(0, 4);
   const featuredFromData =
     videos.find((v) => v.id === data.featuredId) ?? videos[0];
@@ -318,11 +320,22 @@ export function Youtube({ data }: YoutubeProps) {
   const [playing, setPlaying] = useState(false);
   const [shortIndex, setShortIndex] = useState<number | null>(null);
 
+  const shorts = data.shorts.slice(0, 4);
+
+  useEffect(() => {
+    if (!shortsOpen || !shorts.length) return;
+    setShortIndex(0);
+  }, [shortsOpen, shorts.length]);
+
+  const closePopup = () => {
+    setShortIndex(null);
+    closeShorts();
+  };
+
   if (!videos.length) return null;
 
   const featured = videos.find((v) => v.id === activeId) ?? videos[0];
   const rest = videos.filter((v) => v.id !== featured.id);
-  const shorts = data.shorts.slice(0, 4);
 
   const selectVideo = (id: string) => {
     setActiveId(id);
@@ -403,7 +416,7 @@ export function Youtube({ data }: YoutubeProps) {
         <ShortsPopup
           items={shorts}
           startIndex={shortIndex}
-          onClose={() => setShortIndex(null)}
+          onClose={closePopup}
         />
       ) : null}
     </section>

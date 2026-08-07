@@ -39,7 +39,7 @@ export function Masthead({ domain }: MastheadProps) {
               <span className="date-chip__value">{dates.bs}</span>
             </span>
             <span className="date-chip date-chip--ad">
-              <span className="date-chip__label">ई.सं.</span>
+              <span className="date-chip__label">A.D.</span>
               <span className="date-chip__value">{dates.ad}</span>
             </span>
           </div>

@@ -6,7 +6,6 @@ type LeadListColumnProps = {
   id: string;
   title: string;
   href: string;
-  metaTime: string;
   metaByline: string;
   leadTitle: string;
   image: string;
@@ -19,7 +18,6 @@ export function LeadListColumn({
   id,
   title,
   href,
-  metaTime,
   metaByline,
   leadTitle,
   image,
@@ -31,7 +29,6 @@ export function LeadListColumn({
       <aside id={id} aria-label={title}>
         <SectionTitle href={href}>{title}</SectionTitle>
         <p className="lead-list__meta">
-          <span>{metaTime}</span>
           <span>{metaByline}</span>
         </p>
         <h3 className="lead-list__lead line-3">

@@ -7,7 +7,6 @@ export function Antarwarta() {
       id="antarwarta"
       title="अन्तर्वार्ता"
       href="/category/antarwarta"
-      metaTime="५६:३६"
       metaByline="लिना थापासँग"
       leadTitle="स्पष्ट संवाद गर्ने टोलीसँग ग्राहक बस्ने पन्ध्र कारण"
       image="1573496359142-b8d87734a5a2"

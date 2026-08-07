@@ -66,28 +66,12 @@ export default function RootLayout({
       <head>
         <link rel="preload" as="image" href={LCP_IMAGE} fetchPriority="high" />
         <link
-          id="fa-css"
           rel="stylesheet"
           href={FA_CSS}
           integrity={FA_INTEGRITY}
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
-          media="print"
         />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){var l=document.getElementById('fa-css');if(!l)return;var a=function(){l.media='all'};if(l.addEventListener)l.addEventListener('load',a);l.onload=a;})();`,
-          }}
-        />
-        <noscript>
-          <link
-            rel="stylesheet"
-            href={FA_CSS}
-            integrity={FA_INTEGRITY}
-            crossOrigin="anonymous"
-            referrerPolicy="no-referrer"
-          />
-        </noscript>
       </head>
       <body className={mukta.className}>
         <ThemeProvider>
