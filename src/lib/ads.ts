@@ -8,7 +8,7 @@ export const ADS = {
     href: "#",
   },
   worldlink: {
-    src: "/images/WorldLink-1100-x-100.gif",
+    src: "/images/WorldLink-1100-x-100.jpg",
     alt: "WorldLink विज्ञापन",
     width: 1100,
     height: 100,

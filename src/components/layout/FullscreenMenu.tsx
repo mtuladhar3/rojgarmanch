@@ -29,7 +29,7 @@ export function FullscreenMenu() {
               src="/images/logo.png"
               alt="रोजगार मञ्च"
               width={150}
-              height={44}
+              height={35}
             />
           </a>
           <button

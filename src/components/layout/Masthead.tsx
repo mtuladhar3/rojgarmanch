@@ -26,6 +26,8 @@ export function Masthead({ domain }: MastheadProps) {
             <img
               src="/images/logo.png"
               alt="रोजगार मञ्च"
+              width={171}
+              height={40}
               decoding="async"
             />
           </a>

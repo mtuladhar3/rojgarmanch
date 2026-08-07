@@ -113,7 +113,7 @@ export function Footer({ site }: FooterProps) {
               src="/images/logo.png"
               alt="रोजगार मञ्च"
               width={120}
-              height={40}
+              height={28}
               loading="lazy"
               decoding="async"
             />

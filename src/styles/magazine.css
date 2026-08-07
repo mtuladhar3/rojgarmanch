@@ -573,6 +573,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 0;
   }
+  
 
   .notify__col {
     padding: 18px 20px 10px;
@@ -6218,10 +6219,16 @@
   }
 
   .ig-stories__rail {
+    list-style: none;
+    margin: 0;
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 16px;
     padding: 4px 2px 10px;
+  }
+
+  .ig-stories__rail > li {
+    min-width: 0;
   }
 
   @media (max-width: 899px) {
@@ -6235,12 +6242,17 @@
     .ig-stories__rail::-webkit-scrollbar {
       display: none;
     }
+
+    .ig-stories__rail > li {
+      flex: 0 0 auto;
+      width: min(200px, 42vw);
+    }
   }
 
   .ig-stories__item {
     position: relative;
-    flex: 0 0 auto;
-    width: min(200px, 42vw);
+    display: block;
+    width: 100%;
     aspect-ratio: 9 / 16;
     padding: 0;
     overflow: hidden;
@@ -6255,7 +6267,7 @@
 
   @media (min-width: 900px) {
     .ig-stories__item {
-      width: auto;
+      width: 100%;
     }
   }
 

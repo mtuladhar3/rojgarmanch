@@ -263,50 +263,50 @@ export function WebStories({ items }: WebStoriesProps) {
     <section className="ig-stories" aria-label="वेबस्टोरिज">
       <div className="container">
         <SectionTitle>वेबस्टोरिज</SectionTitle>
-        <div className="ig-stories__rail" role="list">
+        <ul className="ig-stories__rail">
           {rail.map((item, index) => {
             const isSeen = seen.has(item.id);
             const cover = item.slides[0]?.imageUrl ?? item.avatarUrl;
             const count = item.slides.length;
             const title = item.slides[0]?.title ?? item.label;
             return (
-              <button
-                key={item.id}
-                type="button"
-                role="listitem"
-                className={`ig-stories__item${isSeen ? " is-seen" : ""}`}
-                onClick={() => openAt(index)}
-              >
-                <img
-                  className="ig-stories__cover"
-                  src={cover}
-                  alt=""
-                  width={360}
-                  height={640}
-                  loading="lazy"
-                />
-                <span
-                  className="ig-stories__count"
-                  aria-label={`${count} ${count === 1 ? "story" : "stories"}`}
+              <li key={item.id}>
+                <button
+                  type="button"
+                  className={`ig-stories__item${isSeen ? " is-seen" : ""}`}
+                  onClick={() => openAt(index)}
                 >
-                  <strong>{count}</strong>
-                  <em>{count === 1 ? "STORY" : "STORIES"}</em>
-                </span>
-                <span className="ig-stories__item-body">
-                  <span className="ig-stories__label">{title}</span>
-                </span>
-                <span className="ig-stories__ticks" aria-hidden="true">
-                  {item.slides.map((_, tick) => (
-                    <span
-                      key={`${item.id}-tick-${tick}`}
-                      className={tick === 0 ? "is-on" : undefined}
-                    />
-                  ))}
-                </span>
-              </button>
+                  <img
+                    className="ig-stories__cover"
+                    src={cover}
+                    alt=""
+                    width={360}
+                    height={640}
+                    loading="lazy"
+                  />
+                  <span
+                    className="ig-stories__count"
+                    aria-label={`${count} ${count === 1 ? "story" : "stories"}`}
+                  >
+                    <strong>{count}</strong>
+                    <em>{count === 1 ? "STORY" : "STORIES"}</em>
+                  </span>
+                  <span className="ig-stories__item-body">
+                    <span className="ig-stories__label">{title}</span>
+                  </span>
+                  <span className="ig-stories__ticks" aria-hidden="true">
+                    {item.slides.map((_, tick) => (
+                      <span
+                        key={`${item.id}-tick-${tick}`}
+                        className={tick === 0 ? "is-on" : undefined}
+                      />
+                    ))}
+                  </span>
+                </button>
+              </li>
             );
           })}
-        </div>
+        </ul>
       </div>
 
       {active !== null && story && currentSlide ? (

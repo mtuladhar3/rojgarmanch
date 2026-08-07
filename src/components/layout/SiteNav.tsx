@@ -144,7 +144,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
               src="/images/logo.png"
               alt="रोजगार मञ्च"
               width={120}
-              height={36}
+              height={28}
               onLoad={() => {
                 const logo = logoRef.current;
                 const track = dateRowRef.current?.querySelector<HTMLElement>(
