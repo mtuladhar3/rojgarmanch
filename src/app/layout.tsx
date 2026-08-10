@@ -46,13 +46,13 @@ export const metadata: Metadata = {
     description:
       "रोजगार समाचार, अन्तर्वार्ता, सीप र करियर मार्गदर्शन — एकै ठाउँमा।",
     url: "https://rojgarmanch.com/",
-    images: ["/images/logo.png"],
+    images: ["/images/rojgar-manch-logo.svg"],
   },
   twitter: {
     card: "summary_large_image",
     title: "रोजगार मञ्च — करियर र रोजगार पत्रिका",
     description: "रोजगार समाचार, अन्तर्वार्ता, सीप र करियर मार्गदर्शन।",
-    images: ["/images/logo.png"],
+    images: ["/images/rojgar-manch-logo.svg"],
   },
 };
 

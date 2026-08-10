@@ -25,10 +25,10 @@ export function Masthead({ domain }: MastheadProps) {
             aria-label="रोजगार मञ्च गृहपृष्ठ"
           >
             <img
-              src="/images/logo.png"
+              src="/images/rojgar-manch-logo.svg"
               alt="रोजगार मञ्च"
-              width={171}
-              height={40}
+              width={283}
+              height={87}
               decoding="async"
               fetchPriority="high"
             />

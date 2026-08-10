@@ -27,10 +27,10 @@ export function FullscreenMenu() {
           <div className="fs-menu__top">
             <a className="fs-menu__brand" href="/">
               <img
-                src="/images/logo.png"
-                alt="रोजगार मञ्च"
-                width={150}
-                height={35}
+              src="/images/rojgar-manch-logo.svg"
+              alt="रोजगार मञ्च"
+              width={283}
+              height={87}
               />
             </a>
             <button

@@ -5,8 +5,8 @@
 :root,
 [data-bs-theme="light"] {
   /* Brand tokens — light */
-  --rm-primary: #095ba4;
-  --rm-accent: #e51823;
+  --rm-primary: #01214D;
+  --rm-accent: #C50010;
   --rm-bg-main: #f9f9f9;
   --rm-bg-surface: #f8fafc;
   --rm-bg-card: #ffffff;
@@ -109,47 +109,48 @@
 }
 
 [data-bs-theme="dark"] {
-    --rm-primary: #095ba4;
-    --rm-accent: #e51823;
-  --rm-bg-main: #1a1a1a;
-  --rm-bg-surface: #1e293b;
-  --rm-bg-card: #151e2e;
+  /* Brand — lightened for contrast on dark surfaces */
+  --rm-primary: #4A7AB8;
+  --rm-accent: #E31B2C;
+  --rm-bg-main: #0b1220;
+  --rm-bg-surface: #121a2b;
+  --rm-bg-card: #151e30;
   --rm-text-main: #f8fafc;
-  --rm-text-muted: #c8c8c8;
-  --rm-border: #1e293b;
+  --rm-text-muted: #b8c0d0;
+  --rm-border: #243049;
 
   --color-text-primary: var(--rm-text-muted);
   --color-text-heading: var(--rm-text-main);
   --color-text-muted: var(--rm-text-muted);
   --color-text-tertiary: #ffffff;
-  --color-surface-base: #020617;
-  --color-surface-dark: #020617;
+  --color-surface-base: #01214D;
+  --color-surface-dark: #020a18;
   --color-surface-page: var(--rm-bg-main);
   --color-surface-subtle: var(--rm-bg-surface);
-  --color-surface-muted: #334155;
+  --color-surface-muted: #2a3854;
   --color-surface-card: var(--rm-bg-card);
   --color-border-light: var(--rm-border);
-  --color-border-soft: #334155;
+  --color-border-soft: #334866;
   --color-accent: var(--rm-primary);
   --color-brand-red: var(--rm-accent);
   --color-error: var(--rm-accent);
-  --focus: 0 0 0 3px color-mix(in srgb, var(--rm-primary) 40%, transparent);
+  --focus: 0 0 0 3px color-mix(in srgb, var(--rm-primary) 45%, transparent);
 
-  /* Nav bar — dark theme */
-  --rm-nav-bg: #151515;
-  --rm-nav-text: #cbd5e1;
+  /* Nav bar — dark theme (navy-tinted) */
+  --rm-nav-bg: #0f1729;
+  --rm-nav-text: #c5cddc;
   --rm-nav-text-strong: #f8fafc;
   --rm-nav-hover: rgba(255, 255, 255, 0.08);
-  --rm-nav-menu-bg: #2a2a2a;
-  --rm-nav-shadow: color-mix(in srgb, #000 45%, transparent);
-  --rm-nav-active-fg: #0b1120;
-  --rm-nav-border: #2a2a2a;
+  --rm-nav-menu-bg: #1a2438;
+  --rm-nav-shadow: color-mix(in srgb, #000 50%, transparent);
+  --rm-nav-active-fg: #ffffff;
+  --rm-nav-border: #243049;
 
   /* Fullscreen menu — dark */
   --rm-fs-bg:
-    radial-gradient(ellipse at 10% 0%, color-mix(in srgb, var(--rm-primary) 28%, transparent), transparent 45%),
+    radial-gradient(ellipse at 10% 0%, color-mix(in srgb, #01214D 55%, transparent), transparent 45%),
     radial-gradient(ellipse at 90% 100%, color-mix(in srgb, var(--rm-accent) 18%, transparent), transparent 40%),
-    linear-gradient(160deg, #141414 0%, var(--rm-bg-main) 55%, #222222 100%);
+    linear-gradient(160deg, #0a1220 0%, var(--rm-bg-main) 55%, #121a2b 100%);
   --rm-fs-text: var(--rm-text-main);
   --rm-fs-muted: var(--rm-text-muted);
   --rm-fs-border: color-mix(in srgb, var(--rm-text-main) 12%, transparent);
@@ -158,11 +159,11 @@
   --rm-fs-backdrop: color-mix(in srgb, #000 55%, transparent);
 
   /* Highlight panel accents — dark */
-  --rm-spot-bg: color-mix(in srgb, var(--rm-primary) 18%, var(--rm-bg-card));
-  --rm-spot-bg-deep: color-mix(in srgb, var(--rm-primary) 28%, var(--rm-bg-surface));
+  --rm-spot-bg: color-mix(in srgb, #01214D 35%, var(--rm-bg-card));
+  --rm-spot-bg-deep: color-mix(in srgb, #01214D 48%, var(--rm-bg-surface));
   --rm-spot-ink: var(--rm-text-main);
   --rm-spot-muted: var(--rm-text-muted);
-  --rm-spot-accent: #5ba3d9;
+  --rm-spot-accent: #6B9BD4;
 }
   
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -2044,8 +2045,8 @@
     height: 16px;
     z-index: 1;
     background-image:
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%23e51823' d='M10 1.2 L12.6 7.4 L18.8 10 L12.6 12.6 L10 18.8 L7.4 12.6 L1.2 10 L7.4 7.4 Z'/%3E%3C/svg%3E"),
-      linear-gradient(#e51823, #e51823);
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%23C50010' d='M10 1.2 L12.6 7.4 L18.8 10 L12.6 12.6 L10 18.8 L7.4 12.6 L1.2 10 L7.4 7.4 Z'/%3E%3C/svg%3E"),
+      linear-gradient(#C50010, #C50010);
     background-repeat: no-repeat;
     background-size: 14px 14px, 48px 2.5px;
     background-position: left center, left 14px center;
@@ -8376,7 +8377,7 @@
   .pub-sheet--back {
     display: grid;
     place-items: center;
-    background: linear-gradient(160deg, #095ba4 0%, #0b1120 58%, #e51823 140%);
+    background: linear-gradient(160deg, #01214D 0%, #0b1120 58%, #C50010 140%);
   }
 
   .pub-sheet__back {

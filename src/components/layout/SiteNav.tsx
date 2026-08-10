@@ -345,10 +345,10 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
                   ref={logoRef}
                 >
                   <img
-                    src="/images/logo.png"
+                    src="/images/rojgar-manch-logo.svg"
                     alt="रोजगार मञ्च"
-                    width={120}
-                    height={28}
+                    width={283}
+                    height={87}
                   />
                 </a>
 
