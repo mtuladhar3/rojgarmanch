@@ -964,7 +964,7 @@
     }
 
     .nav-logo img {
-      height: 40px;
+      height: 34px;
     }
   }
 
@@ -1025,7 +1025,7 @@
     gap: 2px;
     flex: 1;
     min-width: 0;
-    justify-content: start;
+    justify-content: center;
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scrollbar-width: none;
@@ -1050,7 +1050,7 @@
   }
 
   .site-sticky.is-scrolled .nav__link {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .nav__link:hover {
@@ -2565,31 +2565,44 @@
 
   .samachar-board__top {
     display: grid;
-    gap: var(--space-6);
-    margin-bottom: var(--space-6);
+    gap: 14px;
+    margin-bottom: 14px;
   }
 
   @media (min-width: 900px) {
     .samachar-board__top {
-      grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
-      gap: var(--space-6);
-      align-items: start;
+      grid-template-columns: minmax(0, 2fr) minmax(220px, 1fr);
+      gap: 14px;
+      align-items: stretch;
     }
   }
 
   .samachar-feature {
     min-width: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   .samachar-feature__link {
     position: relative;
     display: block;
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
     aspect-ratio: 16 / 9;
     overflow: hidden;
     border-radius: var(--radius);
     background: var(--color-surface-muted);
     isolation: isolate;
     color: #fff;
+  }
+
+  @media (min-width: 900px) {
+    .samachar-feature__link {
+      aspect-ratio: auto;
+      min-height: 100%;
+    }
   }
 
   .samachar-feature__media {
@@ -2630,8 +2643,8 @@
     z-index: 1;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding: clamp(16px, 3vw, 28px);
+    gap: 6px;
+    padding: clamp(14px, 2.5vw, 22px);
   }
 
   .samachar-feature .badge {
@@ -2664,14 +2677,18 @@
   .samachar-side {
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
+    gap: 14px;
+    min-width: 0;
+  }
+
+  .samachar-side__item {
     min-width: 0;
   }
 
   .samachar-side__media {
     display: block;
     aspect-ratio: 16 / 9;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     overflow: hidden;
     border-radius: var(--radius);
     background: var(--color-surface-muted);
@@ -2705,7 +2722,7 @@
 
   .samachar-board__row {
     display: grid;
-    gap: var(--space-5);
+    gap: 14px;
   }
 
   @media (min-width: 720px) {
@@ -2721,10 +2738,14 @@
   .samachar-card__media {
     display: block;
     aspect-ratio: 16 / 10;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     overflow: hidden;
     border-radius: var(--radius);
     background: var(--color-surface-muted);
+  }
+
+  .samachar-card:hover .samachar-card__media img {
+    transform: scale(1.04);
   }
 
   .samachar-card__media img {
@@ -2732,10 +2753,6 @@
     height: 100%;
     object-fit: cover;
     transition: transform var(--slow) var(--ease-out);
-  }
-
-  .samachar-card:hover .samachar-card__media img {
-    transform: scale(1.04);
   }
 
   .samachar-card__title {
@@ -2751,6 +2768,10 @@
 
   .samachar-card__title a:hover {
     color: var(--rm-primary);
+  }
+
+  .samachar .section-title {
+    margin-bottom: 14px;
   }
   
   .stories__grid {
