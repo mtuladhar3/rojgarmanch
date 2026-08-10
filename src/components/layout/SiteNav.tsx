@@ -37,6 +37,31 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
   const dateRowRef = useRef<HTMLDivElement>(null);
   const notifyBtnRef = useRef<HTMLButtonElement>(null);
   const [deskPos, setDeskPos] = useState<CSSProperties>({});
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [notifyMounted, setNotifyMounted] = useState(false);
+  const [notifyShown, setNotifyShown] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 992px)");
+    const sync = () => setIsDesktop(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  useEffect(() => {
+    if (notifyOpen) {
+      setNotifyMounted(true);
+      const id = window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => setNotifyShown(true));
+      });
+      return () => window.cancelAnimationFrame(id);
+    }
+
+    setNotifyShown(false);
+    const timeout = window.setTimeout(() => setNotifyMounted(false), 320);
+    return () => window.clearTimeout(timeout);
+  }, [notifyOpen]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -116,34 +141,47 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
   useEffect(() => {
     if (!notifyOpen) return;
     const onPointer = (event: MouseEvent) => {
-      if (window.matchMedia("(max-width: 991.98px)").matches) return;
+      if (!window.matchMedia("(min-width: 992px)").matches) return;
+      const target = event.target as Node;
       const root = document.querySelector(".notify");
-      if (root && !root.contains(event.target as Node)) {
-        closeNotify();
-      }
+      const panel = document.getElementById("notify-panel-desk");
+      if (root?.contains(target) || panel?.contains(target)) return;
+      closeNotify();
     };
     document.addEventListener("mousedown", onPointer);
     return () => document.removeEventListener("mousedown", onPointer);
   }, [notifyOpen, closeNotify]);
 
   useEffect(() => {
-    if (!notifyOpen) return;
+    if (!notifyOpen || !isDesktop) return;
 
     const placeDropdown = () => {
-      if (window.matchMedia("(max-width: 991.98px)").matches) {
-        setDeskPos({});
-        return;
-      }
       const btn = notifyBtnRef.current;
       if (!btn) return;
       const rect = btn.getBoundingClientRect();
-      setDeskPos({
-        position: "fixed",
-        top: Math.round(rect.bottom + 10),
-        right: 335,
-        width: Math.min(720, window.innerWidth - 24),
-        height: Math.min(650, window.innerHeight - Math.round(rect.bottom + 24)),
-        maxHeight: Math.min(650, window.innerHeight - Math.round(rect.bottom + 24)),
+      const width = Math.min(720, window.innerWidth - 24);
+      let left = Math.round(rect.right - width);
+      left = Math.max(12, Math.min(left, window.innerWidth - width - 12));
+      const top = Math.round(rect.bottom + 10);
+      const height = Math.min(650, window.innerHeight - top - 16);
+      setDeskPos((prev) => {
+        const next: CSSProperties = {
+          position: "fixed",
+          top,
+          left,
+          width,
+          height,
+          maxHeight: height,
+        };
+        if (
+          prev.top === next.top &&
+          prev.left === next.left &&
+          prev.width === next.width &&
+          prev.height === next.height
+        ) {
+          return prev;
+        }
+        return next;
       });
     };
 
@@ -154,7 +192,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
       window.removeEventListener("resize", placeDropdown);
       window.removeEventListener("scroll", placeDropdown, true);
     };
-  }, [notifyOpen]);
+  }, [notifyOpen, isDesktop]);
 
   const renderNotifyPanel = (mode: "dropdown" | "fullscreen") => (
     <div
@@ -261,16 +299,17 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
     </div>
   );
 
-  const notifyFullscreen = notifyOpen ? (
-    <div
-      className="notify-overlay is-open"
-      onClick={(event) => {
-        if (event.target === event.currentTarget) closeNotify();
-      }}
-    >
-      {renderNotifyPanel("fullscreen")}
-    </div>
-  ) : null;
+  const notifyFullscreen =
+    !isDesktop && notifyMounted ? (
+      <div
+        className={`notify-overlay${notifyShown ? " is-open" : ""}`}
+        onClick={(event) => {
+          if (event.target === event.currentTarget) closeNotify();
+        }}
+      >
+        {renderNotifyPanel("fullscreen")}
+      </div>
+    ) : null;
 
   const renderDateBadge = () => (
     <div className="sticky-date__badge">
@@ -358,7 +397,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
                     <i className="fa-regular fa-bell" aria-hidden="true" />
                     <span className="notify__dot" aria-hidden="true" />
                   </button>
-                  {notifyOpen ? renderNotifyPanel("dropdown") : null}
+                  {isDesktop && notifyOpen ? renderNotifyPanel("dropdown") : null}
                 </div>
 
                 <button

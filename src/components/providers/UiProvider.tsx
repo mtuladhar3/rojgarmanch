@@ -66,14 +66,22 @@ export function UiProvider({ children }: { children: ReactNode }) {
     const mq = window.matchMedia("(max-width: 991.98px)");
     const syncOverflow = () => {
       const lockNotify = notifyOpen && mq.matches;
-      document.body.style.overflow =
-        menuOpen || searchOpen || lockNotify ? "hidden" : "";
+      const lock = menuOpen || searchOpen || lockNotify;
+      if (lock) {
+        const gutter = window.innerWidth - document.documentElement.clientWidth;
+        document.body.style.overflow = "hidden";
+        if (gutter > 0) document.body.style.paddingRight = `${gutter}px`;
+      } else {
+        document.body.style.overflow = "";
+        document.body.style.paddingRight = "";
+      }
     };
     syncOverflow();
     mq.addEventListener("change", syncOverflow);
     return () => {
       mq.removeEventListener("change", syncOverflow);
       document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
     };
   }, [menuOpen, searchOpen, notifyOpen]);
 
