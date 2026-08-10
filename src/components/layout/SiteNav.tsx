@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import type { Post } from "@/types/content";
 import { getNavBarLinks } from "@/lib/nav";
@@ -35,6 +35,8 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
   const [showBs, setShowBs] = useState(true);
   const logoRef = useRef<HTMLAnchorElement>(null);
   const dateRowRef = useRef<HTMLDivElement>(null);
+  const notifyBtnRef = useRef<HTMLButtonElement>(null);
+  const [deskPos, setDeskPos] = useState<CSSProperties>({});
 
   useEffect(() => {
     const onScroll = () => {
@@ -111,18 +113,61 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
     openNotify();
   };
 
-  const notifyOverlay = notifyOpen ? (
+  useEffect(() => {
+    if (!notifyOpen) return;
+    const onPointer = (event: MouseEvent) => {
+      if (window.matchMedia("(max-width: 991.98px)").matches) return;
+      const root = document.querySelector(".notify");
+      if (root && !root.contains(event.target as Node)) {
+        closeNotify();
+      }
+    };
+    document.addEventListener("mousedown", onPointer);
+    return () => document.removeEventListener("mousedown", onPointer);
+  }, [notifyOpen, closeNotify]);
+
+  useEffect(() => {
+    if (!notifyOpen) return;
+
+    const placeDropdown = () => {
+      if (window.matchMedia("(max-width: 991.98px)").matches) {
+        setDeskPos({});
+        return;
+      }
+      const btn = notifyBtnRef.current;
+      if (!btn) return;
+      const rect = btn.getBoundingClientRect();
+      setDeskPos({
+        position: "fixed",
+        top: Math.round(rect.bottom + 10),
+        right: 335,
+        width: Math.min(720, window.innerWidth - 24),
+        height: Math.min(650, window.innerHeight - Math.round(rect.bottom + 24)),
+        maxHeight: Math.min(650, window.innerHeight - Math.round(rect.bottom + 24)),
+      });
+    };
+
+    placeDropdown();
+    window.addEventListener("resize", placeDropdown);
+    window.addEventListener("scroll", placeDropdown, true);
+    return () => {
+      window.removeEventListener("resize", placeDropdown);
+      window.removeEventListener("scroll", placeDropdown, true);
+    };
+  }, [notifyOpen]);
+
+  const renderNotifyPanel = (mode: "dropdown" | "fullscreen") => (
     <div
-      className="notify-overlay is-open"
-      id="notify-panel"
+      className={`notify__panel notify__panel--${mode}`}
+      id={mode === "fullscreen" ? "notify-panel" : "notify-panel-desk"}
       role="dialog"
-      aria-modal="true"
-      aria-labelledby="notify-dialog-title"
-      onClick={(event) => {
-        if (event.target === event.currentTarget) closeNotify();
-      }}
+      aria-modal={mode === "fullscreen" ? true : undefined}
+      aria-labelledby={
+        mode === "fullscreen" ? "notify-dialog-title" : "notify-dialog-title-desk"
+      }
+      style={mode === "dropdown" ? deskPos : undefined}
     >
-      <div className="notify__panel">
+      {mode === "fullscreen" ? (
         <button
           className="notify__close"
           type="button"
@@ -131,11 +176,13 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
         >
           <i className="fa-solid fa-xmark" aria-hidden="true" />
         </button>
+      ) : null}
 
-        <h2 className="sr-only" id="notify-dialog-title">
-          सूचना केन्द्र
-        </h2>
+      <h2 className="sr-only" id={mode === "fullscreen" ? "notify-dialog-title" : "notify-dialog-title-desk"}>
+        सूचना केन्द्र
+      </h2>
 
+      {mode === "fullscreen" ? (
         <div className="notify__tabs" role="tablist" aria-label="सूचना ट्याब">
           <button
             type="button"
@@ -156,7 +203,9 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
             ट्रेन्डिङ
           </button>
         </div>
+      ) : null}
 
+      <div className={`notify__body${mode === "fullscreen" ? " container" : ""}`}>
         <div className="notify__grid">
           <section
             className={`notify__col notify__col--flash${notifyTab === "taja" ? " is-active" : ""}`}
@@ -169,7 +218,20 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
                   <a className="notify-flash" href={item.href}>
                     <span className="notify-flash__body">
                       <span className="notify-flash__title">{item.title}</span>
+                      {item.dateLabel ? (
+                        <span className="notify-flash__meta">{item.dateLabel}</span>
+                      ) : null}
                     </span>
+                    {item.imageUrl ? (
+                      <img
+                        className="notify-flash__thumb"
+                        src={item.imageUrl}
+                        alt={item.imageAlt || ""}
+                        width={60}
+                        height={60}
+                        loading="lazy"
+                      />
+                    ) : null}
                   </a>
                 </li>
               ))}
@@ -196,6 +258,17 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
           </section>
         </div>
       </div>
+    </div>
+  );
+
+  const notifyFullscreen = notifyOpen ? (
+    <div
+      className="notify-overlay is-open"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) closeNotify();
+      }}
+    >
+      {renderNotifyPanel("fullscreen")}
     </div>
   ) : null;
 
@@ -271,11 +344,12 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
               <div className="nav-actions">
                 <div className="notify nav-actions__desk">
                   <button
+                    ref={notifyBtnRef}
                     className="icon-btn notify__btn"
                     type="button"
                     aria-label="सूचना"
                     aria-expanded={notifyOpen}
-                    aria-controls="notify-panel"
+                    aria-controls="notify-panel-desk"
                     onClick={() => {
                       setNotifyTab("taja");
                       toggleNotify();
@@ -284,6 +358,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
                     <i className="fa-regular fa-bell" aria-hidden="true" />
                     <span className="notify__dot" aria-hidden="true" />
                   </button>
+                  {notifyOpen ? renderNotifyPanel("dropdown") : null}
                 </div>
 
                 <button
@@ -419,7 +494,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
         </div>
       </nav>
 
-      {notifyOverlay}
+      {notifyFullscreen}
     </>
   );
 }

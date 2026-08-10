@@ -21,27 +21,11 @@ function thumb(id: string, quality: "hq" | "mq" | "sd" = "hq") {
 
 function WatchEmbed({
   video,
-  playing,
   onPlay,
 }: {
   video: YtVideo;
-  playing: boolean;
   onPlay: () => void;
 }) {
-  if (playing) {
-    return (
-      <div className="yt-block__embed">
-        <iframe
-          src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}?autoplay=1&rel=0`}
-          title={video.title}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          loading="lazy"
-        />
-      </div>
-    );
-  }
-
   return (
     <button
       type="button"
@@ -109,6 +93,123 @@ function SideVideo({
         ) : null}
       </span>
     </button>
+  );
+}
+
+function VideoPopup({
+  videos,
+  activeId,
+  onSelect,
+  onClose,
+}: {
+  videos: YtVideo[];
+  activeId: string;
+  onSelect: (id: string) => void;
+  onClose: () => void;
+}) {
+  const active = videos.find((video) => video.id === activeId) ?? videos[0];
+  const others = videos.filter((video) => video.id !== active.id);
+
+  useEffect(() => {
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, []);
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  if (!active) return null;
+
+  return (
+    <div
+      className="yt-popup"
+      role="dialog"
+      aria-modal="true"
+      aria-label="युट्युब भिडियो"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
+    >
+      <div
+        className="yt-popup__panel"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <button
+          type="button"
+          className="yt-popup__close"
+          onClick={onClose}
+          aria-label="बन्द गर्नुहोस्"
+        >
+          <i className="fa-solid fa-xmark" aria-hidden="true" />
+        </button>
+
+        <div className="yt-popup__layout">
+          <div className="yt-popup__main">
+            <div className="yt-popup__player">
+              <iframe
+                key={active.youtubeId}
+                src={`https://www.youtube-nocookie.com/embed/${active.youtubeId}?autoplay=1&rel=0`}
+                title={active.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+            <div className="yt-popup__info">
+              <h3 className="yt-popup__title">{active.title}</h3>
+              {active.viewsLabel ? (
+                <p className="yt-popup__meta">{active.viewsLabel}</p>
+              ) : null}
+            </div>
+          </div>
+
+          {others.length ? (
+            <aside className="yt-popup__side" aria-label="अन्य भिडियो">
+              <p className="yt-popup__side-label">अन्य भिडियो</p>
+              <div className="yt-popup__side-list">
+                {others.map((video) => (
+                  <button
+                    key={video.id}
+                    type="button"
+                    className="yt-popup__side-item"
+                    onClick={() => onSelect(video.id)}
+                  >
+                    <span className="yt-popup__side-thumb">
+                      <img
+                        src={thumb(video.youtubeId, "mq")}
+                        alt=""
+                        width={320}
+                        height={180}
+                        loading="lazy"
+                      />
+                      <span className="yt-block__play yt-block__play--sm" aria-hidden="true">
+                        <i className="fa-solid fa-play" />
+                      </span>
+                      {video.duration ? (
+                        <span className="yt-block__duration">{video.duration}</span>
+                      ) : null}
+                    </span>
+                    <span className="yt-popup__side-copy">
+                      <span className="yt-popup__side-title line-3">{video.title}</span>
+                      {video.viewsLabel ? (
+                        <span className="yt-block__meta">{video.viewsLabel}</span>
+                      ) : null}
+                    </span>
+                  </button>
+                ))}
+              </div>
+            </aside>
+          ) : null}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -317,7 +418,7 @@ export function Youtube({ data }: YoutubeProps) {
   const featuredFromData =
     videos.find((v) => v.id === data.featuredId) ?? videos[0];
   const [activeId, setActiveId] = useState(featuredFromData?.id ?? "");
-  const [playing, setPlaying] = useState(false);
+  const [videoPopupOpen, setVideoPopupOpen] = useState(false);
   const [shortIndex, setShortIndex] = useState<number | null>(null);
 
   const shorts = data.shorts.slice(0, 4);
@@ -327,7 +428,7 @@ export function Youtube({ data }: YoutubeProps) {
     setShortIndex(0);
   }, [shortsOpen, shorts.length]);
 
-  const closePopup = () => {
+  const closeShortsPopup = () => {
     setShortIndex(null);
     closeShorts();
   };
@@ -337,9 +438,9 @@ export function Youtube({ data }: YoutubeProps) {
   const featured = videos.find((v) => v.id === activeId) ?? videos[0];
   const rest = videos.filter((v) => v.id !== featured.id);
 
-  const selectVideo = (id: string) => {
+  const openVideo = (id: string) => {
     setActiveId(id);
-    setPlaying(false);
+    setVideoPopupOpen(true);
   };
 
   return (
@@ -353,25 +454,8 @@ export function Youtube({ data }: YoutubeProps) {
             <article className="yt-block__feature">
               <WatchEmbed
                 video={featured}
-                playing={playing}
-                onPlay={() => setPlaying(true)}
+                onPlay={() => openVideo(featured.id)}
               />
-              {playing ? (
-                <div className="yt-block__feature-body">
-                  <h3 className="yt-block__feature-title">
-                    <a
-                      href={`https://www.youtube.com/watch?v=${featured.youtubeId}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {featured.title}
-                    </a>
-                  </h3>
-                  {featured.viewsLabel ? (
-                    <p className="yt-block__meta">{featured.viewsLabel}</p>
-                  ) : null}
-                </div>
-              ) : null}
             </article>
 
             {rest.length ? (
@@ -380,8 +464,8 @@ export function Youtube({ data }: YoutubeProps) {
                   <div key={video.id} role="listitem">
                     <SideVideo
                       video={video}
-                      active={video.id === activeId}
-                      onSelect={() => selectVideo(video.id)}
+                      active={false}
+                      onSelect={() => openVideo(video.id)}
                     />
                   </div>
                 ))}
@@ -412,11 +496,20 @@ export function Youtube({ data }: YoutubeProps) {
         </div>
       </div>
 
+      {videoPopupOpen ? (
+        <VideoPopup
+          videos={videos}
+          activeId={activeId}
+          onSelect={setActiveId}
+          onClose={() => setVideoPopupOpen(false)}
+        />
+      ) : null}
+
       {shortIndex !== null && shorts.length ? (
         <ShortsPopup
           items={shorts}
           startIndex={shortIndex}
-          onClose={closePopup}
+          onClose={closeShortsPopup}
         />
       ) : null}
     </section>

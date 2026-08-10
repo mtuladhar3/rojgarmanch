@@ -26,25 +26,29 @@ export function Samachar({ items }: SamacharProps) {
               <div className="samachar-board__top">
                 {featured ? (
                   <Reveal className="samachar-feature">
-                    <a className="samachar-feature__media" href={featured.href}>
-                      {featured.imageUrl ? (
-                        <img
-                          className="img-cover"
-                          src={featured.imageUrl}
-                          alt={featured.imageAlt || featured.title}
-                          width={960}
-                          height={540}
-                        />
-                      ) : null}
+                    <a className="samachar-feature__link" href={featured.href}>
+                      <span className="samachar-feature__media">
+                        {featured.imageUrl ? (
+                          <img
+                            className="img-cover"
+                            src={featured.imageUrl}
+                            alt={featured.imageAlt || featured.title}
+                            width={960}
+                            height={540}
+                          />
+                        ) : null}
+                      </span>
+                      <span className="samachar-feature__body">
+                        <span className="samachar-feature__title">
+                          {featured.title}
+                        </span>
+                        {featured.excerpt ? (
+                          <span className="samachar-feature__excerpt">
+                            {featured.excerpt}
+                          </span>
+                        ) : null}
+                      </span>
                     </a>
-                    <h3 className="samachar-feature__title">
-                      <a href={featured.href}>{featured.title}</a>
-                    </h3>
-                    {featured.excerpt ? (
-                      <p className="samachar-feature__excerpt">
-                        {featured.excerpt}
-                      </p>
-                    ) : null}
                   </Reveal>
                 ) : null}
 

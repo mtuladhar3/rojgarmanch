@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ArticleFontControls } from "./ArticleFontSize";
 
 function measureStickyTop() {
   const nav = document.getElementById("site-nav");
@@ -15,11 +14,10 @@ type ArticleStickyTitleProps = {
 
 /**
  * Hero sticky (title + byline) until hero ends.
- * Body sticky title fades in aligned with article-body once hero is gone.
+ * Body sticky title shows the same title style once hero is gone.
  */
 export function ArticleStickyTitle({ title }: ArticleStickyTitleProps) {
   const [visible, setVisible] = useState(false);
-  const [stickyTop, setStickyTop] = useState(56);
   const stuckIo = useRef<IntersectionObserver | null>(null);
   const heroIo = useRef<IntersectionObserver | null>(null);
 
@@ -32,7 +30,6 @@ export function ArticleStickyTitle({ title }: ArticleStickyTitleProps) {
 
     const applyTop = () => {
       const top = measureStickyTop();
-      setStickyTop(top);
       root.style.setProperty("--site-sticky-h", `${top}px`);
       return top;
     };
@@ -91,11 +88,9 @@ export function ArticleStickyTitle({ title }: ArticleStickyTitleProps) {
   return (
     <div
       className={`article-body__sticky-title${visible ? " is-visible" : ""}`}
-      style={{ top: stickyTop }}
       aria-hidden={!visible}
     >
       <p className="article-body__sticky-title-text">{title}</p>
-      <ArticleFontControls />
     </div>
   );
 }

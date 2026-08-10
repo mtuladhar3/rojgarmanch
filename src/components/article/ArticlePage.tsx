@@ -11,6 +11,7 @@ import {
 import { ArticleHeroImage } from "./ArticleHeroImage";
 import { ArticleStickyTitle } from "./ArticleStickyTitle";
 import { ArticleAuthorShare } from "./ArticleAuthorShare";
+import { ArticleMetaRail } from "./ArticleMetaRail";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 
 type ArticlePageProps = {
@@ -175,15 +176,7 @@ export function ArticlePage({ article }: ArticlePageProps) {
       <div className="container">
         <header className="article-hero">
           
-
-          {article.imageUrl ? (
-            <ArticleHeroImage
-              src={article.imageUrl}
-              alt={article.imageAlt || article.title}
-            />
-          ) : null}
-
-          <div className="article-hero__copy">
+        <div className="article-hero__copy">
             <div className="article-title-sentinel" aria-hidden="true" />
             <div className="article-hero__sticky">
               <h1 id="article-title">{article.title}</h1>
@@ -193,70 +186,61 @@ export function ArticlePage({ article }: ArticlePageProps) {
               ) : (
                 <p className="article-hero__deck">{article.excerpt}</p>
               )}
-
-              <div className="article-hero__author">
-                {article.authorAvatar ? (
-                  <img
-                    className="article-hero__avatar"
-                    src={article.authorAvatar}
-                    alt=""
-                    width={40}
-                    height={40}
-                  />
-                ) : null}
-
-                <div className="article-hero__byline">
-                  {article.author ? (
-                    <span className="article-hero__by">{article.author}</span>
-                  ) : null}
-                  {article.dateLabel ? (
-                    <>
-                      <span className="article-hero__dot" aria-hidden="true">
-                        ·
-                      </span>
-                      <time dateTime={article.dateIso}>{article.dateLabel}</time>
-                    </>
-                  ) : null}
-                  <span className="article-hero__dot" aria-hidden="true">
-                    ·
-                  </span>
-                  <span>{article.readMinutes} मिनेट पढाइ</span>
-                </div>
-                <ArticleFontControls compact />
-              </div>
             </div>
 
-            
+            <div className="article-hero__author">
+              {article.authorAvatar ? (
+                <img
+                  className="article-hero__avatar"
+                  src={article.authorAvatar}
+                  alt=""
+                  width={40}
+                  height={40}
+                />
+              ) : null}
+
+              <div className="article-hero__byline">
+                {article.author ? (
+                  <span className="article-hero__by">{article.author}</span>
+                ) : null}
+                {article.dateLabel ? (
+                  <>
+                    <span className="article-hero__dot" aria-hidden="true">
+                      ·
+                    </span>
+                    <time dateTime={article.dateIso}>{article.dateLabel}</time>
+                  </>
+                ) : null}
+                <span className="article-hero__dot" aria-hidden="true">
+                  ·
+                </span>
+                <span>{article.readMinutes} मिनेट पढाइ</span>
+              </div>
+              <ArticleFontControls compact />
+            </div>
           </div>
+          {article.imageUrl ? (
+            <ArticleHeroImage
+              src={article.imageUrl}
+              alt={article.imageAlt || article.title}
+            />
+          ) : null}
+
+          
         </header>
 
         <div className="article-layout">
-          <aside className="article-rail" aria-label="सम्बन्धित र सेयर">
-            {relatedRail.length ? (
-              <div className="article-rail__block">
-                <SectionTitle more={false}>यो पनि हेर्नुहोस्</SectionTitle>
-                <ul className="article-related">
-                  {relatedRail.map((item) => (
-                    <li key={item.href}>
-                      <a className="article-related__item" href={item.href}>
-                        <span className="article-related__thumb">
-                          <img
-                            src={item.imageUrl}
-                            alt=""
-                            width={72}
-                            height={72}
-                            loading="lazy"
-                          />
-                        </span>
-                        <span className="article-related__title">{item.title}</span>
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
-
-          </aside>
+          <ArticleMetaRail
+            author={article.author}
+            authorAvatar={article.authorAvatar}
+            dateLabel={article.dateLabel}
+            dateIso={article.dateIso}
+            title={article.title}
+            href={article.href}
+            comments={article.comments}
+            shares={article.views ?? Math.max(12, (article.comments ?? 1) * 18)}
+          />
+         
 
           <article className="article-body" aria-labelledby="article-title">
             <ArticleStickyTitle title={article.title} />
@@ -264,13 +248,40 @@ export function ArticlePage({ article }: ArticlePageProps) {
             {article.body.map((block, index) => (
               <Block key={`${block.type}-${index}`} block={block} />
             ))}
+            
             <ArticleAuthorShare
               author={article.author}
               authorAvatar={article.authorAvatar}
-              title={article.title}
-              href={article.href}
             />
           </article>
+
+          <aside className="article-rail" aria-label="यो पनि हेर्नुहोस्">
+            {relatedRail.length ? (
+              <div className="article-rail__sticky">
+                <div className="article-rail__block">
+                  <SectionTitle more={false}>यो पनि हेर्नुहोस्</SectionTitle>
+                  <ul className="article-related">
+                    {relatedRail.map((item) => (
+                      <li key={item.href}>
+                        <a className="article-related__item" href={item.href}>
+                          <span className="article-related__thumb">
+                            <img
+                              src={item.imageUrl}
+                              alt=""
+                              width={72}
+                              height={72}
+                              loading="lazy"
+                            />
+                          </span>
+                          <span className="article-related__title">{item.title}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ) : null}
+          </aside>
         </div>
 
         {relatedMore.length ? (

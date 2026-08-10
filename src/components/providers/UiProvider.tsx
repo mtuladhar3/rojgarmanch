@@ -63,8 +63,16 @@ export function UiProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    document.body.style.overflow = menuOpen || searchOpen || notifyOpen ? "hidden" : "";
+    const mq = window.matchMedia("(max-width: 991.98px)");
+    const syncOverflow = () => {
+      const lockNotify = notifyOpen && mq.matches;
+      document.body.style.overflow =
+        menuOpen || searchOpen || lockNotify ? "hidden" : "";
+    };
+    syncOverflow();
+    mq.addEventListener("change", syncOverflow);
     return () => {
+      mq.removeEventListener("change", syncOverflow);
       document.body.style.overflow = "";
     };
   }, [menuOpen, searchOpen, notifyOpen]);

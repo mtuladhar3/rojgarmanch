@@ -11,17 +11,19 @@ import {
 const STORAGE_KEY = "rm-article-fs";
 const MIN = 0;
 const MAX = 3;
+const DEFAULT = 1;
 
 type FontCtx = {
   level: number;
   smaller: () => void;
   larger: () => void;
+  reset: () => void;
 };
 
 const Ctx = createContext<FontCtx | null>(null);
 
 export function ArticleFontProvider({ children }: { children: ReactNode }) {
-  const [level, setLevel] = useState(1);
+  const [level, setLevel] = useState(DEFAULT);
 
   useEffect(() => {
     try {
@@ -46,9 +48,10 @@ export function ArticleFontProvider({ children }: { children: ReactNode }) {
 
   const smaller = () => setLevel((current) => Math.max(MIN, current - 1));
   const larger = () => setLevel((current) => Math.min(MAX, current + 1));
+  const reset = () => setLevel(DEFAULT);
 
   return (
-    <Ctx.Provider value={{ level, smaller, larger }}>
+    <Ctx.Provider value={{ level, smaller, larger, reset }}>
       <div className="article-fs-root" data-fs={level}>
         {children}
       </div>
@@ -67,7 +70,7 @@ type ArticleFontControlsProps = {
 };
 
 export function ArticleFontControls({ compact = false }: ArticleFontControlsProps) {
-  const { level, smaller, larger } = useArticleFont();
+  const { level, smaller, larger, reset } = useArticleFont();
 
   return (
     <div className={`article-font${compact ? " article-font--compact" : ""}`}>
@@ -81,6 +84,16 @@ export function ArticleFontControls({ compact = false }: ArticleFontControlsProp
           title="फन्ट घटाउनुहोस्"
         >
           अ−
+        </button>
+        <button
+          type="button"
+          className="article-font__reset"
+          onClick={reset}
+          disabled={level === DEFAULT}
+          aria-label="फन्ट रिसेट"
+          title="फन्ट रिसेट"
+        >
+          <i className="fa-solid fa-rotate-left" aria-hidden="true" />
         </button>
         <button
           type="button"
