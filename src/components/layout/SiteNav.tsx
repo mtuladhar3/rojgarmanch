@@ -467,11 +467,6 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
                     <circle cx="23" cy="16" r="6" fill="none" stroke="currentColor" strokeWidth="1.5" />
                     <line x1="27.5" y1="20.5" x2="30" y2="23" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
-                  <svg viewBox="0 0 32 32" aria-hidden="true" width="32" height="32" className="hamburger-desktop">
-                    <rect x="6" y="9" width="20" height="2" rx="1" />
-                    <rect x="6" y="15" width="20" height="2" rx="1" />
-                    <rect x="6" y="21" width="20" height="2" rx="1" />
-                  </svg>
              
                 </button>
               </div>

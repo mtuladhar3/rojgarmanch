@@ -13,7 +13,7 @@ type ArticleAiSummaryProps = {
 };
 
 const DEFAULT_TEASER =
-  "यो समाचारको AI सारांश अब निःशुल्क उपलब्ध छ — मुख्य बुँदा र प्रभाव छिट्टै बुझ्नुहोस्।";
+  " - Summary by AI";
 
 /** Liquid-glass banner that expands into AI summary bullet points */
 export function ArticleAiSummary({
@@ -38,17 +38,15 @@ export function ArticleAiSummary({
         onClick={() => setOpen((value) => !value)}
       >
         <span className="article-ai__icon" aria-hidden="true">
-          <svg viewBox="0 0 32 32" width="28" height="28" fill="currentColor">
+          <svg viewBox="0 0 32 32" width="28" height="28" fill="#c50010">
             <path d="M12 2.5l2.6 6.6L21.2 12l-6.6 2.6L12 21.2l-2.6-6.6L2.8 12l6.6-2.9L12 2.5z" />
             <path d="M23.5 15.2l1.7 4.2 4.2 1.7-4.2 1.7-1.7 4.2-1.7-4.2-4.2-1.7 4.2-1.7 1.7-4.2z" />
             <path d="M22.2 3.2l1.05 2.55 2.55 1.05-2.55 1.05L22.2 10.4l-1.05-2.55-2.55-1.05 2.55-1.05L22.2 3.2z" />
           </svg>
         </span>
         <span className="article-ai__text">
-          {teaser}{" "}
-          <span className="article-ai__cta">
-            {open ? "सारांश लुकाउनुहोस्" : "सारांश हेर्नुहोस्!"}
-          </span>
+        {"News Summary "}{teaser}
+          
         </span>
         <i
           className={`fa-solid fa-chevron-${open ? "up" : "down"} article-ai__chevron`}

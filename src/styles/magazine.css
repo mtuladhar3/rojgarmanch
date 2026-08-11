@@ -1705,19 +1705,13 @@ fill: #fff;
   display: block;
 }
 
-.hamburger-desktop {
-  display: none !important;
-}
 
 @media (min-width: 992px) {
+
+
   .hamburger-mobile {
-    display: none !important;
+    display: block;
   }
-
-  .hamburger-desktop {
-    display: block !important;
-  }
-
   .nav {
     display: flex;
   }
@@ -6520,6 +6514,7 @@ body.menu-open {
   margin: 0 0 1rem;
   padding: 10px 0 12px;
   overflow: visible;
+  width: 1080px;
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
@@ -7898,6 +7893,7 @@ body.menu-open {
   min-width: 0;
   margin: 0;
   font-size: 0.95em;
+  font-weight: 600;
   line-height: 1.55;
   color: var(--color-text-heading);
 }
