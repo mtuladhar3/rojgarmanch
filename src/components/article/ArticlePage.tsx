@@ -188,7 +188,7 @@ export function ArticlePage({ article }: ArticlePageProps) {
               )}
             </div>
 
-            <div className="article-hero__author">
+            {/* <div className="article-hero__author">
               {article.authorAvatar ? (
                 <img
                   className="article-hero__avatar"
@@ -217,7 +217,7 @@ export function ArticlePage({ article }: ArticlePageProps) {
                 <span>{article.readMinutes} मिनेट पढाइ</span>
               </div>
               <ArticleFontControls compact />
-            </div>
+            </div> */}
           </div>
           {article.imageUrl ? (
             <ArticleHeroImage
@@ -249,10 +249,10 @@ export function ArticlePage({ article }: ArticlePageProps) {
               <Block key={`${block.type}-${index}`} block={block} />
             ))}
             
-            <ArticleAuthorShare
+            {/* <ArticleAuthorShare
               author={article.author}
               authorAvatar={article.authorAvatar}
-            />
+            /> */}
           </article>
 
           <aside className="article-rail" aria-label="यो पनि हेर्नुहोस्">

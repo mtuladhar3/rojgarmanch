@@ -344,13 +344,13 @@ const homePageData: HomePageData = {
     shorts: [
       {
         id: "ys-1",
-        youtubeId: "jNQXAC9IVRw",
+        youtubeId: "0opXvwVsgOk",
         title: "जागिर अन्तर्वार्तामा नभन्ने तीन कुरा",
         viewsLabel: "२१ हजार",
       },
       {
         id: "ys-2",
-        youtubeId: "M7lc1UVf-VE",
+        youtubeId: "kl-WJPgjWrA",
         title: "रिज्युमेमा देखिनुपर्ने सीप",
         viewsLabel: "१५ हजार",
       },
@@ -444,7 +444,7 @@ const siteInfo: SiteInfo = {
     { href: "/team", label: "हाम्रो समूह" },
     { href: "/contact", label: "सम्पर्क" },
     { href: "/publication", label: "प्रकाशन" },
-    { href: "#", label: "विज्ञापन" },
+
     { href: "/category/samachar", label: "Archive" },
   ],
 };

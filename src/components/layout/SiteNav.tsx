@@ -345,7 +345,15 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
                   ref={logoRef}
                 >
                   <img
+                    className="logo logo--color"
                     src="/images/rojgar-manch-logo.svg"
+                    alt="रोजगार मञ्च"
+                    width={283}
+                    height={87}
+                  />
+                  <img
+                    className="logo logo--white"
+                    src="/images/rojgar-manch-whitelogo.svg"
                     alt="रोजगार मञ्च"
                     width={283}
                     height={87}
@@ -410,6 +418,29 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
                 </button>
 
                 <button
+                  className="icon-btn nav-actions__mobile"
+                  type="button"
+                  aria-label="सूचना"
+                  aria-expanded={notifyOpen}
+                  aria-controls="notify-panel"
+                  onClick={() => {
+                    setNotifyTab("taja");
+                    toggleNotify();
+                  }}
+                >
+                  <i className="fa-regular fa-bell" aria-hidden="true" />
+                  {flashNews.length > 0 ? (
+                    <span className="icon-badge" aria-hidden="true">
+                      {flashNews.length > 9
+                        ? "९+"
+                        : ["०", "१", "२", "३", "४", "५", "६", "७", "८", "९"][
+                            flashNews.length
+                          ]}
+                    </span>
+                  ) : null}
+                </button>
+
+                <button
                   className={`icon-btn theme-toggle${theme === "dark" ? " is-dark" : ""}`}
                   type="button"
                   aria-label={theme === "dark" ? "लाइट मोड" : "डार्क मोड"}
@@ -429,13 +460,19 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
                   aria-controls="fullscreen-menu"
                   onClick={toggleMenu}
                 >
-                  <svg viewBox="0 0 32 32" aria-hidden="true">
-                    <path
-                      className="line line-top-bottom"
-                      d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"
-                    />
-                    <path className="line" d="M7 16 27 16" />
+                  <svg viewBox="0 0 32 32" aria-hidden="true" width="32" height="32" className="hamburger-mobile">
+                    <rect x="2" y="9" width="12" height="2" rx="1" />
+                    <rect x="2" y="15" width="12" height="2" rx="1" />
+                    <rect x="2" y="21" width="12" height="2" rx="1" />
+                    <circle cx="23" cy="16" r="6" fill="none" stroke="currentColor" strokeWidth="1.5" />
+                    <line x1="27.5" y1="20.5" x2="30" y2="23" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
+                  <svg viewBox="0 0 32 32" aria-hidden="true" width="32" height="32" className="hamburger-desktop">
+                    <rect x="6" y="9" width="20" height="2" rx="1" />
+                    <rect x="6" y="15" width="20" height="2" rx="1" />
+                    <rect x="6" y="21" width="20" height="2" rx="1" />
+                  </svg>
+             
                 </button>
               </div>
             </div>

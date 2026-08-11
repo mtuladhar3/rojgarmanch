@@ -115,7 +115,17 @@ export function Footer({ site }: FooterProps) {
             aria-label="रोजगार मञ्च गृहपृष्ठ"
           >
             <img
+              className="logo logo--color"
               src="/images/rojgar-manch-logo.svg"
+              alt="रोजगार मञ्च"
+              width={283}
+              height={87}
+              loading="lazy"
+              decoding="async"
+            />
+            <img
+              className="logo logo--white"
+              src="/images/rojgar-manch-whitelogo.svg"
               alt="रोजगार मञ्च"
               width={283}
               height={87}

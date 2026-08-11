@@ -85,6 +85,16 @@ export function ArticleFontControls({ compact = false }: ArticleFontControlsProp
         >
           अ−
         </button>
+        
+        <button
+          type="button"
+          onClick={larger}
+          disabled={level >= MAX}
+          aria-label="फन्ट बढाउनुहोस्"
+          title="फन्ट बढाउनुहोस्"
+        >
+          अ+
+        </button>
         <button
           type="button"
           className="article-font__reset"
@@ -94,15 +104,6 @@ export function ArticleFontControls({ compact = false }: ArticleFontControlsProp
           title="फन्ट रिसेट"
         >
           <i className="fa-solid fa-rotate-left" aria-hidden="true" />
-        </button>
-        <button
-          type="button"
-          onClick={larger}
-          disabled={level >= MAX}
-          aria-label="फन्ट बढाउनुहोस्"
-          title="फन्ट बढाउनुहोस्"
-        >
-          अ+
         </button>
       </div>
     </div>

@@ -27,7 +27,7 @@ export function SectionTitle({
             : {})}
         >
           <span>{moreLabel}</span>
-          <i className="fa-solid fa-arrow-up-right-from-square" aria-hidden="true" />
+          <i className="fa-solid fa-arrow-up-right-dots" aria-hidden="true" />
         </a>
       ) : null}
     </h2>

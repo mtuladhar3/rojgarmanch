@@ -3,13 +3,18 @@ import { unsplash as u } from "@/lib/media";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 
+type ColumnItem = {
+  title: string;
+  imageUrl?: string;
+};
+
 type ColumnBlockProps = {
   id: string;
   title: string;
   href: string;
   leadImage: string;
   leadTitle: string;
-  items: string[];
+  items: (string | ColumnItem)[];
   delay?: number;
 };
 
@@ -51,13 +56,28 @@ export function CategoryColumn({
         </div>
       </article>
       <ul>
-        {items.map((item) => (
-          <li className="col-block__item" key={item}>
-            <h4 className="col-block__item-title line-2">
-              <a href="#article">{item}</a>
-            </h4>
-          </li>
-        ))}
+        {items.map((item) => {
+          const itemObj = typeof item === "string" ? { title: item } : item;
+          return (
+            <li className="col-block__item" key={itemObj.title}>
+              {itemObj.imageUrl ? (
+                <a className="col-block__item-media" href="#article" tabIndex={-1} aria-hidden="true">
+                  <img
+                    className="img-cover"
+                    src={u(itemObj.imageUrl, 92, 80)}
+                    alt={itemObj.title}
+                    width={92}
+                    height={80}
+                    loading="lazy"
+                  />
+                </a>
+              ) : null}
+              <h4 className="col-block__item-title line-2">
+                <a href="#article">{itemObj.title}</a>
+              </h4>
+            </li>
+          );
+        })}
       </ul>
     </Reveal>
   );

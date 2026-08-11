@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { formatAd, formatBs } from "@/lib/dates";
+import { formatAdBadge, formatBsBadge } from "@/lib/dates";
 import { ADS } from "@/lib/ads";
 
 type MastheadProps = {
@@ -10,9 +10,12 @@ type MastheadProps = {
 
 export function Masthead({ domain }: MastheadProps) {
   const [dates, setDates] = useState({ ad: "—", bs: "—" });
+  const [showBs, setShowBs] = useState(true);
 
   useEffect(() => {
-    setDates({ ad: formatAd(), bs: formatBs() });
+    setDates({ ad: formatAdBadge(), bs: formatBsBadge() });
+    const id = window.setInterval(() => setShowBs((v) => !v), 3500);
+    return () => window.clearInterval(id);
   }, []);
 
   return (
@@ -25,7 +28,17 @@ export function Masthead({ domain }: MastheadProps) {
             aria-label="रोजगार मञ्च गृहपृष्ठ"
           >
             <img
+              className="logo logo--color"
               src="/images/rojgar-manch-logo.svg"
+              alt="रोजगार मञ्च"
+              width={283}
+              height={87}
+              decoding="async"
+              fetchPriority="high"
+            />
+            <img
+              className="logo logo--white"
+              src="/images/rojgar-manch-whitelogo.svg"
               alt="रोजगार मञ्च"
               width={283}
               height={87}
@@ -34,41 +47,44 @@ export function Masthead({ domain }: MastheadProps) {
             />
           </a>
           <div className="masthead__dates" aria-label="मिति">
-            <span className="date-chip date-chip--bs">
-              <span className="date-chip__label">वि.सं.</span>
-              <span className="date-chip__value">{dates.bs}</span>
-            </span>
-            <span className="date-chip date-chip--ad">
-              <span className="date-chip__label">A.D.</span>
-              <span className="date-chip__value">{dates.ad}</span>
-            </span>
+            <div className="masthead-date">
+              <div className="masthead-date__track">
+                <div className="masthead-date__badge">
+                  <span
+                    className="masthead-date__sizer"
+                    aria-hidden="true"
+                  >
+                    {dates.bs.length >= dates.ad.length ? dates.bs : dates.ad}
+                  </span>
+                  <span
+                    className={`masthead-date__slide${showBs ? " is-active" : ""}`}
+                    aria-hidden={!showBs}
+                  >
+                    <span className="masthead-date__value">{dates.bs}</span>
+                  </span>
+                  <span
+                    className={`masthead-date__slide${!showBs ? " is-active" : ""}`}
+                    aria-hidden={showBs}
+                  >
+                    <span className="masthead-date__value">{dates.ad}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div className="masthead__ads" aria-label="विज्ञापन">
-          <img
-            src={ADS.ime.src}
-            alt={ADS.ime.alt}
-            width={ADS.ime.width}
-            height={ADS.ime.height}
-            decoding="async"
-            loading="lazy"
-          />
-          <img
-            src={ADS.classicTech.src}
-            alt={ADS.classicTech.alt}
-            width={ADS.classicTech.width}
-            height={ADS.classicTech.height}
-            decoding="async"
-            loading="lazy"
-          />
-          <img
-            src={ADS.ime.src}
-            alt={ADS.ime.alt}
-            width={ADS.ime.width}
-            height={ADS.ime.height}
-            decoding="async"
-            loading="lazy"
-          />
+          <picture>
+            <source media="(max-width: 767px)" srcSet="/images/mobile-ad.gif" />
+            <img
+              src={ADS.hbl.src}
+              alt={ADS.hbl.alt}
+              width={ADS.hbl.width}
+              height={ADS.hbl.height}
+              decoding="async"
+              loading="lazy"
+            />
+          </picture>
         </div>
       </div>
     </header>
