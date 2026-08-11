@@ -69,24 +69,38 @@ export function FullscreenMenu() {
           </div>
           
           <form className="fs-menu__search search-box" role="search" onSubmit={handleSearch}>
-            <label className="sr-only" htmlFor="fs-search">किवर्ड खोज्नुहोस्</label>
-            <span className="search-box__icon" aria-hidden="true">
-              <i className="fa-solid fa-magnifying-glass" />
-            </span>
-            <input
-              ref={inputRef}
-              id="fs-search"
-              type="search"
-              name="q"
-              placeholder="किवर्ड लेख्नुहोस्…"
-              autoComplete="off"
-              value={searchQuery}
-              onChange={(event) => setSearchQuery(event.target.value)}
-            />
-            <button className="search-box__submit" type="submit">
-              खोज्नुहोस् <i className="fa-solid fa-arrow-right" aria-hidden="true" />
-            </button>
-          </form>
+  <label className="sr-only" htmlFor="fs-search">
+    किवर्ड खोज्नुहोस्
+  </label>
+  <input
+    ref={inputRef}
+    id="fs-search"
+    type="search"
+    name="q"
+    placeholder="किवर्ड लेख्नुहोस्…"
+    autoComplete="off"
+    value={searchQuery}
+    onChange={(event) => setSearchQuery(event.target.value)}
+  />
+  <button className="search-box__submit" type="submit" aria-label="Search">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#ffffff"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      style={{ display: "block", minWidth: "20px", minHeight: "20px" }}
+      aria-hidden="true"
+    >
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+  </button>
+</form>
           
           <nav className="fs-menu__nav" aria-label="पूर्ण मेनु">
             {barLinks.map((link, index) => (

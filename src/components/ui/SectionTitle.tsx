@@ -27,7 +27,22 @@ export function SectionTitle({
             : {})}
         >
           <span>{moreLabel}</span>
-          <i className="fa-solid fa-arrow-up-right-dots" aria-hidden="true" />
+          <svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="18"
+  height="18"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="#ef4444" 
+  strokeWidth="2"
+  strokeLinecap="round"
+  strokeLinejoin="round"
+  aria-hidden="true"
+  className="inline-block"
+>
+  <path d="M7 17L17 7" />
+  <path d="M7 7h10v10" />
+</svg>
         </a>
       ) : null}
     </h2>

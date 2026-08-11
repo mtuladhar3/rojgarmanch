@@ -954,13 +954,13 @@ article:hover .img-cover {
 
 .notify__col {
   display: none;
-  padding: 18px 20px 36px;
+  padding: 18px 0px 36px;
   min-width: 0;
 }
 
 @media (min-width: 992px) {
   .notify__col {
-    padding: 18px 12px 12px 16px;
+    padding: 18px 0px 12px 0px;
   }
 }
 
@@ -975,7 +975,7 @@ article:hover .img-cover {
 .notify__col--trend {
   max-height: none;
   overflow: visible;
-  background: #eef4f8;
+  /* background: #eef4f8; */
   scrollbar-width: thin;
   scrollbar-color: color-mix(in srgb, var(--rm-text-muted) 45%, transparent) transparent;
 }
@@ -1080,6 +1080,7 @@ article:hover .img-cover {
   gap: 14px;
   align-items: start;
   padding: 12px 0;
+      border-bottom: 1px solid var(--rm-border);
   color: var(--rm-text-main);
 }
 
@@ -5521,7 +5522,7 @@ body.menu-open {
   align-items: center;
   justify-content: center;
   margin-top: 0;
-  padding: 6px 14px;
+  padding: 12px 20px;
   background: var(--footer-surface);
   border-radius: 50px;
   flex-shrink: 0;
@@ -5564,7 +5565,117 @@ body.menu-open {
   text-align: center;
   max-width: 36rem;
 }
+/* ===================================================
+   Mobile Layout Only (< 768px)
+   =================================================== */
+@media (max-width: 767px) {
+  /* 1. Stack all sections vertically */
+  .samachar-board,
+  .samachar-board__top,
+  .samachar-board__row,
+  .samachar-side {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 0;
+  }
 
+  /* 2. Featured Post — Keeps Full Banner View */
+  .samachar-feature__link {
+    display: block;
+  }
+
+  .samachar-feature__media {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .samachar-feature__title {
+    margin-top: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  /* 3. Non-Featured Posts (Side & Row) — Compact Horizontal List View */
+  .samachar-side__item,
+  .samachar-card {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+  }
+
+  /* Compact Rounded Thumbnails */
+  .samachar-side__media,
+  .samachar-card__media {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .samachar-side__media .img-cover,
+  .samachar-card__media .img-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Titles next to thumbnail */
+  .samachar-side__title,
+  .samachar-card__title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    line-height: 1.35;
+    margin: 0;
+  }
+}
+/* Container Box */
+.search-box {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: 2px solid #01214D;
+  background-color: #ffffff;
+  border-radius: 6px;
+  overflow: hidden; /* Clips button cleanly inside border */
+  padding: 0;
+}
+
+/* Input Field */
+.search-box input[type="search"] {
+  flex: 1;
+  height: 42px;
+  padding: 0 12px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.95rem;
+  color: #111111;
+}
+
+/* Submit Button */
+.search-box__submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 42px;
+  background-color: #01214D;
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+  margin: 0 5px 0 0;
+}
+
+.search-box__submit:hover {
+  opacity: 0.9;
+}
 .back-top {
   position: fixed;
   right: 16px;
@@ -5590,6 +5701,9 @@ body.menu-open {
     bottom: 12px;
     width: 36px;
     height: 36px;
+  }
+  .article-body__sticky-title{
+    position: relative!important;
   }
 }
 
@@ -7987,7 +8101,7 @@ body.menu-open {
 
 .article-quote p {
   margin: 0;
-  font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+  font-size: clamp(1.5rem, 1.8vw, 1.35rem);
   font-weight: 600;
   letter-spacing: -0.015em;
   line-height: 1.45;
