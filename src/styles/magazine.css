@@ -604,7 +604,12 @@ article:hover .img-cover {
   .masthead__brand {
     display: none !important;
   }
-
+ .article-body__sticky-title{
+  top: 0 !important;
+ }
+ .article-body__sticky-title.is-visible{
+  width: auto !important;
+ }
   .masthead__dates {
     display: none !important;
   }
@@ -6524,7 +6529,7 @@ body.menu-open {
 }
 
 .article-body__sticky-title-text {
-  margin: 0;
+  margin: 0 15px;
   padding: 0;
   min-width: 0;
   flex: 1 1 min(100%, 16rem);
