@@ -45,9 +45,9 @@ export function ArticleAiSummary({
           </svg>
         </span>
         <span className="article-ai__text">
-        {"News Summary "}{teaser}
-          
-        </span>
+  <span className="font-bold">News Summary </span>
+  {teaser}
+</span>
         <i
           className={`fa-solid fa-chevron-${open ? "up" : "down"} article-ai__chevron`}
           aria-hidden="true"

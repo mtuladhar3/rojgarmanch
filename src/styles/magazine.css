@@ -84,8 +84,8 @@
 
   /* Shared article typography (Samachar baseline) */
   --title-lead: clamp(1.6rem, 2.4vw, 2rem);
-  --title-card: var(--fs-lg);
-  --title-list: var(--fs-lg);
+  --title-card: 18px;
+  --title-list: 18px;
   --lh-lead: 1.3;
   --lh-card: 1.35;
   --lh-excerpt: 1.6;
@@ -196,7 +196,7 @@ html {
 
 body {
   font-family: var(--font-sans);
-  font-size: 19px;
+  font-size: 18px;
   line-height: 1.8;
   color: var(--color-text-primary);
   background: var(--color-surface-page);
@@ -3467,7 +3467,7 @@ body.menu-open {
 }
 
 .duo-rail__lead-title {
-  font-size: var(--title-card);
+  font-size: 24px;
   font-weight: 600;
   line-height: var(--lh-card);
 }
@@ -3521,7 +3521,7 @@ body.menu-open {
 }
 
 .duo-rail__item span {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   line-height: var(--lh-card);
 }
@@ -4763,7 +4763,7 @@ body.menu-open {
 
 .overlay-card__title {
   font-family: var(--font-serif);
-  font-size: var(--title-card);
+  font-size: 26px;
   font-weight: 600;
   line-height: var(--lh-card);
   color: #fff;
@@ -7423,7 +7423,7 @@ body.menu-open {
 @media (min-width: 900px) {
   .article-rail__sticky {
     position: sticky;
-    top: calc(var(--site-sticky-h, 56px) + 60px);
+    top: calc(var(--site-sticky-h, 56px) + 100px);
     max-height: calc(100vh - var(--site-sticky-h, 56px) - 32px);
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -9137,4 +9137,339 @@ body.menu-open {
     opacity: 1;
     transform: none;
   }
+}
+
+/* Sticky footer styling for the menu panel */
+.fs-menu__panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.fs-menu__inner {
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+.fs-menu__footer {
+  position: sticky;
+  bottom: 0;
+  /* background-color: var(--fs-menu-bg, #ffffff); */
+  padding: 1rem 0;
+  border-top: 1px solid rgba(0, 0, 0, 0);
+  z-index: 10;
+}
+
+.fs-menu__socials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+}
+
+.fs-menu__social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #333333;
+  font-size: 1.1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.fs-menu__social-link:hover {
+  background-color: #0056b3; /* Replace with theme brand color */
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.fs-menu__socials-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  /* Optional: change flex-direction to column if you want "Follow Us" stacked above the icons */
+}
+
+.fs-menu__socials-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
+.fs-menu__socials {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+
+
+/* ==========================================================================
+   NOTIFICATION PANEL (BOOTSTRAP THEME DRIVEN CSS)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Component Styles using Theme Tokens
+   -------------------------------------------------------------------------- */
+
+.notify__panel {
+  background-color: var(--rm-bg-card) !important;
+  color: var(--rm-text-main) !important;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 10px 30px var(--rm-nav-shadow);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--rm-border) !important;
+  z-index: 1000;
+  transition: background-color var(--fast) var(--ease),
+              color var(--fast) var(--ease),
+              border-color var(--fast) var(--ease);
+}
+
+/* Header Section */
+.notify__header {
+  /* padding: var(--space-4) var(--space-5) var(--space-3); */
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.notify__title {
+  font-family: var(--font-sans);
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-text-heading) !important;
+}
+
+.notify__close {
+  background: transparent;
+  border: none;
+  color: var(--rm-text-muted) !important;
+  font-size: var(--fs-xl);
+  cursor: pointer;
+  padding: var(--space-1);
+  transition: color var(--fast) var(--ease);
+}
+
+.notify__close:hover {
+  color: var(--rm-text-main) !important;
+}
+
+/* Inner Body Content */
+.notify__content {
+  padding: var(--space-4) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  overflow: hidden;
+  flex: 1;
+}
+
+/* --------------------------------------------------------------------------
+   2. Segmented Pill Tabs
+   -------------------------------------------------------------------------- */
+
+.notify__pills-wrapper {
+  background-color: var(--rm-bg-surface) !important;
+  padding: var(--space-1);
+  border-radius: var(--radius);
+  border: 1px solid var(--rm-border) !important;
+}
+
+.notify__pills {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.notify__pill-btn {
+  flex: 1;
+  padding: var(--space-2) var(--space-4);
+  border: none;
+  border-radius: calc(var(--radius) - 2px);
+  background: transparent;
+  color: var(--rm-text-muted) !important;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  transition: all var(--fast) var(--ease);
+  text-align: center;
+}
+
+.notify__pill-btn.is-active {
+  background-color: var(--color-brand-red) !important;
+  color: var(--rm-nav-active-fg) !important;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-brand-red) 35%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   3. Scrollable List & Article Items
+   -------------------------------------------------------------------------- */
+
+.notify__list-scroll {
+  overflow-y: auto;
+  padding-right: var(--space-2);
+}
+
+.notify__list-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.notify__list-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.notify__list-scroll::-webkit-scrollbar-thumb {
+  background: var(--rm-border);
+  border-radius: var(--radius-pill);
+}
+
+.notify__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.notify__item {
+  border-bottom: 1px solid var(--rm-border) !important;
+  padding-bottom: var(--space-3);
+}
+
+.notify__item:last-child {
+  border-bottom: none !important;
+  padding-bottom: 0;
+}
+
+.notify__link {
+  display: flex;
+  gap: var(--space-3);
+  text-decoration: none;
+  color: inherit;
+  align-items: flex-start;
+  transition: opacity var(--fast) var(--ease);
+}
+
+.notify__link:hover {
+  opacity: 0.85;
+}
+
+.notify__thumb {
+  width: 70px;
+  height: 70px;
+  border-radius: var(--radius);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.notify__item-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* Tag Badge */
+.notify__tag {
+  display: inline-block;
+  align-self: flex-start;
+  background-color: var(--rm-spot-bg) !important;
+  color: var(--rm-spot-accent) !important;
+  font-size: var(--fs-xs);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius);
+  font-weight: 500;
+}
+
+.notify__item-title {
+  font-family: var(--font-sans);
+  font-size: var(--title-list);
+  line-height: var(--lh-card);
+  font-weight: 600;
+  margin: 2px 0;
+  color: var(--color-text-heading) !important;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Time Metadata */
+.notify__time {
+  font-size: var(--fs-sm);
+  color: var(--rm-text-muted) !important;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.notify__time i {
+  color: var(--rm-text-muted) !important;
+}
+
+/* --------------------------------------------------------------------------
+   4. Footer Section
+   -------------------------------------------------------------------------- */
+
+.notify__footer {
+  padding: var(--space-3) var(--space-5);
+  border-top: 1px solid var(--rm-border) !important;
+  background-color: var(--rm-bg-surface) !important;
+}
+
+.notify__footer-link {
+  color: var(--rm-text-main) !important;
+  text-decoration: none;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--fs-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  transition: gap var(--fast) var(--ease);
+}
+
+.notify__footer-link i {
+  color: var(--rm-text-main) !important;
+}
+
+.notify__footer-link:hover {
+  gap: var(--space-3);
+}
+
+/* --------------------------------------------------------------------------
+   5. Mobile Overlay
+   -------------------------------------------------------------------------- */
+
+.notify-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--rm-fs-backdrop);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  transition: opacity var(--normal) var(--ease);
+}
+
+.notify-overlay.is-open {
+  opacity: 1;
+}
+
+.notify__panel--fullscreen {
+  width: 100%;
+  max-height: 85vh;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }

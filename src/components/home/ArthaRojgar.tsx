@@ -5,18 +5,19 @@ import { SectionTitle } from "@/components/ui/SectionTitle";
 const items = [
   [
     "1573496359142-b8d87734a5a2",
-    "४० वर्षपछि पनि नयाँ क्षेत्र सिक्नेहरूले के फेरे",
-    "उनीहरूले दैनिक सिकाइ समय छुट्याए र सानो प्रयोगबाट सुरु गरे…",
+    "४० वर्षपछि पनि नयाँ क्षेत्र सिक्नेहरूले के फेरे"
   ],
   [
     "1522071820081-009f0129c71c",
-    "मिटिङ घटाएर पनि प्रभाव बढाउने टोलीको तरिका",
-    "निर्णय लग, असिंक अपडेट र स्पष्ट जिम्मेवारीले फरक पार्छ…",
+    "मिटिङ घटाएर पनि प्रभाव बढाउने टोलीको तरिका"
   ],
   [
     "1517245386807-bb43f82c33c4",
-    "प्रमोशनअघि तयार गर्नुपर्ने दस प्रमाण",
-    "नतिजा, प्रभाव र सहकार्य — कसरी कागजात बनाउने भन्ने…",
+    "प्रमोशनअघि तयार गर्नुपर्ने दस प्रमाण"
+  ],
+  [
+    "1522071820081-009f0129c71c",
+    "मिटिङ घटाएर पनि प्रभाव बढाउने टोलीको तरिका"
   ],
 ] as const;
 
@@ -57,24 +58,23 @@ export function ArthaRojgar() {
         </Reveal>
         <Reveal className="spotlight__list reveal reveal-delay-1">
           <ul>
-            {items.map(([image, title, excerpt]) => (
-              <li key={title}>
-                <a className="spotlight__item" href="#article">
-                  <img
-                    src={u(image, 200, 160)}
-                    alt={title}
-                    width={100}
-                    height={80}
-                    loading="lazy"
-                  />
-                  <span>
-                    <strong className="line-2">{title}</strong>
-                    <em className="line-2">{excerpt}</em>
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ul>
+  {items.map(([image, title], index) => (
+    <li key={`${title}-${index}`}>
+      <a className="spotlight__item" href="#article">
+        <img
+          src={u(image, 200, 160)}
+          alt={title}
+          width={100}
+          height={80}
+          loading="lazy"
+        />
+        <span>
+          <strong className="line-2">{title}</strong>
+        </span>
+      </a>
+    </li>
+  ))}
+</ul>
         </Reveal>
       </div>
     </section>

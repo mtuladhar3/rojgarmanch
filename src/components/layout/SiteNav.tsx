@@ -159,11 +159,11 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
       const btn = notifyBtnRef.current;
       if (!btn) return;
       const rect = btn.getBoundingClientRect();
-      const width = Math.min(720, window.innerWidth - 24);
+      const width = Math.min(420, window.innerWidth - 24); // Adjusted width to fit single-column design
       let left = Math.round(rect.right - width);
       left = Math.max(12, Math.min(left, window.innerWidth - width - 12));
       const top = Math.round(rect.bottom + 10);
-      const height = Math.min(650, window.innerHeight - top - 16);
+      const height = Math.min(600, window.innerHeight - top - 16);
       setDeskPos((prev) => {
         const next: CSSProperties = {
           position: "fixed",
@@ -194,110 +194,107 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
     };
   }, [notifyOpen, isDesktop]);
 
-  const renderNotifyPanel = (mode: "dropdown" | "fullscreen") => (
-    <div
-      className={`notify__panel notify__panel--${mode}`}
-      id={mode === "fullscreen" ? "notify-panel" : "notify-panel-desk"}
-      role="dialog"
-      aria-modal={mode === "fullscreen" ? true : undefined}
-      aria-labelledby={
-        mode === "fullscreen" ? "notify-dialog-title" : "notify-dialog-title-desk"
-      }
-      style={mode === "dropdown" ? deskPos : undefined}
-    >
-      {mode === "fullscreen" ? (
-        <button
-          className="notify__close"
-          type="button"
-          aria-label="बन्द गर्नुहोस्"
-          onClick={closeNotify}
-        >
-          <i className="fa-solid fa-xmark" aria-hidden="true" />
-        </button>
-      ) : null}
+  const renderNotifyPanel = (mode: "dropdown" | "fullscreen") => {
+    const activeList = notifyTab === "taja" ? flashNews : trending;
 
-      <h2 className="sr-only" id={mode === "fullscreen" ? "notify-dialog-title" : "notify-dialog-title-desk"}>
-        सूचना केन्द्र
-      </h2>
-
-      {mode === "fullscreen" ? (
-        <div className="notify__tabs" role="tablist" aria-label="सूचना ट्याब">
-          <button
-            type="button"
-            role="tab"
-            className={`notify__tab${notifyTab === "taja" ? " is-active" : ""}`}
-            aria-selected={notifyTab === "taja"}
-            onClick={() => setNotifyTab("taja")}
-          >
-            ताजा
-          </button>
-          <button
-            type="button"
-            role="tab"
-            className={`notify__tab${notifyTab === "trending" ? " is-active" : ""}`}
-            aria-selected={notifyTab === "trending"}
-            onClick={() => setNotifyTab("trending")}
-          >
-            ट्रेन्डिङ
-          </button>
+    return (
+      <div
+        className={`notify__panel notify__panel--${mode}`}
+        id={mode === "fullscreen" ? "notify-panel" : "notify-panel-desk"}
+        role="dialog"
+        aria-modal={mode === "fullscreen" ? true : undefined}
+        style={mode === "dropdown" ? deskPos : undefined}
+      >
+        {/* Card Header Title */}
+        <div className="notify__header">
+          {mode === "fullscreen" && (
+            <button
+              className="notify__close"
+              type="button"
+              aria-label="बन्द गर्नुहोस्"
+              onClick={closeNotify}
+            >
+              <i className="fa-solid fa-xmark" aria-hidden="true" />
+            </button>
+          )}
         </div>
-      ) : null}
 
-      <div className={`notify__body${mode === "fullscreen" ? " container" : ""}`}>
-        <div className="notify__grid">
-          <section
-            className={`notify__col notify__col--flash${notifyTab === "taja" ? " is-active" : ""}`}
-            role="tabpanel"
-          >
-            <h3 className="notify__heading">ताजा समाचार</h3>
-            <ul className="notify__flash">
-              {flashNews.map((item) => (
-                <li key={item.id}>
-                  <a className="notify-flash" href={item.href}>
-                    <span className="notify-flash__body">
-                      <span className="notify-flash__title">{item.title}</span>
-                      {item.dateLabel ? (
-                        <span className="notify-flash__meta">{item.dateLabel}</span>
-                      ) : null}
-                    </span>
+        <div className="notify__content">
+          {/* Segmented Red Pill Tabs */}
+          <div className="notify__pills-wrapper">
+            <div className="notify__pills" role="tablist">
+              <button
+                type="button"
+                role="tab"
+                className={`notify__pill-btn${
+                  notifyTab === "taja" ? " is-active" : ""
+                }`}
+                aria-selected={notifyTab === "taja"}
+                onClick={() => setNotifyTab("taja")}
+              >
+                ताजा
+              </button>
+              <button
+                type="button"
+                role="tab"
+                className={`notify__pill-btn${
+                  notifyTab === "trending" ? " is-active" : ""
+                }`}
+                aria-selected={notifyTab === "trending"}
+                onClick={() => setNotifyTab("trending")}
+              >
+                लोकप्रिय
+              </button>
+            </div>
+          </div>
+
+          {/* News List */}
+          <div className="notify__list-scroll">
+            <ul className="notify__list">
+              {activeList.map((item) => (
+                <li key={item.id} className="notify__item">
+                  <a className="notify__link" href={item.href}>
                     {item.imageUrl ? (
                       <img
-                        className="notify-flash__thumb"
+                        className="notify__thumb"
                         src={item.imageUrl}
                         alt={item.imageAlt || ""}
-                        width={60}
-                        height={60}
+                        width={70}
+                        height={70}
                         loading="lazy"
                       />
                     ) : null}
+                    <div className="notify__item-body">
+                      <span className="notify__tag">
+                        {item.category || "समाचार"}
+                      </span>
+                      <h3 className="notify__item-title">{item.title}</h3>
+                      {item.dateLabel && (
+                        <span className="notify__time">
+                          <i
+                            className="fa-regular fa-clock"
+                            aria-hidden="true"
+                          />
+                          {item.dateLabel}
+                        </span>
+                      )}
+                    </div>
                   </a>
                 </li>
               ))}
             </ul>
-          </section>
+          </div>
+        </div>
 
-          <section
-            className={`notify__col notify__col--trend${notifyTab === "trending" ? " is-active" : ""}`}
-            role="tabpanel"
-          >
-            <h3 className="notify__heading">ट्रेन्डिङ</h3>
-            <ol className="notify__trend">
-              {trending.map((item, index) => (
-                <li key={item.id}>
-                  <a className="notify-trend" href={item.href}>
-                    <span className="notify-trend__rank" aria-hidden="true">
-                      {index + 1}
-                    </span>
-                    <span className="notify-trend__title">{item.title}</span>
-                  </a>
-                </li>
-              ))}
-            </ol>
-          </section>
+        {/* Bottom Link */}
+        <div className="notify__footer">
+          <a href="/news" className="notify__footer-link">
+            सबै समाचार हेर्नुहोस् <i className="fa-solid fa-arrow-right" />
+          </a>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const notifyFullscreen =
     !isDesktop && notifyMounted ? (
@@ -333,7 +330,10 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
 
   return (
     <>
-      <div className={`site-sticky${scrolled ? " is-scrolled" : ""}`} id="site-nav">
+      <div
+        className={`site-sticky${scrolled ? " is-scrolled" : ""}`}
+        id="site-nav"
+      >
         <div className="nav-bar">
           <div className="container">
             <div className="nav-bar__shell">
@@ -405,17 +405,10 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
                     <i className="fa-regular fa-bell" aria-hidden="true" />
                     <span className="notify__dot" aria-hidden="true" />
                   </button>
-                  {isDesktop && notifyOpen ? renderNotifyPanel("dropdown") : null}
+                  {isDesktop && notifyOpen
+                    ? renderNotifyPanel("dropdown")
+                    : null}
                 </div>
-
-                <button
-                  className="icon-btn nav-actions__desk"
-                  type="button"
-                  aria-label="खोज्नुहोस्"
-                  onClick={toggleSearch}
-                >
-                  <i className="fa-solid fa-magnifying-glass" aria-hidden="true" />
-                </button>
 
                 <button
                   className="icon-btn nav-actions__mobile"
@@ -441,13 +434,17 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
                 </button>
 
                 <button
-                  className={`icon-btn theme-toggle${theme === "dark" ? " is-dark" : ""}`}
+                  className={`icon-btn theme-toggle${
+                    theme === "dark" ? " is-dark" : ""
+                  }`}
                   type="button"
                   aria-label={theme === "dark" ? "लाइट मोड" : "डार्क मोड"}
                   onClick={toggleTheme}
                 >
                   <i
-                    className={`fa-solid ${theme === "dark" ? "fa-sun" : "fa-moon"}`}
+                    className={`fa-solid ${
+                      theme === "dark" ? "fa-sun" : "fa-moon"
+                    }`}
                     aria-hidden="true"
                   />
                 </button>
@@ -455,19 +452,41 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
                 <button
                   className="icon-btn menu-toggle hamburger"
                   type="button"
-                  aria-label={menuOpen ? "मेनु बन्द गर्नुहोस्" : "मेनु खोल्नुहोस्"}
+                  aria-label={
+                    menuOpen ? "मेनु बन्द गर्नुहोस्" : "मेनु खोल्नुहोस्"
+                  }
                   aria-expanded={menuOpen}
                   aria-controls="fullscreen-menu"
                   onClick={toggleMenu}
                 >
-                  <svg viewBox="0 0 32 32" aria-hidden="true" width="32" height="32" className="hamburger-mobile">
+                  <svg
+                    viewBox="0 0 32 32"
+                    aria-hidden="true"
+                    width="32"
+                    height="32"
+                    className="hamburger-mobile"
+                  >
                     <rect x="2" y="9" width="12" height="2" rx="1" />
                     <rect x="2" y="15" width="12" height="2" rx="1" />
                     <rect x="2" y="21" width="12" height="2" rx="1" />
-                    <circle cx="23" cy="16" r="6" fill="none" stroke="currentColor" strokeWidth="1.5" />
-                    <line x1="27.5" y1="20.5" x2="30" y2="23" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                    <circle
+                      cx="23"
+                      cy="16"
+                      r="6"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                    />
+                    <line
+                      x1="27.5"
+                      y1="20.5"
+                      x2="30"
+                      y2="23"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
                   </svg>
-             
                 </button>
               </div>
             </div>
@@ -533,7 +552,9 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
             <span className="mobile-dock__slot" aria-hidden="true" />
 
             <a
-              className={`mobile-dock__item${pathname.startsWith("/category/rojgar") ? " is-active" : ""}`}
+              className={`mobile-dock__item${
+                pathname.startsWith("/category/rojgar") ? " is-active" : ""
+              }`}
               href="/category/rojgar"
             >
               <span className="mobile-dock__icon">
@@ -549,14 +570,19 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
               onClick={toggleSearch}
             >
               <span className="mobile-dock__icon">
-                <i className="fa-solid fa-magnifying-glass" aria-hidden="true" />
+                <i
+                  className="fa-solid fa-magnifying-glass"
+                  aria-hidden="true"
+                />
               </span>
               <span className="mobile-dock__label">सर्च</span>
             </button>
           </div>
 
           <a
-            className={`mobile-dock__brand${pathname === "/" ? " is-active" : ""}`}
+            className={`mobile-dock__brand${
+              pathname === "/" ? " is-active" : ""
+            }`}
             href="/"
             aria-label="गृहपृष्ठ"
           >
