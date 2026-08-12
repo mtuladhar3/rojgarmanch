@@ -609,9 +609,13 @@ article:hover .img-cover {
  }
  .article-body__sticky-title.is-visible{
   width: auto !important;
+  display: none !important;
  }
   .masthead__dates {
     display: none !important;
+  }
+  .article-ai__text{
+    font-size: 0.8em !important;
   }
 
   .masthead__brand-wrap {
@@ -6610,21 +6614,21 @@ body.menu-open {
   padding: 0;
   font-size: var(--article-fs-title, clamp(1.65rem, 3.4vw, 3rem));
   font-weight: 600;
-  line-height: 1.15;
+  /* line-height: 1.15; */
   color: var(--color-text-heading);
   background: transparent;
   overflow-wrap: anywhere;
-  transition:
+  /* transition:
     font-size 0.35s var(--ease-out),
     line-height 0.35s var(--ease-out),
-    margin 0.35s var(--ease-out);
+    margin 0.35s var(--ease-out); */
 }
 
-.article-hero__sticky.is-stuck #article-title {
+/* .article-hero__sticky.is-stuck #article-title {
   margin: 0 0 8px;
   font-size: clamp(1.05rem, 2.2vw, 2.5rem);
   line-height: 1.3;
-}
+} */
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -7897,7 +7901,7 @@ body.menu-open {
   flex: 1;
   min-width: 0;
   margin: 0;
-  font-size: 0.95em;
+  font-size: 0.8em;
   font-weight: 600;
   line-height: 1.55;
   color: var(--color-text-heading);
