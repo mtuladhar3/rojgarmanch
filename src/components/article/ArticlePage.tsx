@@ -228,7 +228,7 @@ function Block({ block }: { block: ArticleBlock }) {
         </figure>
       );
     case "hr":
-      return <hr className="article-hr" />;
+      return <hr />;
     default:
       return null;
   }
