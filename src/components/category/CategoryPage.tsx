@@ -2,6 +2,7 @@ import type { CategoryInfo } from "@/data/categories";
 import type { Post } from "@/types/content";
 import { Reveal } from "@/components/motion/Reveal";
 import { AdUnit } from "@/components/ui/AdUnit";
+import { Icon } from "@/components/ui/Icon";
 import { ADS } from "@/lib/ads";
 import { toNepaliDigits } from "@/lib/dates";
 
@@ -96,14 +97,14 @@ function Pagination({
           rel="prev"
           aria-label="अघिल्लो पृष्ठ"
         >
-          <i className="fa-solid fa-chevron-left" aria-hidden="true" />
+          <Icon name="chevron-left" size={14} />
         </a>
       ) : (
         <span
           className="category-pagination__arrow is-disabled"
           aria-disabled="true"
         >
-          <i className="fa-solid fa-chevron-left" aria-hidden="true" />
+          <Icon name="chevron-left" size={14} />
         </span>
       )}
 
@@ -133,14 +134,14 @@ function Pagination({
           rel="next"
           aria-label="अर्को पृष्ठ"
         >
-          <i className="fa-solid fa-chevron-right" aria-hidden="true" />
+          <Icon name="chevron-right" size={14} />
         </a>
       ) : (
         <span
           className="category-pagination__arrow is-disabled"
           aria-disabled="true"
         >
-          <i className="fa-solid fa-chevron-right" aria-hidden="true" />
+          <Icon name="chevron-right" size={14} />
         </span>
       )}
     </nav>

@@ -13,6 +13,7 @@ import {
 import Link from "next/link";
 import HTMLFlipBook from "react-pageflip";
 import type { PublicationIssue } from "@/data/publications";
+import { Icon } from "@/components/ui/Icon";
 
 type FlipApi = {
   pageFlip: () => {
@@ -304,7 +305,7 @@ export function Flipbook({ issue }: FlipbookProps) {
           <div className="pub-flip__tools">
             <Link href="/publication">सबै प्रकाशन</Link>
             <a href={issue.pdfHref} target="_blank" rel="noreferrer">
-              <i className="fa-regular fa-file-pdf" aria-hidden="true" />
+              <Icon name="file-pdf" size={14} />
               PDF
             </a>
           </div>
@@ -413,7 +414,7 @@ export function Flipbook({ issue }: FlipbookProps) {
               aria-label="अघिल्लो पाना"
               title="Previous"
             >
-              <i className="fa-solid fa-chevron-left" aria-hidden="true" />
+              <Icon name="chevron-left" size={16} />
             </button>
 
             <button
@@ -424,7 +425,7 @@ export function Flipbook({ issue }: FlipbookProps) {
               aria-label="जुम घटाउनुहोस्"
               title="Zoom out"
             >
-              <i className="fa-solid fa-magnifying-glass-minus" aria-hidden="true" />
+              <Icon name="magnifying-glass-minus" size={16} />
             </button>
 
             <button
@@ -435,7 +436,7 @@ export function Flipbook({ issue }: FlipbookProps) {
               aria-label="जुम बढाउनुहोस्"
               title="Zoom in"
             >
-              <i className="fa-solid fa-magnifying-glass-plus" aria-hidden="true" />
+              <Icon name="magnifying-glass-plus" size={16} />
             </button>
 
             <span className="pub-flip__divider" aria-hidden="true" />
@@ -465,10 +466,7 @@ export function Flipbook({ issue }: FlipbookProps) {
               aria-label={isFullscreen ? "पूर्ण स्क्रिन बन्द" : "पूर्ण स्क्रिन"}
               title="Fullscreen"
             >
-              <i
-                className={`fa-solid ${isFullscreen ? "fa-compress" : "fa-expand"}`}
-                aria-hidden="true"
-              />
+              <Icon name={isFullscreen ? "compress" : "expand"} size={16} />
             </button>
 
             <button
@@ -479,7 +477,7 @@ export function Flipbook({ issue }: FlipbookProps) {
               aria-label="अर्को पाना"
               title="Next"
             >
-              <i className="fa-solid fa-chevron-right" aria-hidden="true" />
+              <Icon name="chevron-right" size={16} />
             </button>
           </div>
         </footer>

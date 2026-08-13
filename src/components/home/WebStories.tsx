@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { IgStory } from "@/types/content";
 import { SectionTitle } from "@/components/ui/SectionTitle";
+import { Icon } from "@/components/ui/Icon";
 
 const DEFAULT_MS = 5000;
 const HOLD_MS = 180;
@@ -341,7 +342,7 @@ export function WebStories({ items }: WebStoriesProps) {
                 onClick={close}
                 aria-label="बन्द गर्नुहोस्"
               >
-                <i className="fa-solid fa-xmark" aria-hidden="true" />
+                <Icon name="xmark" size={20} />
               </button>
             </div>
 

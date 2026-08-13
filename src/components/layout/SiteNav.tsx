@@ -7,6 +7,7 @@ import { getNavBarLinks } from "@/lib/nav";
 import { formatAdBadge, formatBsBadge } from "@/lib/dates";
 import { useTheme } from "@/components/providers/ThemeProvider";
 import { useUi } from "@/components/providers/UiProvider";
+import { Icon } from "@/components/ui/Icon";
 
 type SiteNavProps = {
   flashNews: Post[];
@@ -214,7 +215,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
               aria-label="बन्द गर्नुहोस्"
               onClick={closeNotify}
             >
-              <i className="fa-solid fa-xmark" aria-hidden="true" />
+              <Icon name="xmark" size={18} />
             </button>
           )}
         </div>
@@ -271,10 +272,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
                       <h3 className="notify__item-title">{item.title}</h3>
                       {item.dateLabel && (
                         <span className="notify__time">
-                          <i
-                            className="fa-regular fa-clock"
-                            aria-hidden="true"
-                          />
+                          <Icon name="clock" size={12} />
                           {item.dateLabel}
                         </span>
                       )}
@@ -289,7 +287,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
         {/* Bottom Link */}
         <div className="notify__footer">
           <a href="/news" className="notify__footer-link">
-            सबै समाचार हेर्नुहोस् <i className="fa-solid fa-arrow-right" />
+            सबै समाचार हेर्नुहोस् <Icon name="arrow-right" size={14} />
           </a>
         </div>
       </div>
@@ -402,7 +400,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
                       toggleNotify();
                     }}
                   >
-                    <i className="fa-regular fa-bell" aria-hidden="true" />
+                    <Icon name="bell" size={18} />
                     <span className="notify__dot" aria-hidden="true" />
                   </button>
                   {isDesktop && notifyOpen
@@ -421,7 +419,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
                     toggleNotify();
                   }}
                 >
-                  <i className="fa-regular fa-bell" aria-hidden="true" />
+                  <Icon name="bell" size={18} />
                   {flashNews.length > 0 ? (
                     <span className="icon-badge" aria-hidden="true">
                       {flashNews.length > 9
@@ -441,12 +439,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
                   aria-label={theme === "dark" ? "लाइट मोड" : "डार्क मोड"}
                   onClick={toggleTheme}
                 >
-                  <i
-                    className={`fa-solid ${
-                      theme === "dark" ? "fa-sun" : "fa-moon"
-                    }`}
-                    aria-hidden="true"
-                  />
+                  <Icon name={theme === "dark" ? "sun" : "moon"} size={18} />
                 </button>
 
                 <button
@@ -464,6 +457,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
                     aria-hidden="true"
                     width="32"
                     height="32"
+                    stroke="currentColor"
                     className="hamburger-mobile"
                   >
                     <rect x="2" y="9" width="12" height="2" rx="1" />
@@ -518,7 +512,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
               onClick={() => openNotifyTab("taja")}
             >
               <span className="mobile-dock__icon">
-                <i className="fa-regular fa-bell" aria-hidden="true" />
+                <Icon name="bell" size={20} />
                 {flashNews.length > 0 ? (
                   <em className="mobile-dock__badge" aria-hidden="true">
                     {flashNews.length > 9
@@ -544,7 +538,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
               }}
             >
               <span className="mobile-dock__icon">
-                <i className="fa-solid fa-clapperboard" aria-hidden="true" />
+                <Icon name="clapperboard" size={20} />
               </span>
               <span className="mobile-dock__label">रिल्स</span>
             </button>
@@ -558,7 +552,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
               href="/category/rojgar"
             >
               <span className="mobile-dock__icon">
-                <i className="fa-solid fa-briefcase" aria-hidden="true" />
+                <Icon name="briefcase" size={20} />
               </span>
               <span className="mobile-dock__label">अवसर</span>
             </a>
@@ -570,10 +564,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
               onClick={toggleSearch}
             >
               <span className="mobile-dock__icon">
-                <i
-                  className="fa-solid fa-magnifying-glass"
-                  aria-hidden="true"
-                />
+                <Icon name="magnifying-glass" size={20} />
               </span>
               <span className="mobile-dock__label">सर्च</span>
             </button>
@@ -586,7 +577,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
             href="/"
             aria-label="गृहपृष्ठ"
           >
-            <i className="fa-solid fa-house" aria-hidden="true" />
+            <Icon name="house" size={22} />
           </a>
         </div>
       </nav>

@@ -7,6 +7,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { Icon } from "@/components/ui/Icon";
 
 const STORAGE_KEY = "rm-article-fs";
 const MIN = 0;
@@ -103,7 +104,7 @@ export function ArticleFontControls({ compact = false }: ArticleFontControlsProp
           aria-label="फन्ट रिसेट"
           title="फन्ट रिसेट"
         >
-          <i className="fa-solid fa-rotate-left" aria-hidden="true" />
+          <Icon name="rotate-left" size={14} />
         </button>
       </div>
     </div>

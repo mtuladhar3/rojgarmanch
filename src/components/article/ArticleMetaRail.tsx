@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
+import { Icon } from "@/components/ui/Icon";
 import { ArticleFontControls } from "./ArticleFontSize";
 
 type ArticleMetaRailProps = {
@@ -68,7 +69,7 @@ export function ArticleMetaRail({
               <p className="article-meta__name">{name}</p>
               {dateLabel ? (
                 <time className="article-meta__date" dateTime={dateIso}>
-                  <i className="fa-regular fa-clock" aria-hidden="true" />
+                  <Icon name="clock" size={12} />
                   <span>{dateLabel}</span>
                 </time>
               ) : null}
@@ -92,7 +93,7 @@ export function ArticleMetaRail({
               rel="noopener noreferrer"
               aria-label="Facebook मा सेयर"
             >
-              <i className="fa-brands fa-facebook-f" aria-hidden="true" />
+              <Icon name="facebook" size={14} />
             </a>
             <a
               className="article-meta__social-btn article-meta__social-btn--x"
@@ -101,7 +102,7 @@ export function ArticleMetaRail({
               rel="noopener noreferrer"
               aria-label="X मा सेयर"
             >
-              <i className="fa-brands fa-x-twitter" aria-hidden="true" />
+              <Icon name="x" size={14} />
             </a>
             <a
               className="article-meta__social-btn article-meta__social-btn--linkedin"
@@ -110,7 +111,7 @@ export function ArticleMetaRail({
               rel="noopener noreferrer"
               aria-label="LinkedIn मा सेयर"
             >
-              <i className="fa-brands fa-linkedin-in" aria-hidden="true" />
+              <Icon name="linkedin" size={14} />
             </a>
             <button
               type="button"
@@ -118,7 +119,7 @@ export function ArticleMetaRail({
               onClick={onNativeShare}
               aria-label="सेयर गर्नुहोस्"
             >
-              <i className="fa-solid fa-share-nodes" aria-hidden="true" />
+              <Icon name="share-nodes" size={14} />
             </button>
           </div>
         </div>

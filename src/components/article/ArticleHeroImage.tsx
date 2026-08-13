@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
+import { Icon } from "@/components/ui/Icon";
 
 type ArticleHeroImageProps = {
   src: string;
@@ -50,7 +51,7 @@ export function ArticleHeroImage({ src, alt }: ArticleHeroImageProps) {
           aria-label="पूर्ण स्क्रिनमा हेर्नुहोस्"
           onClick={() => setOpen(true)}
         >
-          <i className="fa-solid fa-expand" aria-hidden="true" />
+          <Icon name="expand" size={16} />
         </button>
       </div>
 
@@ -74,7 +75,7 @@ export function ArticleHeroImage({ src, alt }: ArticleHeroImageProps) {
                 aria-label="बन्द गर्नुहोस्"
                 onClick={() => setOpen(false)}
               >
-                <i className="fa-solid fa-xmark" aria-hidden="true" />
+                <Icon name="xmark" size={20} />
               </button>
               <img
                 className="article-lightbox__img"

@@ -9,6 +9,7 @@ import {
 import type { YoutubeBlock, YtShort, YtVideo } from "@/types/content";
 import { Reveal } from "@/components/motion/Reveal";
 import { SectionTitle } from "@/components/ui/SectionTitle";
+import { Icon } from "@/components/ui/Icon";
 import { useUi } from "@/components/providers/UiProvider";
 
 type YoutubeProps = {
@@ -42,7 +43,7 @@ function WatchEmbed({
       />
       <span className="yt-block__shade" aria-hidden="true" />
       <span className="yt-block__play" aria-hidden="true">
-        <i className="fa-solid fa-play" />
+        <Icon name="play" size={22} />
       </span>
       {video.duration ? (
         <span className="yt-block__duration">{video.duration}</span>
@@ -80,7 +81,7 @@ function SideVideo({
           loading="lazy"
         />
         <span className="yt-block__play yt-block__play--sm" aria-hidden="true">
-          <i className="fa-solid fa-play" />
+          <Icon name="play" size={14} />
         </span>
         {video.duration ? (
           <span className="yt-block__duration">{video.duration}</span>
@@ -148,7 +149,7 @@ function VideoPopup({
           onClick={onClose}
           aria-label="बन्द गर्नुहोस्"
         >
-          <i className="fa-solid fa-xmark" aria-hidden="true" />
+          <Icon name="xmark" size={20} />
         </button>
 
         <div className="yt-popup__layout">
@@ -190,7 +191,7 @@ function VideoPopup({
                         loading="lazy"
                       />
                       <span className="yt-block__play yt-block__play--sm" aria-hidden="true">
-                        <i className="fa-solid fa-play" />
+                        <Icon name="play" size={14} />
                       </span>
                       {video.duration ? (
                         <span className="yt-block__duration">{video.duration}</span>
@@ -348,7 +349,7 @@ function ShortsPopup({
             onClick={onClose}
             aria-label="बन्द गर्नुहोस्"
           >
-            <i className="fa-solid fa-xmark" aria-hidden="true" />
+            <Icon name="xmark" size={20} />
           </button>
         </header>
 
@@ -395,7 +396,7 @@ function ShortsPopup({
             onClick={() => scrollToIndex(active - 1)}
             aria-label="अघिल्लो रिल"
           >
-            <i className="fa-solid fa-chevron-up" aria-hidden="true" />
+            <Icon name="chevron-up" size={18} />
           </button>
           <button
             type="button"
@@ -404,7 +405,7 @@ function ShortsPopup({
             onClick={() => scrollToIndex(active + 1)}
             aria-label="अर्को रिल"
           >
-            <i className="fa-solid fa-chevron-down" aria-hidden="true" />
+            <Icon name="chevron-down" size={18} />
           </button>
         </div>
       </div>

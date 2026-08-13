@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
+import { Icon } from "@/components/ui/Icon";
 
 export type AiSummaryItem = {
   title: string;
@@ -48,9 +49,10 @@ export function ArticleAiSummary({
   <span className="font-bold">News Summary </span>
   {teaser}
 </span>
-        <i
-          className={`fa-solid fa-chevron-${open ? "up" : "down"} article-ai__chevron`}
-          aria-hidden="true"
+        <Icon
+          name={open ? "chevron-up" : "chevron-down"}
+          className="article-ai__chevron"
+          size={14}
         />
       </button>
 

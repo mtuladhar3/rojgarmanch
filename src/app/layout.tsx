@@ -12,10 +12,6 @@ const mukta = Mukta({
   preload: true,
 });
 
-const FA_CSS =
-  "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css";
-const FA_INTEGRITY =
-  "sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==";
 const LCP_IMAGE =
   "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=960&h=540&q=70";
 
@@ -65,13 +61,6 @@ export default function RootLayout({
     <html lang="ne" className={mukta.variable} suppressHydrationWarning>
       <head>
         <link rel="preload" as="image" href={LCP_IMAGE} fetchPriority="high" />
-        <link
-          rel="stylesheet"
-          href={FA_CSS}
-          integrity={FA_INTEGRITY}
-          crossOrigin="anonymous"
-          referrerPolicy="no-referrer"
-        />
       </head>
       <body className={mukta.className}>
         <ThemeProvider>

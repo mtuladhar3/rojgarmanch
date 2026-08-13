@@ -3,15 +3,16 @@
 import { useRef, useState } from "react";
 import { getNavBarLinks, getNavMoreLinks } from "@/lib/nav";
 import { useUi } from "@/components/providers/UiProvider";
+import { Icon, type IconName } from "@/components/ui/Icon";
 
 const searchDefaults = ["रोजगार", "सीप", "लोक सेवा", "वैदेशिक रोजगार", "आईटी", "तालिम"];
 
-const socialLinks = [
-  { name: "Facebook", href: "https://facebook.com", icon: "fa-brands fa-facebook-f" },
-  { name: "X (Twitter)", href: "https://twitter.com", icon: "fa-brands fa-x-twitter" },
-  { name: "Instagram", href: "https://instagram.com", icon: "fa-brands fa-instagram" },
-  { name: "LinkedIn", href: "https://linkedin.com", icon: "fa-brands fa-linkedin-in" },
-  { name: "YouTube", href: "https://youtube.com", icon: "fa-brands fa-youtube" },
+const socialLinks: { name: string; href: string; icon: IconName }[] = [
+  { name: "Facebook", href: "https://facebook.com", icon: "facebook" },
+  { name: "X (Twitter)", href: "https://twitter.com", icon: "x" },
+  { name: "Instagram", href: "https://instagram.com", icon: "instagram" },
+  { name: "LinkedIn", href: "https://linkedin.com", icon: "linkedin" },
+  { name: "YouTube", href: "https://youtube.com", icon: "youtube" },
 ];
 
 export function FullscreenMenu() {
@@ -72,7 +73,7 @@ export function FullscreenMenu() {
               aria-label="मेनु बन्द गर्नुहोस्"
               onClick={closeMenu}
             >
-              <i className="fa-solid fa-xmark" aria-hidden="true" />
+              <Icon name="xmark" size={22} />
             </button>
           </div>
 
@@ -158,7 +159,7 @@ export function FullscreenMenu() {
             aria-label={item.name}
             className="fs-menu__social-link"
           >
-            <i className={item.icon} aria-hidden="true" />
+            <Icon name={item.icon} size={18} />
           </a>
         ))}
       </div>

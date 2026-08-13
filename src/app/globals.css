@@ -4,6 +4,24 @@
 /* Match site theme toggle: data-bs-theme="dark" */
 @custom-variant dark (&:where([data-bs-theme="dark"], [data-bs-theme="dark"] *));
 
+.icon {
+  display: inline-block;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.icon-btn .icon,
+.mobile-dock__icon .icon,
+.mobile-dock__brand .icon,
+.notify__time .icon,
+.article-meta__date .icon,
+.search-box__submit .icon,
+.notify__footer-link .icon,
+.pub-flip__icon-btn .icon,
+.category-pagination__arrow .icon {
+  display: block;
+}
+
 @theme inline {
   --color-rm-primary: var(--rm-primary);
   --color-rm-accent: var(--rm-accent);

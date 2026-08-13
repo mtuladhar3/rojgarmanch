@@ -1,6 +1,7 @@
 import type { ContactContent } from "@/data/pages";
 import type { SiteInfo } from "@/types/content";
 import { Reveal } from "@/components/motion/Reveal";
+import { Icon, socialIconName } from "@/components/ui/Icon";
 
 type ContactPageProps = {
   content: ContactContent;
@@ -22,19 +23,19 @@ export function ContactPage({ content, site }: ContactPageProps) {
             <h2 className="contact-details__title">{site.name}</h2>
             <ul className="contact-details__list">
               <li>
-                <i className="fa-solid fa-id-card" aria-hidden="true" />
+                <Icon name="id-card" size={16} />
                 <span>{site.registrationNo}</span>
               </li>
               <li>
-                <i className="fa-solid fa-location-dot" aria-hidden="true" />
+                <Icon name="location" size={16} />
                 <span>{site.address}</span>
               </li>
               <li>
-                <i className="fa-solid fa-phone" aria-hidden="true" />
+                <Icon name="phone" size={16} />
                 <a href={`tel:${site.phone.replace(/\s/g, "")}`}>{site.phone}</a>
               </li>
               <li>
-                <i className="fa-solid fa-envelope" aria-hidden="true" />
+                <Icon name="envelope" size={16} />
                 <a href={`mailto:${site.email}`}>{site.email}</a>
               </li>
             </ul>
@@ -48,7 +49,7 @@ export function ContactPage({ content, site }: ContactPageProps) {
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    <i className={`fa-brands fa-${item.icon}`} aria-hidden="true" />
+                    <Icon name={socialIconName(item.icon)} size={18} />
                   </a>
                 </li>
               ))}
