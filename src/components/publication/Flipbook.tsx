@@ -297,7 +297,6 @@ export function Flipbook({ issue }: FlipbookProps) {
       <div className="container pub-flip__box">
         <header className="pub-flip__top">
           <div className="pub-flip__copy">
-            <p>कुना तान्नुहोस् वा पेज क्लिक गर्नुहोस् · ← → · + − · F</p>
             <h1>
               {issue.title} · {issue.date}
             </h1>

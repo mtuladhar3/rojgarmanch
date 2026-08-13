@@ -26,12 +26,13 @@ export function TeamPage({ members }: TeamPageProps) {
               <div className="team-card__media">
                 {member.avatarUrl ? (
                   <img
-                    className="img-cover"
                     src={member.avatarUrl}
                     alt={member.name}
                     width={480}
                     height={480}
-                    loading="lazy"
+                    loading={index < 4 ? "eager" : "lazy"}
+                    decoding="async"
+                    fetchPriority={index < 4 ? "high" : "auto"}
                   />
                 ) : (
                   <span className="team-card__placeholder" aria-hidden="true" />

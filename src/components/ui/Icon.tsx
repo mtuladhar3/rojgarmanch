@@ -75,8 +75,11 @@ function paths(name: IconName) {
     case "bell":
       return (
         <>
-          <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
-          <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+          <path
+            fill="none"
+            d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"
+          />
+          <path fill="none" d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
         </>
       );
     case "briefcase":
@@ -220,7 +223,12 @@ function paths(name: IconName) {
         </>
       );
     case "moon":
-      return <path d="M21 14.5A8.5 8.5 0 1 1 9.5 3 7 7 0 0 0 21 14.5Z" />;
+      return (
+        <path
+          fill="none"
+          d="M21 14.5A8.5 8.5 0 1 1 9.5 3 7 7 0 0 0 21 14.5Z"
+        />
+      );
     case "phone":
       return (
         <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.5-1.2a2 2 0 0 1 2.1-.4c.8.3 1.7.5 2.6.6A2 2 0 0 1 22 16.9Z" />
@@ -247,15 +255,15 @@ function paths(name: IconName) {
     case "sun":
       return (
         <>
-          <circle cx="12" cy="12" r="4" />
-          <path d="M12 2v2" />
-          <path d="M12 20v2" />
-          <path d="m4.9 4.9 1.4 1.4" />
-          <path d="m17.7 17.7 1.4 1.4" />
-          <path d="M2 12h2" />
-          <path d="M20 12h2" />
-          <path d="m4.9 19.1 1.4-1.4" />
-          <path d="m17.7 6.3 1.4-1.4" />
+          <circle cx="12" cy="12" r="4" fill="none" />
+          <path fill="none" d="M12 2v2" />
+          <path fill="none" d="M12 20v2" />
+          <path fill="none" d="m4.9 4.9 1.4 1.4" />
+          <path fill="none" d="m17.7 17.7 1.4 1.4" />
+          <path fill="none" d="M2 12h2" />
+          <path fill="none" d="M20 12h2" />
+          <path fill="none" d="m4.9 19.1 1.4-1.4" />
+          <path fill="none" d="m17.7 6.3 1.4-1.4" />
         </>
       );
     case "x":

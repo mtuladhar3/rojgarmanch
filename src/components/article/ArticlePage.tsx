@@ -6,6 +6,7 @@ import { AdUnit } from "@/components/ui/AdUnit";
 import {
   ArticleFontControls,
   ArticleFontProvider,
+  ArticleBody,
 } from "./ArticleFontSize";
 import {
   ArticleAiSummary,
@@ -16,6 +17,7 @@ import { ArticleStickyTitle } from "./ArticleStickyTitle";
 import { ArticleAuthorShare } from "./ArticleAuthorShare";
 import { ArticleInlineAds } from "./ArticleInlineAds";
 import { ArticleMetaRail } from "./ArticleMetaRail";
+import { ArticleRichText } from "./ArticleRichText";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 
 type ArticlePageProps = {
@@ -105,7 +107,11 @@ function shouldInsertInlineAd(blocks: ArticleBlock[], index: number) {
 function Block({ block }: { block: ArticleBlock }) {
   switch (block.type) {
     case "p":
-      return <p>{block.text}</p>;
+      return (
+        <p>
+          <ArticleRichText text={block.text} />
+        </p>
+      );
     case "h2":
     case "h3":
     case "h4":
@@ -113,7 +119,11 @@ function Block({ block }: { block: ArticleBlock }) {
     case "h6": {
       const Tag = block.type;
       const id = block.id || slugifyHeading(block.text);
-      return <Tag id={id}>{block.text}</Tag>;
+      return (
+        <Tag id={id}>
+          <ArticleRichText text={block.text} />
+        </Tag>
+      );
     }
     case "figure":
       return (
@@ -126,7 +136,9 @@ function Block({ block }: { block: ArticleBlock }) {
             loading="lazy"
           />
           {block.caption ? (
-            <figcaption>{block.caption}</figcaption>
+            <figcaption>
+              <ArticleRichText text={block.caption} />
+            </figcaption>
           ) : null}
         </figure>
       );
@@ -134,7 +146,9 @@ function Block({ block }: { block: ArticleBlock }) {
       return (
         <ul>
           {block.items.map((item) => (
-            <li key={item}>{item}</li>
+            <li key={item}>
+              <ArticleRichText text={item} />
+            </li>
           ))}
         </ul>
       );
@@ -142,7 +156,9 @@ function Block({ block }: { block: ArticleBlock }) {
       return (
         <ol>
           {block.items.map((item) => (
-            <li key={item}>{item}</li>
+            <li key={item}>
+              <ArticleRichText text={item} />
+            </li>
           ))}
         </ol>
       );
@@ -155,9 +171,11 @@ function Block({ block }: { block: ArticleBlock }) {
                 <span className="article-steps__num" aria-hidden="true">
                   {index + 1}.
                 </span>{" "}
-                {item.title}
+                <ArticleRichText text={item.title} />
               </h3>
-              <p>{item.text}</p>
+              <p>
+                <ArticleRichText text={item.text} />
+              </p>
             </li>
           ))}
         </ol>
@@ -169,9 +187,45 @@ function Block({ block }: { block: ArticleBlock }) {
           <span className="article-quote__mark" aria-hidden="true">
             “
           </span>
-          <p>{block.text}</p>
+          <p>
+            <ArticleRichText text={block.text} />
+          </p>
           {block.cite ? <cite>— {block.cite}</cite> : null}
         </blockquote>
+      );
+    case "table":
+      return (
+        <figure className="article-table">
+          <div className="article-table__scroll">
+            <table>
+              <thead>
+                <tr>
+                  {block.headers.map((header) => (
+                    <th key={header} scope="col">
+                      <ArticleRichText text={header} />
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {block.rows.map((row, rowIndex) => (
+                  <tr key={`row-${rowIndex}`}>
+                    {row.map((cell, cellIndex) => (
+                      <td key={`${rowIndex}-${cellIndex}`}>
+                        <ArticleRichText text={cell} />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {block.caption ? (
+            <figcaption>
+              <ArticleRichText text={block.caption} />
+            </figcaption>
+          ) : null}
+        </figure>
       );
     case "hr":
       return <hr className="article-hr" />;
@@ -189,164 +243,130 @@ export function ArticlePage({ article }: ArticlePageProps) {
   return (
     <main id="main" className="article-page">
       <ArticleFontProvider>
-      <div className="container">
-        <header className="article-hero">
-          
-        <div className="article-hero__copy">
-            <div className="article-title-sentinel" aria-hidden="true" />
-            <div className="article-hero__sticky">
-              <h1 id="article-title">{article.title}</h1>
+        <div className="container">
+          <header className="article-hero">
+            <div className="article-hero__copy">
+              <div className="article-title-sentinel" aria-hidden="true" />
+              <div className="article-hero__sticky">
+                <h1 id="article-title">{article.title}</h1>
 
-              {article.deck ? (
-                <p className="article-hero__deck">{article.deck}</p>
-              ) : (
-                <p className="article-hero__deck">{article.excerpt}</p>
-              )}
+                {article.deck ? (
+                  <p className="article-hero__deck">{article.deck}</p>
+                ) : (
+                  <p className="article-hero__deck">{article.excerpt}</p>
+                )}
+              </div>
             </div>
 
-            {/* <div className="article-hero__author">
-              {article.authorAvatar ? (
-                <img
-                  className="article-hero__avatar"
-                  src={article.authorAvatar}
-                  alt=""
-                  width={40}
-                  height={40}
-                />
-              ) : null}
+            {article.imageUrl ? (
+              <ArticleHeroImage
+                src={article.imageUrl}
+                alt={article.imageAlt || article.title}
+              />
+            ) : null}
+          </header>
 
-              <div className="article-hero__byline">
-                {article.author ? (
-                  <span className="article-hero__by">{article.author}</span>
-                ) : null}
-                {article.dateLabel ? (
-                  <>
-                    <span className="article-hero__dot" aria-hidden="true">
-                      ·
-                    </span>
-                    <time dateTime={article.dateIso}>{article.dateLabel}</time>
-                  </>
-                ) : null}
-                <span className="article-hero__dot" aria-hidden="true">
-                  ·
-                </span>
-                <span>{article.readMinutes} मिनेट पढाइ</span>
-              </div>
-              <ArticleFontControls compact />
-            </div> */}
-          </div>
-          {article.imageUrl ? (
-            <ArticleHeroImage
-              src={article.imageUrl}
-              alt={article.imageAlt || article.title}
-            />
-          ) : null}
-
-          
-        </header>
-
-        <div className="article-layout">
-          <ArticleMetaRail
-            author={article.author}
-            authorAvatar={article.authorAvatar}
-            dateLabel={article.dateLabel}
-            dateIso={article.dateIso}
-            title={article.title}
-            href={article.href}
-            comments={article.comments}
-            shares={article.views ?? Math.max(12, (article.comments ?? 1) * 18)}
-          />
-         
-
-          <article className="article-body" aria-labelledby="article-title">
-            <ArticleStickyTitle title={article.title} />
-            <ArticleAiSummary items={aiSummary} />
-            {article.body.map((block, index) => (
-              <Fragment key={`${block.type}-${index}`}>
-                <Block block={block} />
-                {shouldInsertInlineAd(article.body, index) ? (
-                  <ArticleInlineAds ads={ARTICLE_INLINE_ADS} />
-                ) : null}
-              </Fragment>
-            ))}
-            
-            {/* <ArticleAuthorShare
+          <div className="article-layout">
+            <ArticleMetaRail
               author={article.author}
               authorAvatar={article.authorAvatar}
-            /> */}
-          </article>
+              dateLabel={article.dateLabel}
+              dateIso={article.dateIso}
+              title={article.title}
+              href={article.href}
+              comments={article.comments}
+              shares={article.views ?? Math.max(12, (article.comments ?? 1) * 18)}
+            />
 
-          <aside className="article-rail" aria-label="यो पनि हेर्नुहोस्">
-            <div className="article-rail__sticky">
-              {relatedRail.length ? (
-                <div className="article-rail__block">
-                  <SectionTitle more={false}>यो पनि हेर्नुहोस्</SectionTitle>
-                  <ul className="article-related">
-                    {relatedRail.map((item) => (
-                      <li key={item.href}>
-                        <a className="article-related__item" href={item.href}>
-                          <span className="article-related__thumb">
-                            <img
-                              src={item.imageUrl}
-                              alt=""
-                              width={72}
-                              height={72}
-                              loading="lazy"
-                            />
-                          </span>
-                          <span className="article-related__title">{item.title}</span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ) : null}
+            <article className="article-body" aria-labelledby="article-title">
+              <ArticleStickyTitle title={article.title} />
+              <ArticleAiSummary items={aiSummary} />
+
+              {/* Body text only responds to font-size controls */}
+              <ArticleBody>
+                {article.body.map((block, index) => (
+                  <Fragment key={`${block.type}-${index}`}>
+                    <Block block={block} />
+                    {shouldInsertInlineAd(article.body, index) ? (
+                      <ArticleInlineAds ads={ARTICLE_INLINE_ADS} />
+                    ) : null}
+                  </Fragment>
+                ))}
+              </ArticleBody>
+            </article>
+
+            <aside className="article-rail" aria-label="यो पनि हेर्नुहोस्">
+              <div className="article-rail__sticky">
               <div className="article-rail__ads">
-                {ARTICLE_RAIL_ADS.map((ad) => (
-                  <AdUnit
-                    key={ad.src}
-                    ad={ad}
-                    variant="aside"
-                    useMobileImage={false}
-                  />
+                  {ARTICLE_RAIL_ADS.map((ad) => (
+                    <AdUnit
+                      key={ad.src}
+                      ad={ad}
+                      variant="aside"
+                      useMobileImage={false}
+                    />
+                  ))}
+                </div>
+                {relatedRail.length ? (
+                  <div className="article-rail__block">
+                    <SectionTitle more={false}>यो पनि हेर्नुहोस्</SectionTitle>
+                    <ul className="article-related">
+                      {relatedRail.map((item) => (
+                        <li key={item.href}>
+                          <a className="article-related__item" href={item.href}>
+                            <span className="article-related__thumb">
+                              <img
+                                src={item.imageUrl}
+                                alt=""
+                                width={72}
+                                height={72}
+                                loading="lazy"
+                              />
+                            </span>
+                            <span className="article-related__title">{item.title}</span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+                
+              </div>
+            </aside>
+          </div>
+
+          {relatedMore.length ? (
+            <section
+              className="article-more"
+              aria-labelledby="article-more-title"
+            >
+              <SectionTitle href="/category/samachar" moreLabel="सबै हेर्नुहोस्">
+                <span id="article-more-title">सम्बन्धित समाचार</span>
+              </SectionTitle>
+
+              <div className="article-more__grid">
+                {relatedMore.map((item) => (
+                  <article key={item.href} className="article-more__card">
+                    <a className="article-more__media" href={item.href}>
+                      {item.imageUrl ? (
+                        <img
+                          src={item.imageUrl}
+                          alt={item.imageAlt || item.title}
+                          width={640}
+                          height={400}
+                          loading="lazy"
+                        />
+                      ) : null}
+                    </a>
+                    <h3 className="article-more__title">
+                      <a href={item.href}>{item.title}</a>
+                    </h3>
+                  </article>
                 ))}
               </div>
-            </div>
-          </aside>
+            </section>
+          ) : null}
         </div>
-
-        {relatedMore.length ? (
-          <section
-            className="article-more"
-            aria-labelledby="article-more-title"
-          >
-            <SectionTitle href="/category/samachar" moreLabel="सबै हेर्नुहोस्">
-              <span id="article-more-title">सम्बन्धित समाचार</span>
-            </SectionTitle>
-
-            <div className="article-more__grid">
-              {relatedMore.map((item) => (
-                <article key={item.href} className="article-more__card">
-                  <a className="article-more__media" href={item.href}>
-                    {item.imageUrl ? (
-                      <img
-                        src={item.imageUrl}
-                        alt={item.imageAlt || item.title}
-                        width={640}
-                        height={400}
-                        loading="lazy"
-                      />
-                    ) : null}
-                  </a>
-                  <h3 className="article-more__title">
-                    <a href={item.href}>{item.title}</a>
-                  </h3>
-                </article>
-              ))}
-            </div>
-          </section>
-        ) : null}
-      </div>
       </ArticleFontProvider>
     </main>
   );

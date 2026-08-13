@@ -53,16 +53,24 @@ export function ArticleFontProvider({ children }: { children: ReactNode }) {
 
   return (
     <Ctx.Provider value={{ level, smaller, larger, reset }}>
-      <div className="article-fs-root" data-fs={level}>
-        {children}
-      </div>
+      {children}
     </Ctx.Provider>
+  );
+}
+
+// Wrap article body blocks so font controls scale body copy only.
+export function ArticleBody({ children }: { children: ReactNode }) {
+  const { level } = useArticleFont();
+  return (
+    <div className="article-fs-root" data-fs={level}>
+      {children}
+    </div>
   );
 }
 
 function useArticleFont() {
   const ctx = useContext(Ctx);
-  if (!ctx) throw new Error("ArticleFontControls must be inside ArticleFontProvider");
+  if (!ctx) throw new Error("useArticleFont must be inside ArticleFontProvider");
   return ctx;
 }
 

@@ -160,7 +160,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
       const btn = notifyBtnRef.current;
       if (!btn) return;
       const rect = btn.getBoundingClientRect();
-      const width = Math.min(420, window.innerWidth - 24); // Adjusted width to fit single-column design
+      const width = Math.min(420, window.innerWidth - 24);
       let left = Math.round(rect.right - width);
       left = Math.max(12, Math.min(left, window.innerWidth - width - 12));
       const top = Math.round(rect.bottom + 10);
@@ -196,7 +196,7 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
   }, [notifyOpen, isDesktop]);
 
   const renderNotifyPanel = (mode: "dropdown" | "fullscreen") => {
-    const activeList = notifyTab === "taja" ? flashNews : trending;
+    const activeList = flashNews && flashNews.length > 0 ? flashNews : trending;
 
     return (
       <div
@@ -252,34 +252,38 @@ export function SiteNav({ flashNews, trending }: SiteNavProps) {
           {/* News List */}
           <div className="notify__list-scroll">
             <ul className="notify__list">
-              {activeList.map((item) => (
-                <li key={item.id} className="notify__item">
-                  <a className="notify__link" href={item.href}>
-                    {item.imageUrl ? (
-                      <img
-                        className="notify__thumb"
-                        src={item.imageUrl}
-                        alt={item.imageAlt || ""}
-                        width={70}
-                        height={70}
-                        loading="lazy"
-                      />
-                    ) : null}
-                    <div className="notify__item-body">
-                      <span className="notify__tag">
-                        {item.category || "समाचार"}
-                      </span>
-                      <h3 className="notify__item-title">{item.title}</h3>
-                      {item.dateLabel && (
-                        <span className="notify__time">
-                          <Icon name="clock" size={12} />
-                          {item.dateLabel}
-                        </span>
-                      )}
-                    </div>
-                  </a>
+              {activeList && activeList.length > 0 ? (
+                activeList.map((item) => (
+                  <li key={item.id} className="notify__item">
+                    <a className="notify__link" href={item.href || "#"}>
+                      {item.imageUrl ? (
+                        <img
+                          className="notify__thumb"
+                          src={item.imageUrl}
+                          alt={item.imageAlt || item.title || ""}
+                          width={70}
+                          height={70}
+                          loading="lazy"
+                        />
+                      ) : null}
+                      <div className="notify__item-body">
+                        <h3 className="notify__item-title">{item.title}</h3>
+                        {/* Only display date if the current tab is NOT "trending" */}
+                        {notifyTab !== "trending" && item.dateLabel && (
+                          <span className="notify__time">
+                            <Icon name="clock" size={12} />
+                            {item.dateLabel}
+                          </span>
+                        )}
+                      </div>
+                    </a>
+                  </li>
+                ))
+              ) : (
+                <li style={{ padding: "16px", textAlign: "center", color: "#666" }}>
+                  कुनै समाचार उपलब्ध छैन।
                 </li>
-              ))}
+              )}
             </ul>
           </div>
         </div>

@@ -34,9 +34,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     let initial: Theme = "light";
     try {
       const saved = localStorage.getItem("rm-theme");
-      if (saved === "dark" || saved === "light") initial = saved;
-      else if (matchMedia("(prefers-color-scheme: dark)").matches) {
-        initial = "dark";
+      if (saved === "dark" || saved === "light") {
+        initial = saved;
       }
     } catch {
       /* ignore */
