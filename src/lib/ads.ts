@@ -52,3 +52,13 @@ export const ADS = {
 } as const;
 
 export type AdCreative = (typeof ADS)[keyof typeof ADS];
+
+/** Three-up square ads inserted between article paragraphs. */
+export const ARTICLE_INLINE_ADS: AdCreative[] = [
+  ADS.ime,
+  ADS.classicTech,
+  ADS.belaco,
+];
+
+/** Stacked ads below the article “यो पनि हेर्नुहोस्” rail. */
+export const ARTICLE_RAIL_ADS: AdCreative[] = [ADS.belaco, ADS.ime];

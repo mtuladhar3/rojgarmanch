@@ -1,5 +1,8 @@
+import { Fragment } from "react";
 import type { Article, ArticleBlock } from "@/data/articles";
 import { getRelatedArticles } from "@/data/articles";
+import { ARTICLE_INLINE_ADS, ARTICLE_RAIL_ADS } from "@/lib/ads";
+import { AdUnit } from "@/components/ui/AdUnit";
 import {
   ArticleFontControls,
   ArticleFontProvider,
@@ -11,6 +14,7 @@ import {
 import { ArticleHeroImage } from "./ArticleHeroImage";
 import { ArticleStickyTitle } from "./ArticleStickyTitle";
 import { ArticleAuthorShare } from "./ArticleAuthorShare";
+import { ArticleInlineAds } from "./ArticleInlineAds";
 import { ArticleMetaRail } from "./ArticleMetaRail";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 
@@ -84,6 +88,18 @@ function slugifyHeading(text: string) {
     .replace(/[^\p{L}\p{N}]+/gu, "-")
     .replace(/^-+|-+$/g, "")
     .slice(0, 64);
+}
+
+/** Insert a 3-up ad break after the 2nd paragraph, then every 4th paragraph. */
+function shouldInsertInlineAd(blocks: ArticleBlock[], index: number) {
+  const block = blocks[index];
+  if (block.type !== "p" || index === blocks.length - 1) return false;
+
+  const paragraphNumber = blocks
+    .slice(0, index + 1)
+    .filter((item) => item.type === "p").length;
+
+  return paragraphNumber >= 2 && (paragraphNumber - 2) % 4 === 0;
 }
 
 function Block({ block }: { block: ArticleBlock }) {
@@ -246,7 +262,12 @@ export function ArticlePage({ article }: ArticlePageProps) {
             <ArticleStickyTitle title={article.title} />
             <ArticleAiSummary items={aiSummary} />
             {article.body.map((block, index) => (
-              <Block key={`${block.type}-${index}`} block={block} />
+              <Fragment key={`${block.type}-${index}`}>
+                <Block block={block} />
+                {shouldInsertInlineAd(article.body, index) ? (
+                  <ArticleInlineAds ads={ARTICLE_INLINE_ADS} />
+                ) : null}
+              </Fragment>
             ))}
             
             {/* <ArticleAuthorShare
@@ -256,8 +277,8 @@ export function ArticlePage({ article }: ArticlePageProps) {
           </article>
 
           <aside className="article-rail" aria-label="यो पनि हेर्नुहोस्">
-            {relatedRail.length ? (
-              <div className="article-rail__sticky">
+            <div className="article-rail__sticky">
+              {relatedRail.length ? (
                 <div className="article-rail__block">
                   <SectionTitle more={false}>यो पनि हेर्नुहोस्</SectionTitle>
                   <ul className="article-related">
@@ -279,8 +300,18 @@ export function ArticlePage({ article }: ArticlePageProps) {
                     ))}
                   </ul>
                 </div>
+              ) : null}
+              <div className="article-rail__ads">
+                {ARTICLE_RAIL_ADS.map((ad) => (
+                  <AdUnit
+                    key={ad.src}
+                    ad={ad}
+                    variant="aside"
+                    useMobileImage={false}
+                  />
+                ))}
               </div>
-            ) : null}
+            </div>
           </aside>
         </div>
 

@@ -6,28 +6,40 @@ type AdUnitProps = {
   ad: AdCreative;
   variant?: "banner" | "aside";
   className?: string;
+  useMobileImage?: boolean;
 };
 
-export function AdUnit({ ad, variant = "banner", className = "" }: AdUnitProps) {
+export function AdUnit({
+  ad,
+  variant = "banner",
+  className = "",
+  useMobileImage = true,
+}: AdUnitProps) {
   const classes = ["site-ad", `site-ad--${variant}`, className]
     .filter(Boolean)
     .join(" ");
-  const mobileSrc = variant === "aside" ? MOBILE_STATIC_AD_SRC : MOBILE_STATIC_AD_SRC;
+  const image = (
+    <img
+      src={ad.src}
+      alt={ad.alt}
+      width={ad.width}
+      height={ad.height}
+      loading="lazy"
+      decoding="async"
+    />
+  );
 
   return (
     <aside className={classes} aria-label="विज्ञापन">
       <a className="site-ad__frame" href={ad.href}>
-        <picture>
-          <source media="(max-width: 767px)" srcSet={mobileSrc} />
-          <img
-            src={ad.src}
-            alt={ad.alt}
-            width={ad.width}
-            height={ad.height}
-            loading="lazy"
-            decoding="async"
-          />
-        </picture>
+        {useMobileImage ? (
+          <picture>
+            <source media="(max-width: 767px)" srcSet={MOBILE_STATIC_AD_SRC} />
+            {image}
+          </picture>
+        ) : (
+          image
+        )}
       </a>
     </aside>
   );
